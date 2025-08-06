@@ -1,0 +1,6 @@
+@import "colors.rasi"
+@theme "~/.config/rofi/KooL_style-6.rasi"
+configuration {
+    modes: [window];
+    font: "Adwaita Sans 12";
+}

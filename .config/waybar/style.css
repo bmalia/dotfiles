@@ -1,0 +1,291 @@
+@import url("colors.css");
+
+* {
+    font-family: Adwaita Sans, JetBrainsMono Nerd Font, sans-serif;
+}
+
+#waybar {
+    background-color: @background;
+    padding: 10px;
+    border-radius: 12px;
+}
+
+tooltip {
+    background-color: @surface_container;
+    border-radius: 12px;
+    color: @on_surface;
+}
+
+
+#launcherthings {
+    padding: 0px;
+    margin: 5px;
+    margin-right: 2px;
+    color: @primary;
+    border-radius: 12px 4px 4px 12px;
+    background-color: @surface_container;
+}
+
+#custom-launcher {
+    font-size: 25px;
+    padding: 0px 10px;
+    margin: 0px;
+    color: @primary;
+    background-color: @surface_container;
+    border-radius: 12px;
+}
+
+#custom-themeswitcher {
+    font-size: 15px;
+    padding: 0px 5px;
+}
+
+#workspaces {
+    margin: 5px 2px;
+    background-color: @surface_container;
+    border-radius: 4px;
+    padding: 5px;
+}
+
+#workspaces button {
+    color: @on_surface;
+    background-color: @surface_container;
+    border-radius: 999px;
+    font-weight: bold;
+    padding: 0 4px;
+    margin: 0 2px;
+}
+
+#workspaces button.empty {
+    color: alpha(@on_surface, 0.5);
+    font-weight: normal;
+    background-color: @surface_container;
+    border-radius: 999px;
+}
+
+#workspaces button.visible {
+    color: @on_primary_container;
+    font-weight: bold;
+    background-color: @primary_container;
+    border-radius: 999px;
+}
+
+#workspaces button.active {
+    color: @on_primary;
+    font-weight: bold;
+    background-color: @primary;
+    border-radius: 999px;
+}
+
+#workspaces button.urgent {
+    color: @on_error_container;
+    font-weight: bold;
+    background-color: @error_container;
+    border-radius: 999px;
+}
+
+#media {
+    margin: 5px 2px;
+    padding: 0px;
+    background-color: @surface_container;
+    border-radius: 4px 12px 12px 4px;
+}
+
+#image {
+    padding: 0 5px;
+    border-radius: 999px;
+}
+
+#custom-music {
+    color: @tertiary;
+    font-size: 20px;
+    padding: 0px 10px;
+}
+
+#mpris.playing {
+    font-weight: bold;
+    color: @on_tertiary_container;
+    background-color: @tertiary_container;
+}
+
+#mpris {
+    margin: 0px;
+    padding: 0px 5px;
+    background-color: @surface_container;
+    border-radius: 0px 12px 12px 0px;
+    color: @on_surface;
+    font-weight: bold;
+}
+
+#taskbar {
+    margin: 5px;
+    padding: 0px;
+    background-color: @surface_container;
+    border-radius: 12px;
+}
+
+#taskbar.empty {
+    background-color: @surface;
+}
+
+#taskbar button {
+    background-color: @surface_container;
+    border-radius: 12px;
+    font-weight: bold;
+    padding: 0 4px;
+    margin: 1px;
+}
+
+#taskbar button.active {
+    background-color: @secondary_container;
+    color: @on_secondary_container;
+}
+
+
+#custom-weather {
+    font-size: 15px;
+    font-weight: bold;
+    padding: 0px 10px;
+    margin: 5px 2px;
+    color: @primary;
+    background-color: @surface_container;
+    border-radius: 12px 4px 4px 12px;
+}
+
+#custom-weather.sunny {
+    color: @on_primary_container;
+    background-color: @primary_container;
+}
+
+
+
+#memory {
+    color: @secondary;
+    padding: 0px 5px;
+    margin: 5px 2px;
+    border-radius: 4px;
+    font-weight: bold;
+    background-color: @surface_container;
+}
+
+#memory.elevated {
+    color: @on_tertiary_container;
+    background-color: @tertiary_container;
+}
+
+#memory.high {
+    color: @on_error_container;
+    background-color: @error_container;
+}
+
+#memory.critical {
+    color: @on_error;
+    background-color: @error;
+}
+
+#cpugroup {
+    margin: 5px 2px;
+    padding: 0px;
+    background-color: @surface_container;
+    border-radius: 4px;
+}
+
+#cpu {
+    background-color: @surface_container;
+    padding: 0px 5px;
+    font-weight: bold;
+    color: @secondary;
+    border-radius: 4px 0px 0px 4px;
+}
+
+#cpu.elevated {
+    color: @on_tertiary_container;
+    background-color: @tertiary_container;
+}
+
+#cpu.high {
+    color: @on_error_container;
+    background-color: @error_container;
+}
+
+#cpu.critical {
+    color: @on_error;
+    background-color: @error;
+}
+
+#temperature {
+    background-color: @surface_container;
+    padding: 0px 5px;
+    font-weight: bold;
+    color: @on_surface;
+    border-radius: 0px 4px 4px 0px;
+}
+
+#temperature.critical {
+    color: @on_error;
+    background-color: @error;
+}
+
+#gpugroup {
+    margin: 5px 2px;
+    padding: 0px;
+    background-color: @surface_container;
+    border-radius: 4px;
+}
+
+#custom-gpu {
+    background-color: @surface_container;
+    padding: 0px 5px;
+    font-weight: bold;
+    color: @secondary;
+    border-radius: 4px 0px 0px 4px;
+}
+
+#custom-gpu.elevated {
+    color: @on_tertiary_container;
+    background-color: @tertiary_container;
+}
+
+#custom-gpu.high {
+    color: @on_error_container;
+    background-color: @error_container;
+}
+
+#custom-gpu.critical {
+    color: @on_error;
+    background-color: @error;
+}
+
+#tray {
+    margin: 5px 2px;
+    padding: 0px 5px;
+    background-color: @surface_container;
+    border-radius: 4px;
+}
+
+#tray menu {
+    font-family: Adwaita Sans, JetBrainsMono Nerd Font, sans-serif;
+    background-color: @surface_container;
+    border-radius: 12px;
+    padding: 5px;
+    color: @on_surface;
+}
+
+#clock {
+    margin: 5px 2px;
+    padding: 0px 5px;
+    background-color: @surface_container;
+    border-radius: 4px 12px 12px 4px;
+    color: @on_surface;
+    font-weight: bold;
+}
+
+#custom-power {
+    font-size: 20px;
+    margin: 5px;
+    padding: 0px 3px;
+    padding-right: 10px;
+    background-color: @surface;
+    border-radius: 8px;
+    color: @tertiary;
+}

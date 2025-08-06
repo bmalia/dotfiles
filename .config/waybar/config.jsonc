@@ -1,0 +1,183 @@
+{
+  "layer": "top",
+  "position": "bottom",
+  "height": 45,
+
+  "margin-bottom": 8,
+  "margin-left": 8,
+  "margin-right": 8,
+  "margin-top": 0,
+  "reload_style_on_change": true,
+
+  "modules-left": [
+    "group/launcherthings",
+    "hyprland/workspaces",
+    "group/media"
+  ],
+  "modules-center": ["wlr/taskbar"],
+  "modules-right": [
+    "custom/weather",
+    "memory",
+    "group/cpugroup",
+    "group/gpugroup",
+    "tray",
+    "clock",
+    "custom/power"
+  ],
+
+  "group/launcherthings": {
+    "orientation": "inherit",
+
+    "drawer": {
+      "transition-duration": 250
+    },
+
+    "modules": ["custom/launcher", "custom/themeswitcher"]
+  },
+
+  "custom/launcher": {
+    "format": "󱎯",
+    "on-click": "rofi -modes \"drun,run,filebrowser,window\" -show drun"
+  },
+
+  "custom/themeswitcher": {
+    "exec": "~/.config/waybar/scripts/themestatus.sh",
+    "interval": 300,
+    "on-click": "~/.config/waybar/scripts/themeswitcher.sh"
+  },
+
+  "hyprland/workspaces": {
+    "persistent-workspaces": {
+      "*": 5
+    }
+  },
+
+  "group/media": {
+    "orientation": "inherit",
+    "modules": [/*"image",*/ "custom/music", "mpris"]
+  },
+  /*
+  "image": {
+    "exec": "~/.config/waybar/scripts/album_art.sh",
+    "size": 28,
+    "interval": 10
+  },
+  */
+
+  "custom/music": {
+    "format": "󰎇"
+  },
+
+  "mpris": {
+    "format": "{status_icon} {dynamic}",
+    "format-paused": "{status_icon} {dynamic}",
+    "dynamic-order": ["title", "artist"],
+    "status-icons": {
+      "playing": "󰐊",
+      "paused": "󰏤"
+    },
+    "tooltip-format": "{album} - {position}/{length}"
+  },
+
+  "wlr/taskbar": {
+    "all-outputs": true,
+    "icon-size": 25,
+    "on-click": "activate",
+    "on-click-middle": "close"
+  },
+
+  "custom/weather": {
+    "format": "{}°",
+    "tooltip": true,
+    "interval": 3600,
+    "exec": "wttrbar --nerd --location Denver+CO --fahrenheit",
+    "return-type": "json"
+  },
+
+  
+
+  "memory": {
+    "interval": 2,
+    "format": "   {percentage}%",
+    "tooltip": true,
+    "on-click": "resources",
+    "states": {
+      "elevated": 30,
+      "high": 50,
+      "critical": 80
+    }
+  },
+
+  "group/cpugroup": {
+    "orientation": "inherit",
+    "modules": ["cpu", "temperature#cpu"]
+  },
+
+  "cpu": {
+    "interval": 2,
+    "format": "   {usage}%",
+    "tooltip": true,
+    "on-click": "resources",
+    "states": {
+      "elevated": 30,
+      "high": 50,
+      "critical": 80
+    }
+  },
+
+  "temperature#cpu": {
+    "critical-threshold": 80,
+    "interval": 2,
+    "hwmon-path": "/sys/devices/platform/PNP0C14:00/wmi_bus/wmi_bus-PNP0C14:00/DEADBEEF-2001-0000-00A0-C90629100000/hwmon/hwmon5/temp3_input",
+    "format": "{icon} {temperatureC}°",
+    "format-critical": "  {temperatureC}°",
+    "format-icons": ["", "", "", ""],
+    "on-click": "corectrl"
+  },
+
+  "group/gpugroup": {
+    "orientation": "inherit",
+    "modules": ["custom/gpu", "temperature#gpu"]
+  },
+
+  "temperature#gpu": {
+    "critical-threshold": 80,
+    "interval": 2,
+    "hwmon-path": "/sys/devices/pci0000:00/0000:00:01.1/0000:01:00.0/0000:02:00.0/0000:03:00.0/hwmon/hwmon2/temp1_input",
+    "format": "{icon} {temperatureC}°",
+    "format-critical": "  {temperatureC}°",
+    "format-icons": ["", "", "", ""],
+    "on-click": "corectrl"
+  },
+
+  "custom/gpu": {
+    "exec": "~/.config/waybar/scripts/gpu.sh",
+    "format": "󰍹   {percentage}%",
+    "return-type": "json",
+    "interval": 2,
+    "states": {
+      "elevated": 30,
+      "high": 50,
+      "critical": 80
+    }
+  },
+
+  "custom/separator": {
+    "format": "|"
+  },
+  "tray": {
+    "icon-size": 16,
+    "spacing": 8,
+    "show-passive-items": true
+  },
+  "clock": {
+    "interval": 30,
+    "tooltip": true,
+    "format": "{:%I:%M %p}",
+    "tooltip-format": "{:%A, %B %d %Y}"
+  },
+  "custom/power": {
+    "format": "󰐥",
+    "on-click": "wlogout"
+  }
+}
