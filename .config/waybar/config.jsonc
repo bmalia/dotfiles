@@ -16,10 +16,9 @@
   ],
   "modules-center": ["wlr/taskbar"],
   "modules-right": [
-    "custom/weather",
+    "group/batterydrawer",
     "memory",
     "group/cpugroup",
-    "group/gpugroup",
     "tray",
     "clock",
     "custom/power"
@@ -72,6 +71,7 @@
     "format": "{status_icon} {dynamic}",
     "format-paused": "{status_icon} {dynamic}",
     "dynamic-order": ["title", "artist"],
+    "dynamic-len": 30,
     "status-icons": {
       "playing": "󰐊",
       "paused": "󰏤"
@@ -86,15 +86,39 @@
     "on-click-middle": "close"
   },
 
-  "custom/weather": {
-    "format": "{}°",
-    "tooltip": true,
-    "interval": 3600,
-    "exec": "wttrbar --nerd --location Denver+CO --fahrenheit",
-    "return-type": "json"
+  "group/batterydrawer": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 250,
+      "transition-left-to-right": false
+    },
+
+    "modules": ["battery", "power-profiles-daemon"]
   },
 
-  
+  "battery": {
+    "bat": "BAT1",
+    "interval": "10",
+    "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+    "format-discharging": "{icon} {capacity}%",
+    "format-charging": "󰂄 {capacity}%",
+    "states": {
+      "warning": 30,
+      "critical": 10
+    }
+  },
+
+  "power-profiles-daemon": {
+  "format": "{icon}",
+  "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+  "tooltip": true,
+  "format-icons": {
+    "default": "",
+    "performance": "󰓅",
+    "balanced": "󰾅",
+    "power-saver": "󰾆"
+  }
+},
 
   "memory": {
     "interval": 2,
@@ -135,36 +159,6 @@
     "on-click": "corectrl"
   },
 
-  "group/gpugroup": {
-    "orientation": "inherit",
-    "modules": ["custom/gpu", "temperature#gpu"]
-  },
-
-  "temperature#gpu": {
-    "critical-threshold": 80,
-    "interval": 2,
-    "hwmon-path": "/sys/devices/pci0000:00/0000:00:01.1/0000:01:00.0/0000:02:00.0/0000:03:00.0/hwmon/hwmon2/temp1_input",
-    "format": "{icon} {temperatureC}°",
-    "format-critical": "  {temperatureC}°",
-    "format-icons": ["", "", "", ""],
-    "on-click": "corectrl"
-  },
-
-  "custom/gpu": {
-    "exec": "~/.config/waybar/scripts/gpu.sh",
-    "format": "󰍹   {percentage}%",
-    "return-type": "json",
-    "interval": 2,
-    "states": {
-      "elevated": 30,
-      "high": 50,
-      "critical": 80
-    }
-  },
-
-  "custom/separator": {
-    "format": "|"
-  },
   "tray": {
     "icon-size": 16,
     "spacing": 8,

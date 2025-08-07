@@ -141,24 +141,6 @@ tooltip {
     color: @on_secondary_container;
 }
 
-
-#custom-weather {
-    font-size: 15px;
-    font-weight: bold;
-    padding: 0px 10px;
-    margin: 5px 2px;
-    color: @primary;
-    background-color: @surface_container;
-    border-radius: 12px 4px 4px 12px;
-}
-
-#custom-weather.sunny {
-    color: @on_primary_container;
-    background-color: @primary_container;
-}
-
-
-
 #memory {
     color: @secondary;
     padding: 0px 5px;
@@ -233,27 +215,60 @@ tooltip {
     border-radius: 4px;
 }
 
-#custom-gpu {
+#batterydrawer {
+    margin: 5px 2px;
+    padding: 0px;
     background-color: @surface_container;
+    border-radius: 12px 4px 4px 12px;
+}
+
+#battery {
     padding: 0px 5px;
     font-weight: bold;
-    color: @secondary;
-    border-radius: 4px 0px 0px 4px;
+    color: @on_surface;
+    background-color: @surface_container;
+    border-radius: 12px 4px 4px 12px;
 }
 
-#custom-gpu.elevated {
-    color: @on_tertiary_container;
-    background-color: @tertiary_container;
+#battery.charging {
+    color: @on_primary_container;
+    background-color: @primary_container;
 }
 
-#custom-gpu.high {
+#battery.warning {
     color: @on_error_container;
     background-color: @error_container;
 }
 
-#custom-gpu.critical {
+#battery.critical {
     color: @on_error;
     background-color: @error;
+}
+
+#power-profiles-daemon {
+    font-size: 18px;
+    margin: 0px;
+    margin-right: 5px;
+    padding: 0px 5px;
+    padding-right: 7px;
+    background-color: @surface_container;
+    border-radius: 12px 0px 0px 12px;
+    color: @on_surface;
+}
+
+#power-profiles-daemon.performance {
+    color: @on_primary_container;
+    background-color: @primary_container;
+}
+
+#power-profiles-daemon.power-saver {
+    color: @on_secondary_container;
+    background-color: @secondary_container;
+}
+
+#power-profiles-daemon.balanced {
+    color: @on_tertiary_container;
+    background-color: @tertiary_container;
 }
 
 #tray {
