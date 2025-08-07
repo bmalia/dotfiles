@@ -45,5 +45,5 @@ This repo contains my (loosely) Material Design-based Hyprland config, for both 
 |Super + Shift + S | Move window to scratchpad |
 
 ## Installation
-See (TBA)
+See [Installation](https://github.com/bmalia/dotfiles/blob/main/INSTALLATION.md)
 
