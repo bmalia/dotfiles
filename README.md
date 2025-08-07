@@ -2,15 +2,15 @@
 
 <p align="center"><b>Desktop Config</b></p>
 <p align="center">
-  <img src="assets/desktopss1.png" width="33%">
-  <img src="assets/desktopss3.png" width="33%">
-  <img src="assets/desktopss2.png" width="33%">
+  <img src="assets/desktopss1.png" width="32%">
+  <img src="assets/desktopss3.png" width="32%">
+  <img src="assets/desktopss2.png" width="32%">
 </p>
 <p align="center"><b>Laptop Config</b></p>
 <p align="center">
-  <img src="assets/laptopss1.png" width="33%">
-  <img src="assets/laptopss2.png" width="33%">
-  <img src="assets/laptopss3.png" width="33%">
+  <img src="assets/laptopss1.png" width="32%">
+  <img src="assets/laptopss2.png" width="32%">
+  <img src="assets/laptopss3.png" width="32%">
 </p>
 
 ---
