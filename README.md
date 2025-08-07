@@ -1,15 +1,20 @@
 # Aster's Hyprland Dotfiles
 
+<p align="center"><b>Desktop Config</b></p>
 <p align="center">
-  <img src="assets/desktopss3.png" width="49%">
-  <img src="assets/desktopss2.png" width="49%">
+  <img src="assets/desktopss1.png" width="33%">
+  <img src="assets/desktopss3.png" width="33%">
+  <img src="assets/desktopss2.png" width="33%">
 </p>
+<p align="center"><b>Laptop Config</b></p>
 <p align="center">
-  <img src="assets/desktopss1.png" width="99%">
+  <img src="assets/laptopss1.png" width="33%">
+  <img src="assets/laptopss2.png" width="33%">
+  <img src="assets/laptopss3.png" width="33%">
 </p>
 
 ---
-This repo contains my (loosely) Material Design-based Hyprland config, for both desktop and laptop.
+<p align="center"><b>This repo contains my (loosely) Material Design-based Hyprland config, for both desktop and laptop.</b></p>
 
 ## Tools
 | Thing            | App/Program used                                  |
@@ -26,6 +31,8 @@ This repo contains my (loosely) Material Design-based Hyprland config, for both 
 | Lock / Idle      | Hyprlock & Hypridle                               |
 | Icons            | Papirus (apps & GTK) & Nerd Fonts (everything else)|
 | Fonts            | Adwaita Sans, Product Sans, JetBrains Mono NF     |
+| Browser          | Zen                                               |
+| Music Player     | Cider                                             |
 
 ## Keybinds
 | Bind | Action |
