@@ -1,7 +1,8 @@
 @import url("colors.css");
 
 * {
-    font-family: Adwaita Sans, JetBrainsMono Nerd Font, sans-serif;
+    font-family: Product Sans, JetBrainsMono Nerd Font, sans-serif;
+    font-size: 15px;
 }
 
 #waybar {
@@ -231,8 +232,8 @@ tooltip {
 }
 
 #battery.charging {
-    color: @on_primary_container;
-    background-color: @primary_container;
+    color: @on_primary;
+    background-color: @primary;
 }
 
 #battery.warning {
