@@ -8,7 +8,7 @@
 #waybar {
     background-color: @background;
     padding: 10px;
-    border-radius: 12px;
+    border-radius: 0px;
 }
 
 tooltip {

@@ -3,9 +3,9 @@
   "position": "bottom",
   "height": 45,
 
-  "margin-bottom": 8,
-  "margin-left": 8,
-  "margin-right": 8,
+  "margin-bottom": 0,
+  "margin-left": 0,
+  "margin-right": 0,
   "margin-top": 0,
   "reload_style_on_change": true,
 
@@ -14,7 +14,7 @@
     "hyprland/workspaces",
     "group/media"
   ],
-  "modules-center": ["wlr/taskbar"],
+  "modules-center": ["hyprland/window"],
   "modules-right": [
     "group/batterydrawer",
     "memory",
@@ -35,7 +35,7 @@
   },
 
   "custom/launcher": {
-    "format": "󱎯",
+    "format": "󰣇",
     "on-click": "rofi -modes \"drun,run,filebrowser,window\" -show drun"
   },
 
@@ -150,9 +150,9 @@
   },
 
   "temperature#cpu": {
+    "thermal-zone": "0",
     "critical-threshold": 80,
     "interval": 2,
-    "hwmon-path": "/sys/devices/platform/PNP0C14:00/wmi_bus/wmi_bus-PNP0C14:00/DEADBEEF-2001-0000-00A0-C90629100000/hwmon/hwmon5/temp3_input",
     "format": "{icon} {temperatureC}°",
     "format-critical": "  {temperatureC}°",
     "format-icons": ["", "", "", ""],

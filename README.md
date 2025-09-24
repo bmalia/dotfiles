@@ -31,25 +31,25 @@
 | Lock / Idle      | Hyprlock & Hypridle                               |
 | Icons            | Papirus (apps & GTK) & Nerd Fonts (everything else)|
 | Fonts            | Adwaita Sans, Product Sans, JetBrains Mono NF     |
-| Browser          | Zen                                               |
-| Music Player     | Cider                                             |
+| Browser          | Zen (Not installed by config)                     |
+| Music Player     | Cider (Not installed by config)                   |
 
 ## Keybinds
-| Bind | Action |
-|------|--------|
-|Super + Space | Open Launcher (Rofi) |
-|Super + T | Open Terminal (kitty) |
-|Super + Q | Close active window |
-|Super + E | Open Nautilus |
-|Super + Alt + Space | Toggle floating |
-|Super + V | Show clipboard history |
-|Super + J | Switch split direction |
-|Super + Ctrl + S | Take screenshot |
-|Super + F | Toggle fullscreen |
-|Super + [0-9] | Go to workspace # |
-|Super + Shift + [0-9] | Move window to workspace # |
-|Super + S | Summon scratchpad |
-|Super + Shift + S | Move window to scratchpad |
+| Bind                 | Action                    |
+|----------------------|---------------------------|
+|Super + Space         | Open Launcher (Rofi)      |
+|Super + T             | Open Terminal (kitty)     |
+|Super + Q             | Close active window       |
+|Super + E             | Open Nautilus             |
+|Super + Alt + Space   | Toggle floating           |
+|Super + V             | Show clipboard history    |
+|Super + J             | Switch split direction    |
+|Super + Ctrl + S      | Take screenshot           |
+|Super + F             | Toggle fullscreen         |
+|Super + [0-9]         | Go to workspace #         |
+|Super + Shift + [0-9] | Move window to workspace #|
+|Super + S             | Summon scratchpad         |
+|Super + Shift + S     | Move window to scratchpad |
 
 ## Installation
 See [Installation](https://github.com/bmalia/dotfiles/blob/main/INSTALLATION.md)
