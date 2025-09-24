@@ -34,11 +34,8 @@ Rectangle {
         // Add any extra workspaces (not already included and not special)
         for (let ws of all) {
             let num = Number(ws.name);
-            if (
-                (!Number.isInteger(num) || num > staticCount) &&
-                !result.find(w => w.id === ws.id) &&
-                Number.isInteger(num) && num > 0 // Only add numbered workspaces
-            ) {
+            if ((!Number.isInteger(num) || num > staticCount) && !result.find(w => w.id === ws.id) && Number.isInteger(num) && num > 0) // Only add numbered workspaces
+            {
                 result.push(ws);
             }
         }
@@ -49,9 +46,7 @@ Rectangle {
     property int wsCount: displayWorkspaces.length
     property int wsSize: height - 12
     property int wsSpacing: workspaceRow.spacing
-    implicitWidth: wsCount > 0
-        ? (wsCount * wsSize) + ((wsCount - 1) * wsSpacing) + 12
-        : wsSize + 12
+    implicitWidth: wsCount > 0 ? (wsCount * wsSize) + ((wsCount - 1) * wsSpacing) + 12 : wsSize + 12
 
     Row {
         id: workspaceRow
@@ -69,25 +64,28 @@ Rectangle {
                 // Scale and fade effect if focused
                 scale: modelData.id === Hyprland.focusedWorkspace.id ? 1.25 : 1.0
                 opacity: modelData.id === Hyprland.focusedWorkspace.id ? 1.0 : 0.7
-                Behavior on scale { NumberAnimation { duration: 180; easing.type: Easing.InOutQuad } }
-                Behavior on opacity { NumberAnimation { duration: 180; easing.type: Easing.InOutQuad } }
+                Behavior on scale {
+                    NumberAnimation {
+                        duration: 180
+                        easing.type: Easing.InOutQuad
+                    }
+                }
+                Behavior on opacity {
+                    NumberAnimation {
+                        duration: 180
+                        easing.type: Easing.InOutQuad
+                    }
+                }
 
                 // Determine color based on state
-                color: modelData.isPlaceholder
-                    ? "#00000000"
-                    : (modelData.id === Hyprland.focusedWorkspace.id
-                        ? Colors.primary
-                        : Colors.surface_container_highest)
+                color: modelData.isPlaceholder ? "#00000000" : (modelData.id === Hyprland.focusedWorkspace.id ? Colors.primary : Colors.surface_container_highest)
 
                 Text {
                     anchors.centerIn: parent
                     text: modelData.name
-                    color: modelData.isPlaceholder
-                        ? "#888"
-                        : (modelData.id === Hyprland.focusedWorkspace.id
-                            ? Colors.on_primary
-                            : Colors.on_surface)
+                    color: modelData.isPlaceholder ? "#888" : (modelData.id === Hyprland.focusedWorkspace.id ? Colors.on_primary : Colors.on_surface)
                     font.pixelSize: 16
+                    font.family: "Roboto"
                     font.bold: modelData.isPlaceholder ? false : true
                     scale: 1 / parent.scale // <-- This keeps the text size visually constant
                 }
@@ -97,10 +95,9 @@ Rectangle {
                     cursorShape: Qt.PointingHandCursor
                     onClicked: {
                         if (modelData.isPlaceholder) {
-                            // For placeholders, activate by workspace number (name)
-                            Hyprland.dispatch("workspace " + modelData.name)
+                            Hyprland.dispatch("workspace " + modelData.name);
                         } else if (modelData.activate) {
-                            modelData.activate()
+                            modelData.activate();
                         }
                     }
                 }

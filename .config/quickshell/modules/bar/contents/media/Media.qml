@@ -12,21 +12,21 @@ Rectangle {
     id: container
     color: Colors.secondary_container
     radius: 999
-    implicitWidth: activePlayer
-        ? albumart.width + info.width + 20
-          + (hovered ? buttonWrapper.width + buttonWrapper.Layout.leftMargin + buttonWrapper.Layout.rightMargin : 0)
-        : 0
+    implicitWidth: activePlayer ? albumart.width + info.width + 20 + (hovered ? buttonWrapper.width + buttonWrapper.Layout.leftMargin + buttonWrapper.Layout.rightMargin : 0) : 0
     implicitHeight: activePlayer ? 40 : 0
-    readonly property MprisPlayer activePlayer: MprisController.activePlayer
+    readonly property MprisPlayer activePlayer: MprisController.activePlayer // Uses the active player determined by MprisController
     visible: !!activePlayer
 
     Behavior on implicitWidth {
-        NumberAnimation { duration: 200; easing.type: Easing.InOutQuad }
+        NumberAnimation {
+            duration: 200
+            easing.type: Easing.InOutQuad
+        }
     }
 
     property bool hovered: false
 
-    /*
+    /* Used for dynamic colors for album art (not fully supported)
     Connections {
         target: activePlayer ? activePlayer : null
         function onPostTrackChanged() {
@@ -39,11 +39,9 @@ Rectangle {
         }
     }
     */
-    
 
-
-    function updateColors () {
-        Quickshell.execDetached(["sh", "-c", "~/.config/quickshell/modules/bar/contents/media/updateColors.sh"])
+    function updateColors() { // Currently not fully supported (unless you want to reload quickshell any time a song changes)
+        Quickshell.execDetached(["sh", "-c", "~/.config/quickshell/modules/bar/contents/media/updateColors.sh"]);
         console.log("Colors updated");
     }
 
@@ -51,7 +49,7 @@ Rectangle {
         id: hoverArea
         anchors.fill: parent
         hoverEnabled: true
-        acceptedButtons: Qt.NoButton   // <-- Add this line
+        acceptedButtons: Qt.NoButton
         onEntered: container.hovered = true
         onExited: container.hovered = false
         z: 2
@@ -77,17 +75,24 @@ Rectangle {
                 anchors.fill: parent
                 source: activePlayer.trackArtUrl ? activePlayer.trackArtUrl : "~/.config/quickshell/modules/bar/contents/media/no-media.jpg"
                 smooth: true
+                fillMode: Image.PreserveAspectCrop
 
                 states: [
                     State {
                         name: "playing"
                         when: activePlayer.playbackState === MprisPlaybackState.Playing
-                        PropertyChanges { target: albumArtImage; rotation: 360 }
+                        PropertyChanges {
+                            target: albumArtImage
+                            rotation: 360
+                        }
                     },
                     State {
                         name: "paused"
                         when: activePlayer.playbackState !== MprisPlaybackState.Playing
-                        PropertyChanges { target: albumArtImage; rotation: 0 }
+                        PropertyChanges {
+                            target: albumArtImage
+                            rotation: 0
+                        }
                     }
                 ]
 
@@ -140,7 +145,7 @@ Rectangle {
             id: buttonWrapper
             spacing: 15
             Layout.rightMargin: 10
-            Layout.leftMargin: 5  
+            Layout.leftMargin: 5
             Layout.alignment: Qt.AlignVCenter
 
             Text {
@@ -153,7 +158,11 @@ Rectangle {
                 property bool pressed: false
                 scale: pressed ? 0.85 : 1.0
 
-                Behavior on scale { NumberAnimation { duration: 100 } }
+                Behavior on scale {
+                    NumberAnimation {
+                        duration: 100
+                    }
+                }
 
                 MouseArea {
                     anchors.fill: parent
@@ -174,7 +183,11 @@ Rectangle {
                 property bool pressed: false
                 scale: pressed ? 0.85 : 1.0
 
-                Behavior on scale { NumberAnimation { duration: 100 } }
+                Behavior on scale {
+                    NumberAnimation {
+                        duration: 100
+                    }
+                }
 
                 MouseArea {
                     anchors.fill: parent
@@ -195,7 +208,11 @@ Rectangle {
                 property bool pressed: false
                 scale: pressed ? 0.85 : 1.0
 
-                Behavior on scale { NumberAnimation { duration: 100 } }
+                Behavior on scale {
+                    NumberAnimation {
+                        duration: 100
+                    }
+                }
 
                 MouseArea {
                     anchors.fill: parent
