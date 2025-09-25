@@ -4,7 +4,6 @@ import QtQuick.Layouts
 import qs.modules.bar.contents
 import qs.modules.bar.contents.media
 
-
 Item {
     id: root
     property var bar
@@ -23,11 +22,15 @@ Item {
             Layout.topMargin: 5
             Layout.bottomMargin: 5
         }
-        Item { Layout.fillWidth: true }
+        Item {
+            Layout.fillWidth: true
+        }
         // Right modules
 
         Loader {
-            sourceComponent: SystemTray {bar: root.bar}
+            sourceComponent: SystemTray {
+                bar: root.bar
+            }
             Layout.fillHeight: true
             Layout.rightMargin: 5
             Layout.topMargin: 5
@@ -47,9 +50,17 @@ Item {
         anchors.centerIn: parent
         Loader {
             sourceComponent: Media {}
+            Layout.fillHeight: true
+            Layout.rightMargin: 5
+            Layout.topMargin: 5
+            Layout.bottomMargin: 5
         }
         Loader {
             sourceComponent: Clock {}
+            Layout.fillHeight: true
+            Layout.rightMargin: 5
+            Layout.topMargin: 5
+            Layout.bottomMargin: 5
         }
     }
 }

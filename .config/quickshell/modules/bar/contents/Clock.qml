@@ -2,6 +2,7 @@ import Quickshell
 import QtQuick
 import QtQuick.Layouts
 import qs.modules.common
+import qs
 
 Rectangle {
     id: container
@@ -22,11 +23,11 @@ Rectangle {
         anchors.centerIn: parent
         textFormat: Text.RichText
         text: {
-            // Split time and date
-            let parts = Qt.formatDateTime(clock.date, "h:mm AP -  ddd, MMM d").split("-");
+            // 24hr clock config
+            let parts = Config.use24hrClock ? Qt.formatDateTime(clock.date, "HH:mm - ddd, MMM d").split("-") : Qt.formatDateTime(clock.date, "h:mm AP -  ddd, MMM d").split("-");
             let time = parts[0];
             let date = parts[1];
-            "<span> <b>" + time + "</b> </span> <span style='color:" + ";'> -" + date + "</span>"
+            "<span> <b>" + time + "</b> </span> <span style='color:" + ";'> -" + date + "</span>";
         }
         font.family: "Roboto"
         font.pixelSize: 17

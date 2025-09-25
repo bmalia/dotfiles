@@ -7,6 +7,7 @@ import QtQuick.Layouts
 import qs.modules.common
 import qs.services
 import qs.modules.bar.contents.media
+import qs
 
 Rectangle {
     id: container

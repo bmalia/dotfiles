@@ -4,6 +4,7 @@ import Quickshell
 import Quickshell.Wayland
 import Quickshell.Hyprland
 import qs.modules.common
+import qs
 
 Rectangle {
     id: container
@@ -11,14 +12,13 @@ Rectangle {
     radius: 999
     Layout.fillHeight: true
     Layout.alignment: Qt.AlignVCenter
-    property int staticCount: 5
 
     // Build the display model: always 10, plus any extras
     property var displayWorkspaces: {
         let all = Hyprland.workspaces.values;
         let result = [];
         // Always show 1-10 (only real workspaces)
-        for (let i = 1; i <= staticCount; ++i) {
+        for (let i = 1; i <= Config.persistentWorkspaceCount; ++i) {
             let ws = all.find(w => Number(w.name) === i && Number.isInteger(Number(w.name)) && Number(w.name) > 0);
             if (ws) {
                 result.push(ws);
@@ -34,7 +34,7 @@ Rectangle {
         // Add any extra workspaces (not already included and not special)
         for (let ws of all) {
             let num = Number(ws.name);
-            if ((!Number.isInteger(num) || num > staticCount) && !result.find(w => w.id === ws.id) && Number.isInteger(num) && num > 0) // Only add numbered workspaces
+            if ((!Number.isInteger(num) || num > Config.persistentWorkspaceCount) && !result.find(w => w.id === ws.id) && Number.isInteger(num) && num > 0) // Only add numbered workspaces
             {
                 result.push(ws);
             }

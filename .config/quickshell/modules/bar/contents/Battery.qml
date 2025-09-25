@@ -8,13 +8,15 @@ import qs.modules.widgets
 Rectangle {
     id: container
     implicitWidth: text.width + circle.width + 20
-    implicitHeight: 40
     color: battery.state === UPowerDeviceState.Charging ? Colors.primary_container : Colors.surface_container
     radius: 999
     property UPowerDevice battery: UPower.displayDevice
 
     Behavior on color {
-        ColorAnimation { duration: 300; easing.type: Easing.InOutQuad }
+        ColorAnimation {
+            duration: 300
+            easing.type: Easing.InOutQuad
+        }
     }
 
     RowLayout {
@@ -28,7 +30,7 @@ Rectangle {
             progress: battery.percentage
             diameter: 30
             thickness: 3
-            color: battery.percentage > 0.2 ? Colors.primary : Colors.error 
+            color: battery.percentage > 0.2 ? Colors.primary : Colors.error
             trackColor: Colors.surface_variant
             waveAmplitude: battery.state === UPowerDeviceState.Charging ? 1 : 0
             waveCount: 9

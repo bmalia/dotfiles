@@ -2,43 +2,48 @@ import QtQuick
 import Quickshell
 import Quickshell.Wayland
 import qs.modules.common
+import qs
 
 PanelWindow {
     id: barContainer
     anchors {
-        top: true
+        top: Config.barPosition === "top" ? true : undefined
         left: true
         right: true
+        bottom: Config.barPosition === "bottom" ? true : undefined
     }
-    implicitHeight: bar.implicitHeight + 18
+    implicitHeight: bar.implicitHeight + Config.barCornerSize
     color: "transparent"
 
     // Only the bar's height is reserved as exclusive zone
     WlrLayershell.exclusiveZone: bar.implicitHeight
 
     RoundCorner {
-        id: topLeftCorner
-        corner: RoundCorner.CornerEnum.TopLeft
-        anchors.top: bar.bottom
+        id: leftCorner
+        corner: Config.barPosition === "top" ? RoundCorner.CornerEnum.TopLeft : RoundCorner.CornerEnum.BottomLeft
+        anchors.top: Config.barPosition === "top" ? bar.bottom : undefined
         anchors.left: bar.left
-        implicitSize: 18
+        anchors.bottom: Config.barPosition === "bottom" ? bar.top : undefined
+        implicitSize: Config.barCornerSize
     }
 
     RoundCorner {
-        id: topRightCorner
-        corner: RoundCorner.CornerEnum.TopRight
-        anchors.top: bar.bottom
+        id: rightCorner
+        corner: Config.barPosition === "top" ? RoundCorner.CornerEnum.TopRight : RoundCorner.CornerEnum.BottomRight
+        anchors.top: Config.barPosition === "top" ? bar.bottom : undefined
+        anchors.bottom: Config.barPosition === "bottom" ? bar.top : undefined
         anchors.right: bar.right
-        implicitSize: 18
+        implicitSize: Config.barCornerSize
     }
-    
+
     Rectangle {
-        implicitHeight: 50
         id: bar
+        implicitHeight: Config.barHeight
         anchors {
             left: parent.left
             right: parent.right
-            top: parent.top
+            top: Config.barPosition === "top" ? parent.top : undefined
+            bottom: Config.barPosition === "bottom" ? parent.bottom : undefined
         }
         color: Colors.background
 
@@ -47,7 +52,6 @@ PanelWindow {
             sourceComponent: BarContent {
                 bar: barContainer
             }
-
         }
     }
 }
