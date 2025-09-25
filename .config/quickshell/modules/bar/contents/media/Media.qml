@@ -62,19 +62,21 @@ Rectangle {
 
         ClippingWrapperRectangle {
             id: albumart
+            color: "transparent"
             Layout.fillHeight: true
             property int margins: 3
             Layout.topMargin: margins
             Layout.bottomMargin: margins
             Layout.leftMargin: margins
-            implicitWidth: height
+            // make width smaller if there's no album art
+            implicitWidth: activePlayer.trackArtUrl ? height : 5
             Layout.alignment: Qt.AlignVCenter
             radius: width / 2
             Image {
                 id: albumArtImage
                 anchors.fill: parent
-                source: activePlayer.trackArtUrl ? activePlayer.trackArtUrl : "~/.config/quickshell/modules/bar/contents/media/no-media.jpg"
-                smooth: true
+                visible: !!activePlayer.trackArtUrl
+                source: activePlayer.trackArtUrl
                 fillMode: Image.PreserveAspectCrop
 
                 states: [
