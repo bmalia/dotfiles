@@ -5,11 +5,10 @@
 
 configuration {
     show-icons:                 true;
-    display-drun:               "   Apps";
-    display-run:                "   PATH";
-    display-filebrowser:        "   Files";
-    display-window:             "   Windows";
+    display-drun:               "   App ";
+    display-window:             "   Window ";
 	drun-display-format:        "{name}";
+    window-display-format:     "{name} - {class}";
 	hover-select:               true;
 	me-select-entry:            "MouseSecondary";
     me-accept-entry:            "MousePrimary";
@@ -24,7 +23,7 @@ configuration {
     background-alt:              @surface;
     selected:                    @primary;
     active:                      @primary;
-    urgent:                      red;
+    urgent:                      @error;
 
     text-selected:               @on-primary;
     text-color:                  @on-surface;
@@ -39,13 +38,14 @@ window {
     transparency:               "real";
     cursor:                     "default";
     spacing:                    0px;
-    border:                     2px;
-    border-radius:              30px;
-    location:                   center;
-    anchor:                     center;
+    border:                     0px;
+    border-radius:              0px;
+    location:                   west;
+    anchor:                     west;
+    height: 100%;
 
     // Style Values
-    width:                      50%;
+    width:                      35%;
     background-color:           #00000099;
 }
 
@@ -61,22 +61,21 @@ mainbox {
 /* ---- Inputbar ---- */
 inputbar {
     enabled:                     true;
-    padding:                     10px 10px 150px 10px;
+    padding:                     20px 20px 20px 20px;
     margin:                      10px;
     background-color:            @surface;
     border-radius:               25px;
     orientation:                 horizontal;
-    children:                    ["entry", "dummy", "mode-switcher" ];
+    children:                    ["entry" ];
     background-image:            url("~/.config/rofi/current_wallpaper", width);
 }
 
 /* ---- Entry input ---- */
 entry {
     enabled:                     true;
-    expand:                      false;
-    width:                       300px;
+    expand:                      true;
     padding:                     10px;
-    border-radius:               12px;
+    border-radius:               25px;
     background-color:            @surface;
     text-color:                  @on-surface;
     cursor:                      text;
@@ -96,17 +95,17 @@ listbox {
 /* ---- Listview ---- */
 listview {
     enabled:                     true;
-    columns:                     2;
-    lines:                       6;
+    columns:                     1;
+    lines:                       17;
     cycle:                       true;
     dynamic:                     true;
     scrollbar:                   false;
     layout:                      vertical;
     reverse:                     false;
-    fixed-height:                true;
+    fixed-height:                false;
     fixed-columns:               true;    
-    spacing:                     10px;
-    padding:					 1px;
+    spacing:                     5px;
+    padding:					 0px;
     background-color:            transparent;
 
 //  Adapt rofi theme
@@ -128,12 +127,13 @@ dummy {
     background-color:            transparent;
 }
 
-/* ---- Mode Switcher ---- */
+/* ---- Mode Switcher ---- 
 mode-switcher{
     enabled:                     true;
     spacing:                     10px;
     background-color:            transparent;
 }
+*/
 button {
     width:                       5%;
     padding:                     12px;
@@ -152,8 +152,8 @@ button selected {
 element {
     enabled:                     true;
     spacing:                     10px;
-    padding:                     15px;
-    border-radius:               10px;
+    padding:                     12px;
+    border-radius:               9px;
     background-color:            transparent;
     cursor:                      pointer;
 }
@@ -201,7 +201,7 @@ element alternate.active {
 element-icon {
     background-color:            transparent;
     text-color:                  inherit;
-    size:                        36px;
+    size:                        18px;
     cursor:                      inherit;
 }
 element-text {
@@ -222,8 +222,8 @@ textbox {
 	margin:						 10px;
     padding:                     12px;
     border-radius:               10px;
-    background-color:            @error;
-    text-color:                  @on-error;
+    background-color:            @secondary-container;
+    text-color:                  @on-secondary-container;
     vertical-align:              0.5;
     horizontal-align:            0.5;
 }
