@@ -29,7 +29,7 @@ Rectangle {
             let date = parts[1];
             "<span> <b>" + time + "</b> </span> <span style='color:" + ";'> -" + date + "</span>";
         }
-        font.family: "Roboto"
+        font.family: Config.fontFamily
         font.pixelSize: 17
         color: Colors.on_surface
     }

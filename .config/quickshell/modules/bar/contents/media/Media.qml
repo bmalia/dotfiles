@@ -131,14 +131,14 @@ Rectangle {
                 text: activePlayer.trackTitle ? activePlayer.trackTitle : "Unknown Title"
                 font.pixelSize: 14
                 font.bold: true
-                font.family: "Roboto"
+                font.family: Config.fontFamily
                 color: Colors.on_secondary_container
             }
             Text {
                 id: artist
                 text: activePlayer.trackArtist ? activePlayer.trackArtist : activePlayer.identity
                 font.pixelSize: 9
-                font.family: "Roboto"
+                font.family: Config.fontFamily
                 color: Colors.on_secondary_container
             }
         }

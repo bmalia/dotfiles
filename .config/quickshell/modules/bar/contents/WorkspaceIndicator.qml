@@ -85,7 +85,7 @@ Rectangle {
                     text: modelData.name
                     color: modelData.isPlaceholder ? "#888" : (modelData.id === Hyprland.focusedWorkspace.id ? Colors.on_primary : Colors.on_surface)
                     font.pixelSize: 16
-                    font.family: "Roboto"
+                    font.family: Config.fontFamily
                     font.bold: modelData.isPlaceholder ? false : true
                     scale: 1 / parent.scale // <-- This keeps the text size visually constant
                 }

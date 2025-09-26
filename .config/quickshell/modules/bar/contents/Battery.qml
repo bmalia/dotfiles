@@ -4,6 +4,7 @@ import QtQuick
 import QtQuick.Layouts
 import qs.modules.common
 import qs.modules.widgets
+import qs
 
 Rectangle {
     id: container
@@ -51,7 +52,7 @@ Rectangle {
             color: battery.state === UPowerDeviceState.Charging ? Colors.on_primary_container : Colors.on_surface
             font.pixelSize: 16
             font.bold: true
-            font.family: "Roboto"
+            font.family: Config.fontFamily
             verticalAlignment: Text.AlignVCenter
         }
     }
