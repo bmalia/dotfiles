@@ -5,10 +5,10 @@
 
 configuration {
     show-icons:                 true;
-    display-drun:               "   App ";
-    display-window:             "   Window ";
+    display-drun:               "  ";
+    display-window:             "  ";
 	drun-display-format:        "{name}";
-    window-display-format:     "{name} - {class}";
+    window-display-format:      "{title} - {class}";
 	hover-select:               true;
 	me-select-entry:            "MouseSecondary";
     me-accept-entry:            "MousePrimary";
@@ -45,7 +45,7 @@ window {
     height: 100%;
 
     // Style Values
-    width:                      35%;
+    width:                      30%;
     background-color:           #00000099;
 }
 
@@ -154,12 +154,12 @@ element {
     spacing:                     10px;
     padding:                     12px;
     border-radius:               9px;
-    background-color:            transparent;
+    background-color:            @surface-container;
     cursor:                      pointer;
 }
 
 element normal.normal {
-    background-color:            inherit;
+    background-color:            @surface-container;
     text-color:                  inherit;
 }
 element normal.urgent {
@@ -201,7 +201,7 @@ element alternate.active {
 element-icon {
     background-color:            transparent;
     text-color:                  inherit;
-    size:                        18px;
+    size:                        24px;
     cursor:                      inherit;
 }
 element-text {
