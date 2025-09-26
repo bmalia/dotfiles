@@ -22,25 +22,14 @@ cd dotfiles
 
 ## Manual
 
-### 1. Install packages
-
-**_Subject to rapid change w/ Quickshell update_**
-
-```sh
-yay -S --needed git hyprland gdm hyprlock swww nautilus kitty quickshell network-manager-applet zsh ttf-roboto adwaita-fonts ttf-jetbrains-mono-nerd upower matugen adw-gtk3 breeze swaync swayosd waypaper hypridle
-```
-
-\* _If you don't use yay, substitute it for your AUR helper/wrapper_ \
-\* _If you're not on an Arch-based distro, install all of the equivalent packages through your package manager_
-
-### 2. Clone the git repo
+### 1. Clone the git repo
 
 ```sh
 git clone https://github.com/bmalia/dotfiles
 cd dotfiles
 ```
 
-### 3. Select your version
+### 2. Select your version
 
 There are are few different versions of the shell you can install:
 
@@ -56,6 +45,26 @@ Once you have selected your desired version, switch to its git branch:
 git checkout <branch-name>
 ```
 
+### 3. Install packages
+
+**_Subject to rapid change w/ Quickshell update_**
+
+```sh
+cd dotfiles
+source packages.conf && yay -Syu <package arrays>
+```
+
+**Replace `<package arrays>` with the following depending on your version:**
+
+- Quickshell:
+  - Laptop: `"${base_packages[@]}" "${laptop_packages[@]}" "${monet_packages[@]}`
+- Waybar/legacy:
+  - Laptop: `"${base_packages[@]}" "${laptop_packages[@]}" "${legacy_packages[@]}"`
+  - Desktop: `"${base_packages[@]}" "${legacy_packages[@]}"`
+
+\* _If you don't use yay, substitute it for your AUR helper/wrapper_ \
+\* _If you're not on an Arch-based distro, install all of the equivalent packages through your package manager_
+
 ### 4. Install the config
 
 Keep in mind this will overwrite any configs for the designated programs. Make backups if you need to.
@@ -66,6 +75,7 @@ Keep in mind this will overwrite any configs for the designated programs. Make b
 
 ```sh
 yay -S --needed stow
+rm -r ~/.config/hypr ~/.config/kitty ~/.config/matugen ~/.config/quickshell ~/.config/rofi ~/.config/waybar ~/.config/waypaper ~/.config/wlogout
 cd dotfiles
 stow .
 ```

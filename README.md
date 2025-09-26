@@ -1,8 +1,8 @@
-# Monet-Shell
+# Hyprland Dotfiles
 
-**A minimal, material design-based shell for Hyprland**
+**This repo contains a collection of my Hyprland configurations**
 
-## Versions
+## Active Versions
 
 <p align="center"><b>Monet-Laptop</b><sup>quickshell</sup></p>
 <p align="center">
@@ -10,6 +10,8 @@
   <img src="assets/lpqs2.png" width="32%">
   <img src="assets/lpqs3.png" width="32%">
 </p>
+
+**A minimal, material design-based shell for Hyprland**
 
 ### Features
 
@@ -21,7 +23,7 @@
 
 ### Planned
 
-- [ ] Easy, consolidated configuration
+- [x] Easy, consolidated configuration
 - [ ] Multiple bar styles and setups
 - [ ] Control & notification center
 - [ ] Expandable media player
@@ -70,13 +72,13 @@
 
 _The waybar versions here are no longer maintained by me. Bugs will go unfixed and no new features will be added._
 
-<p align="center"><b>Monet-Desktop</b><sup>waybar</sup></p>
+<p align="center"><b>Pixel-Desktop</b><sup>waybar</sup></p>
 <p align="center">
   <img src="assets/desktopss1.png" width="32%">
   <img src="assets/desktopss3.png" width="32%">
   <img src="assets/desktopss2.png" width="32%">
 </p>
-<p align="center"><b>Monet-Laptop</b><sup>waybar</sup></p>
+<p align="center"><b>Pixel-Laptop</b><sup>waybar</sup></p>
 <p align="center">
   <img src="assets/laptopss1.png" width="32%">
   <img src="assets/laptopss2.png" width="32%">
