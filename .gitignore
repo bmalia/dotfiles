@@ -4,4 +4,4 @@
 .config/rofi/current_wallpaper
 .config/waybar/colors.css
 .config/wlogout/colors.css
-.config/quickshell/modules/common/colors.qml
+.config/quickshell/modules/common/Colors.qml
