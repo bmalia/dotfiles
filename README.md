@@ -70,7 +70,8 @@
 
 ## Old versions
 
-_The waybar versions here are no longer maintained by me. Bugs will go unfixed and no new features will be added._
+_The waybar versions here are no longer maintained by me. Bugs will go unfixed and no new features will be added._ \
+_They are still hosted on branches `old-desktop` and `old-laptop` respectively._
 
 <p align="center"><b>Pixel-Desktop</b><sup>waybar</sup></p>
 <p align="center">
