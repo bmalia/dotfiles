@@ -99,7 +99,7 @@ listview {
     lines:                       17;
     cycle:                       true;
     dynamic:                     true;
-    scrollbar:                   false;
+    scrollbar:                   true;
     layout:                      vertical;
     reverse:                     false;
     fixed-height:                false;
@@ -115,10 +115,10 @@ listview {
 /* ---- Scrollbar ---- */
 scrollbar {
   	border:						0px;
-  	border-radius:				10px;
-  	background-color:				transparent;
+  	border-radius:				90px;
+  	background-color:			@surface-container;
   	handle-color: 				@active;
-  	handle-width: 				2px ;
+  	handle-width: 				4px;
   	padding:      				0;
 }
 /* ---- Dummy ---- */
@@ -182,8 +182,8 @@ element selected.urgent {
     text-color:                  @on-error;
 }
 element selected.active {
-    background-color:            @urgent;
-    text-color:                  @text-selected;
+    background-color:            @primary;
+    text-color:                  @on-primary;
 }
 // Adapt rofi theme
 element alternate.normal {
