@@ -6,7 +6,7 @@ import Quickshell
 Singleton {
     property string fontFamily: "Roboto" // Global font family for the whole shell
 
-    property string barPosition: "top" // Position of the bar. Options: "top", "bottom"
+    property string barPosition: "bottom" // Position of the bar. Options: "top", "bottom"
     property int barHeight: 50 // Height of the bar in pixels (not everything fits well outside of 50 at the moment)
     property int barCornerSize: 18 // Size of the rounded corners on the bar (0 to disable)
 
