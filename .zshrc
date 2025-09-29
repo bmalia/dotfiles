@@ -104,4 +104,5 @@ eval $(thefuck --alias)
 eval "$(zoxide init zsh)"
 alias cd="z"
 alias upd="yay -Syu && flatpak update && z4h update"
+fastfetch
 
