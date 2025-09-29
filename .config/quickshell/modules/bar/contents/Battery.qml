@@ -32,7 +32,7 @@ Rectangle {
             diameter: 30
             thickness: 3
             color: battery.percentage > 0.2 ? Colors.primary : Colors.error
-            trackColor: Colors.surface_variant
+            trackColor: Colors.secondary_container
             waveAmplitude: battery.state === UPowerDeviceState.Charging ? 1 : 0
             waveCount: 9
             scrollSpeed: battery.state === UPowerDeviceState.Charging ? -0.05 : 0

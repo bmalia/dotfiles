@@ -40,6 +40,14 @@ Item {
         Loader {
             sourceComponent: Battery {}
             Layout.fillHeight: true
+            Layout.rightMargin: 2
+            Layout.topMargin: 5
+            Layout.bottomMargin: 5
+        }
+
+        Loader {
+            sourceComponent: Bluetooth {}
+            Layout.fillHeight: true
             Layout.rightMargin: 5
             Layout.topMargin: 5
             Layout.bottomMargin: 5
