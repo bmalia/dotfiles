@@ -22,8 +22,8 @@ Rectangle {
 
     Behavior on implicitWidth {
         NumberAnimation {
-            duration: 200
-            easing.type: Easing.InOutQuad
+            duration: 500
+            easing.type: Easing.InOutBack
         }
     }
 

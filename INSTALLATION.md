@@ -128,7 +128,7 @@ Open `~/.config/gtk-4.0`. The folder structure should look something like this:
 └── 󱁻 settings.ini
 ```
 With most of the files being symlinks to somewhere in `/usr/share/themes`. \
-Now, open `gtk.css` with root (e.g. `sudo nano gtk.css`) and delete the large block of `@define-color` statements at the top. Your file should now look somehting like this:
+Now, open `gtk.css` with root (e.g. `sudo nano gtk.css`) and delete the large block of `@define-color` statements at the top. Your file should now look something like this:
 ```css
 :root {
   --standalone-color-oklab: max(l, 0.85) a b;
@@ -167,4 +167,4 @@ Follow the same steps for `gtk-dark.css`. \
 Log out and back in, or just restart your computer, and GTK 4 apps should work properly now.
 
 ### QT5 & 6
-Open up `qt6ct` (Displays as `Qt6 settings`), select 'breeze' for the style and 'matugen' for the colors and click 'OK'.
+Open up `qt6ct` (Displays as `Qt6 settings`), select 'breeze' for the style and 'matugen' for the colors, then click 'OK'.
