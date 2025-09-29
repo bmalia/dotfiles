@@ -16,4 +16,6 @@ Singleton {
 
     property bool use24hrClock: false // Whether to use 24 hour clock in the time display
 
+    property bool btShowOnEmpty: false // Whether to show the Bluetooth icon when no devices are connected
+
 }

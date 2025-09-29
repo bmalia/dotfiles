@@ -23,7 +23,7 @@ Item {
         running: true
         repeat: true
         onTriggered: {
-            root.wavePhase += root.scrollSpeed; // <--- Use scrollSpeed here
+            root.wavePhase += root.scrollSpeed;
             if (root.wavePhase > Math.PI * 2)
                 root.wavePhase -= Math.PI * 2;
         }
@@ -95,6 +95,16 @@ Item {
     }
 
     Behavior on waveAmplitude {
-        NumberAnimation { duration: 300; easing.type: Easing.InOutQuad }
+        NumberAnimation {
+            duration: 300
+            easing.type: Easing.InOutQuad
+        }
+    }
+
+    Behavior on progress {
+        NumberAnimation {
+            duration: 500
+            easing.type: Easing.InOutQuad
+        }
     }
 }

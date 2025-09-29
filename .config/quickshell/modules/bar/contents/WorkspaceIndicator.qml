@@ -13,6 +13,13 @@ Rectangle {
     Layout.fillHeight: true
     Layout.alignment: Qt.AlignVCenter
 
+    Behavior on implicitWidth {
+        NumberAnimation {
+            duration: 200
+            easing.type: Easing.InOutQuad
+        }
+    }
+
     // Build the display model: always 10, plus any extras
     property var displayWorkspaces: {
         let all = Hyprland.workspaces.values;
