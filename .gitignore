@@ -8,3 +8,4 @@
 .config/gtk-*/colors.css
 .config/qt6ct/colors/matugen.conf
 .config/gtk-3.0/bookmarks
+.config/gtk-4.0/servers
