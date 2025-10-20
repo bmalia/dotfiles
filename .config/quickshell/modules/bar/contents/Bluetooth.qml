@@ -52,7 +52,7 @@ Rectangle {
                     progress: modelData.batteryAvailable ? modelData.battery : 0
                     color: modelData.batteryAvailable && modelData.battery < 0.2 ? Colors.error : Colors.secondary
                     diameter: 26
-                    thickness: 2
+                    thickness: 2.5
                     scrollSpeed: modelData.state === BluetoothDeviceState.Connecting ? -0.15 : 0
                     waveAmplitude: modelData.state === BluetoothDeviceState.Connecting ? 1 : 0
                     waveCount: 8

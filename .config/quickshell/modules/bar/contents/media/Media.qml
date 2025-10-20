@@ -12,7 +12,7 @@ import qs
 Rectangle {
     id: container
     color: Colors.secondary_container
-    radius: 999
+    radius: activePlayer.playbackState === MprisPlaybackState.Playing ? 999 : 15
     implicitWidth: activePlayer ? albumart.width + info.width + 20 + (hovered ? buttonWrapper.width + buttonWrapper.Layout.leftMargin + buttonWrapper.Layout.rightMargin : 0) : 0
     implicitHeight: activePlayer ? 40 : 0
     readonly property MprisPlayer activePlayer: MprisController.activePlayer // Uses the active player determined by MprisController
@@ -22,6 +22,13 @@ Rectangle {
         NumberAnimation {
             duration: 300
             easing.type: Easing.InOutBack
+        }
+    }
+
+    Behavior on radius {
+        NumberAnimation {
+            duration: 600
+            easing.type: Easing.InOutCubic
         }
     }
 
@@ -72,7 +79,15 @@ Rectangle {
             // make width smaller if there's no album art
             implicitWidth: activePlayer.trackArtUrl ? height : 5
             Layout.alignment: Qt.AlignVCenter
-            radius: width / 2
+            radius: activePlayer.playbackState === MprisPlaybackState.Playing ? (height / 2) : 15
+
+            Behavior on radius {
+                NumberAnimation {
+                    duration: 300
+                    easing.type: Easing.InOutQuad
+                }
+            }
+
             Image {
                 id: albumArtImage
                 anchors.fill: parent

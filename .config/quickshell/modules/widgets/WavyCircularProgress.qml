@@ -9,9 +9,11 @@ Item {
     property real thickness: 5
     property int diameter: 40
     property real waveAmplitude: 4
-    property int waveCount: 6 // Number of waves around the circle
+    property int waveCount: 10 // Number of waves around the circle
     property real wavePhase: 0 // phase offset for animation
-    property real scrollSpeed: 0.08 // <--- NEW: scroll speed property
+    property real scrollSpeed: 0.08 // scroll speed property
+    property real progressGap: 0.4 // Gap between progress and remainder arcs, in radians
+
     width: diameter
     height: diameter
 
@@ -36,29 +38,33 @@ Item {
             var ctx = getContext("2d");
             ctx.clearRect(0, 0, width, height);
 
-            var inset = thickness / 2;
             var centerX = width / 2;
             var centerY = height / 2;
-            var maxInset = Math.max(root.waveAmplitude, thickness / 2);
             var baseRadius = (width / 2) - root.waveAmplitude - (thickness / 2);
 
-            // Draw track (plain circle)
-            ctx.beginPath();
-            ctx.arc(centerX, centerY, baseRadius, 0, 2 * Math.PI, false);
-            ctx.lineWidth = thickness;
-            ctx.strokeStyle = trackColor;
-            ctx.lineCap = "round";
-            ctx.stroke();
+            var startAngle = -Math.PI / 2;
+            var progressAngle = 2 * Math.PI * root.progress;
+            var gap = root.progress > 0 && root.progress < 1 ? root.progressGap : 0;
 
-            // Draw wavy progress arc
+            // Draw the remainder arc (trackColor)
+            if (root.progress < 1) {
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, baseRadius, startAngle + progressAngle + gap / 2, startAngle + 2 * Math.PI - gap / 2, false);
+                ctx.lineWidth = thickness;
+                ctx.strokeStyle = trackColor;
+                ctx.lineCap = "round";
+                ctx.stroke();
+            }
+
+            // Draw the progress arc (color)
             if (root.progress > 0) {
-                var startAngle = -Math.PI / 2;
-                var endAngle = startAngle + 2 * Math.PI * root.progress;
+                var arcStart = startAngle + gap / 2;
+                var arcEnd = startAngle + progressAngle - gap / 2;
                 var steps = Math.max(32, Math.floor(128 * root.progress));
                 ctx.beginPath();
                 for (var i = 0; i <= steps; ++i) {
                     var t = i / steps;
-                    var angle = startAngle + t * (endAngle - startAngle);
+                    var angle = arcStart + t * (arcEnd - arcStart);
                     var wave = Math.sin(root.waveCount * angle + root.wavePhase) * root.waveAmplitude;
                     var r = baseRadius + wave;
                     var x = centerX + r * Math.cos(angle);
@@ -76,15 +82,42 @@ Item {
         }
         Connections {
             target: root
-            onProgressChanged: canvas.requestPaint()
-            onColorChanged: canvas.requestPaint()
-            onTrackColorChanged: canvas.requestPaint()
-            onThicknessChanged: canvas.requestPaint()
-            onDiameterChanged: canvas.requestPaint()
-            onWaveAmplitudeChanged: canvas.requestPaint()
-            onWaveCountChanged: canvas.requestPaint()
-            onWavePhaseChanged: canvas.requestPaint()
-            onScrollSpeedChanged: canvas.requestPaint() // <--- Optional: repaint if speed changes
+            function onProgressChanged() {
+                canvas.requestPaint();
+            }
+            function onColorChanged() {
+                canvas.requestPaint();
+            }
+            function onTrackColorChanged() {
+                canvas.requestPaint();
+            }
+            function onThicknessChanged() {
+                canvas.requestPaint();
+            }
+            function onDiameterChanged() {
+                canvas.requestPaint();
+            }
+            function onWaveAmplitudeChanged() {
+                canvas.requestPaint();
+            }
+            function onWaveCountChanged() {
+                canvas.requestPaint();
+            }
+            function onWavePhaseChanged() {
+                canvas.requestPaint();
+            }
+            function onScrollSpeedChanged() {
+                canvas.requestPaint();
+            }
+            function onSegmentedChanged() {
+                canvas.requestPaint();
+            }
+            function onSegmentCountChanged() {
+                canvas.requestPaint();
+            }
+            function onSegmentGapChanged() {
+                canvas.requestPaint();
+            }
         }
         Component.onCompleted: requestPaint()
     }
