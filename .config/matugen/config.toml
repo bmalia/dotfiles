@@ -43,3 +43,8 @@ output_path = '~/.config/qt6ct/colors/matugen.conf'
 [templates.quickshell]
 input_path = 'templates/quickshell-colors.qml'
 output_path = '~/.config/quickshell/modules/common/Colors.qml'
+
+[templates.swayosd]
+input_path = 'templates/colors.css'
+output_path = '~/.config/swayosd/colors.css'
+post_hook = 'pkill swayosd-server && swayosd-server & disown'
