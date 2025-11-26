@@ -5,6 +5,7 @@
 .config/waybar/colors.css
 .config/wlogout/colors.css
 .config/swayosd/colors.css
+.config/swaync/colors.css
 .config/quickshell/monet/modules/common/Colors.qml
 .config/quickshell/ponderosa/modules/common/Colors.qml
 .config/gtk-*/colors.css
