@@ -1,0 +1,46 @@
+@import url("colors.css");
+
+window#osd {
+  border-radius: 20px;
+  border: none;
+  background: @surface_container;
+}
+
+#container {
+  margin: 16px;
+}
+
+image,
+label {
+  color: @on_surface;
+}
+
+label {
+  font-family: "Roboto";
+  font-weight: bold;
+  font-size: 18px;
+}
+
+progressbar:disabled,
+image:disabled {
+  opacity: 0.5;
+}
+
+progressbar {
+  min-height: 10px;
+  border-radius: 999px;
+  background: transparent;
+  border: none;
+}
+trough {
+  min-height: inherit;
+  border-radius: inherit;
+  border: none;
+  background: @secondary_container;
+}
+progress {
+  min-height: 8px;
+  border-radius: inherit;
+  border: none;
+  background: @primary;
+}

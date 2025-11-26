@@ -6,8 +6,7 @@
 .config/wlogout/colors.css
 .config/swayosd/colors.css
 .config/swaync/colors.css
-.config/quickshell/monet/modules/common/Colors.qml
-.config/quickshell/ponderosa/modules/common/Colors.qml
+.config/quickshell/modules/common/Colors.qml
 .config/gtk-*/colors.css
 .config/qt6ct/colors/matugen.conf
 .config/gtk-3.0/bookmarks
