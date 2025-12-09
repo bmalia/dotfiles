@@ -105,3 +105,4 @@ eval "$(zoxide init zsh)"
 alias cd="z"
 alias upd="yay -Syu && flatpak update && z4h update"
 
+fortune -c | cowsay -f $(find /usr/share/cowsay -type f | shuf -n 1)

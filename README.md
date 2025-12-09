@@ -38,7 +38,7 @@
 | Color generation             | Matugen                                             |
 | Wallpapers                   | swww (Pictures from Unsplash)                       |
 | Status bar / Graphical Shell | Quickshell                                          |
-| Launcher                     | Rofi                                                |
+| Launcher                     | Vicinae                                             |
 | File Manager                 | Nautilus / GNOME-Files                              |
 | Notifications                | SwayNC                                              |
 | Lock / Idle                  | Hyprlock & Hypridle                                 |
@@ -54,7 +54,7 @@
 
 | Bind                  | Action                     |
 | --------------------- | -------------------------- |
-| Super + Space         | Open Launcher (Rofi)       |
+| Super + Space         | Open Launcher (Vicinae)    |
 | Super + T             | Open Terminal (kitty)      |
 | Super + Q             | Close active window        |
 | Super + E             | Open Nautilus              |
