@@ -1,5 +1,6 @@
 import QtQuick
 import Quickshell
+import Quickshell.Services.UPower
 import QtQuick.Layouts
 import qs.modules.bar.contents
 import qs.modules.bar.contents.media
@@ -43,6 +44,7 @@ Item {
             Layout.rightMargin: 2
             Layout.topMargin: 5
             Layout.bottomMargin: 5
+            visible: UPower.displayDevice === null ? false : true
         }
 
         Loader {

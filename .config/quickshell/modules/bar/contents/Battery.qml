@@ -7,13 +7,14 @@ import qs.modules.widgets
 import qs
 
 Rectangle {
+    property UPowerDevice battery: UPower.displayDevice
     id: container
     implicitWidth: text.width + circle.width + 20
     property color criticalBgColor: Config.batteryUseErrorContainer ? Colors.error_container : Colors.error
     property color criticalFgColor: Config.batteryUseErrorContainer ? Colors.error : Colors.on_error
     color: battery.state === UPowerDeviceState.Charging ? Colors.primary_container : battery.percentage > Config.batteryLowThreshold ? Colors.surface_container : criticalBgColor
     radius: 999
-    property UPowerDevice battery: UPower.displayDevice
+    
 
     Behavior on color {
         ColorAnimation {

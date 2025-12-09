@@ -131,14 +131,24 @@ echo "Done"
 if [[ $use_stow = y || $use_stow = Y ]]; then
     echo -n "  - Stowing ~/dotfiles to ~/.config... "
     stow .
+    cp ~/.config/hypr/user-template.conf ~/.config/hypr/user.conf
     echo "Done"
 else
     echo -n "  - Copying ~/dotfiles/.config/ to ~/.config... "
     cp -r .config/* ~/.config/
+    cp ~/.config/hypr/user-template.conf ~/.config/hypr/user.conf
     echo "Done"
 fi
 sleep 0.5
 echo "Configs installed successfully!"
+
+echo "Generating placeholder colors and wallpaper..."
+mkdir -p ~/Pictures/wallpapers
+cp assets/default_wallpaper.jpg ~/Pictures/wallpapers/default_wallpaper.jpg
+sleep 0.5
+swww img ~/Pictures/wallpapers/default_wallpaper.jpg
+matugen image ~/Pictures/wallpapers/default_wallpaper.jpg
+echo "Placeholders generated!"
 
 echo "Installation complete!"
 echo "Look at https://github.com/bmalia/dotfiles/blob/main/README.md for keybinds and general help"
