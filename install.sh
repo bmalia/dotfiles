@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "Hello!"
-echo "This script will attempt to install the necessary packages and appy all of the configs for these dotfiles."
+echo "This script will attempt to install the necessary packages and apply all of the configs for these dotfiles."
 echo "You may be prompted for your password."
 sleep 1
 

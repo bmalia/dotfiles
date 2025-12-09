@@ -61,7 +61,7 @@ source packages.conf && yay -Syu <package arrays>
   - Desktop: `"${base_packages[@]}" "${legacy_packages[@]}"`
 
 \* _If you don't use yay, substitute it for your AUR helper/wrapper_ \
-\* _If you're not on an Arch-based distro, install all of the equivalent packages through your package manager_
+\* _If you're not on an Arch-based distro, install all of the equivalent packages through your package manager. You can find the packages used in the `packages.conf` file._
 
 ### 4. Install the config
 
@@ -105,9 +105,8 @@ You may notice a a few errors from Hyprland and Quickshell upon logging back in.
 This should be pretty simple. I recommend [Unsplash](https://unsplash.com) if you're looking for photography. Save whatever image you find to `~/Pictures/wallpapers`.
 
 ### 2. Set the wallpaper
-> **NOTE**: Due to the recent swww update, Waypaper no longer properly sets swww wallpapers correctly. You'll want to run `swww img path/to/image` after using Waypaper so that your wallpaper actually shows up. I'm currently working on a wallpaper tool using rofi to remedy this.
 
-Open Waypaper and wait a second for it to cache your images. If nothing shows up, it's configured to look in `~/Pictures/wallpapers` by default, so try moving your image there if you can. Select the wallpaper you want to use and wait a second. The Hyprland error should go away (you'll probably have to restart Quickshell by running `quickshell & disown`), and theming for your apps should work properly now.
+Open Waypaper and wait a second for it to cache your images. If nothing shows up, it's configured to look in `~/Pictures/wallpapers` by default, so try moving your image there if you can. Select the wallpaper you want to use and wait a second. The Hyprland error should go away (you'll probably have to restart Quickshell by running `quickshell -d`), and theming for your apps should work properly now.
 
 
 ## Applying themes for different platforms
