@@ -1,4 +1,0 @@
-[config]
-[templates.media]
-input_path = '~/.config/matugen/templates/quickshell-colors.qml'
-output_path = '~/.config/quickshell/modules/bar/contents/media/AlbumColors.qml'
