@@ -161,21 +161,23 @@ Rectangle {
         // Buttons
         RowLayout {
             id: buttonWrapper
-            spacing: 15
+            spacing: 5
             Layout.rightMargin: 10
             Layout.leftMargin: 5
             Layout.alignment: Qt.AlignVCenter
 
             Text {
                 id: prevButton
-                text: "󰼨"
-                font.pixelSize: 20
+                text: "skip_previous"
+                renderType: Text.NativeRendering
+                font.pixelSize: 25
                 color: Colors.on_secondary_container
                 width: hovered ? implicitWidth : 0
                 opacity: hovered ? 1 : 0
                 property bool pressed: false
                 scale: pressed ? 0.85 : 1.0
-
+                font.family: "Material Symbols Rounded"
+                font.variableAxes: { "FILL": 0 }
                 Behavior on scale {
                     NumberAnimation {
                         duration: 100
@@ -193,8 +195,11 @@ Rectangle {
 
             Text {
                 id: playPauseButton
-                text: activePlayer.playbackState === MprisPlaybackState.Playing ? "󰏤" : "󰼛"
-                font.pixelSize: 25
+                font.family: "Material Symbols Rounded"
+                font.variableAxes: { "FILL": 1 }
+                renderType: Text.NativeRendering
+                text: activePlayer.playbackState === MprisPlaybackState.Playing ? "pause" : "play_arrow"
+                font.pixelSize: 28
                 color: Colors.on_secondary_container
                 width: hovered ? implicitWidth : 0
                 opacity: hovered ? 1 : 0
@@ -218,8 +223,11 @@ Rectangle {
 
             Text {
                 id: nextButton
-                text: "󰼧"
-                font.pixelSize: 20
+                text: "skip_next"
+                font.pixelSize: 25
+                font.family: "Material Symbols Rounded"
+                font.variableAxes: { "FILL": 0 }
+                renderType: Text.NativeRendering
                 color: Colors.on_secondary_container
                 width: hovered ? implicitWidth : 0
                 opacity: hovered ? 1 : 0
