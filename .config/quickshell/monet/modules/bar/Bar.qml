@@ -12,7 +12,7 @@ PanelWindow {
         right: true
         bottom: Config.barPosition === "bottom" ? true : undefined
     }
-    implicitHeight: bar.implicitHeight + Config.barCornerSize
+    implicitHeight: bar.implicitHeight + (Config.barStyle === "floating" ? 20 : Config.barCornerSize)
     color: "transparent"
 
     // Only the bar's height is reserved as exclusive zone
@@ -25,6 +25,7 @@ PanelWindow {
         anchors.left: bar.left
         anchors.bottom: Config.barPosition === "bottom" ? bar.top : undefined
         implicitSize: Config.barCornerSize
+        visible: Config.barStyle === "edge"
     }
 
     RoundCorner {
@@ -34,6 +35,7 @@ PanelWindow {
         anchors.bottom: Config.barPosition === "bottom" ? bar.top : undefined
         anchors.right: bar.right
         implicitSize: Config.barCornerSize
+        visible: Config.barStyle === "edge"
     }
 
     Rectangle {
@@ -46,6 +48,8 @@ PanelWindow {
             bottom: Config.barPosition === "bottom" ? parent.bottom : undefined
         }
         color: Colors.background
+        anchors.margins: Config.barStyle === "floating" ? 5 : 0
+        radius: Config.barStyle === "floating" ? 99 : 0
 
         Loader {
             anchors.fill: parent

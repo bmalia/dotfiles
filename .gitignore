@@ -13,3 +13,5 @@
 .config/gtk-3.0/bookmarks
 .config/gtk-4.0/servers
 .config/quickshell/monet/.qmlls.ini
+.config/quickshell/yosemite/.qmlls.ini
+.config/quickshell/*/modules/common/Colors.qml

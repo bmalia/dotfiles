@@ -9,14 +9,29 @@ import qs.services
 import qs.modules.bar.contents.media
 import qs
 
-Rectangle {
+ClippingRectangle {
+    antialiasing: true
     id: container
-    color: Colors.secondary_container
-    radius: activePlayer.playbackState === MprisPlaybackState.Playing ? 999 : 15
+    color: activePlayer.playbackState === MprisPlaybackState.Playing ? Colors.primary_container : Colors.surface_container
+    radius: 99
     implicitWidth: activePlayer ? albumart.width + info.width + 20 + (hovered ? buttonWrapper.width + buttonWrapper.Layout.leftMargin + buttonWrapper.Layout.rightMargin : 0) : 0
     implicitHeight: activePlayer ? 40 : 0
     readonly property MprisPlayer activePlayer: MprisController.activePlayer // Uses the active player determined by MprisController
     visible: !!activePlayer
+
+    Timer {
+        running: activePlayer?.playbackState == MprisPlaybackState.Playing
+        interval: 100
+        repeat: true
+        onTriggered: activePlayer.positionChanged()
+    }
+
+    Behavior on color {
+        ColorAnimation {
+            duration: 200
+            easing.type: Easing.InOutQuad
+        }
+    }
 
     Behavior on implicitWidth {
         NumberAnimation {
@@ -48,11 +63,6 @@ Rectangle {
     }
     */
 
-    function updateColors() { // Currently not fully supported (unless you want to reload quickshell any time a song changes)
-        Quickshell.execDetached(["sh", "-c", "~/.config/quickshell/modules/bar/contents/media/updateColors.sh"]);
-        console.log("Colors updated");
-    }
-
     MouseArea {
         id: hoverArea
         anchors.fill: parent
@@ -61,6 +71,32 @@ Rectangle {
         onEntered: container.hovered = true
         onExited: container.hovered = false
         z: 2
+    }
+
+    Rectangle { // Progress thing
+        id: progressBar
+        anchors {
+            left: parent.left
+            top: parent.top
+            bottom: parent.bottom
+        }
+        height: 3
+        color: activePlayer.playbackState === MprisPlaybackState.Playing ? Colors.inverse_primary : Colors.primary_container
+        width: parent.width * activePlayer.position / activePlayer.length
+        radius: 1.5
+
+        Behavior on color {
+        ColorAnimation {
+            duration: 200
+            easing.type: Easing.InOutQuad
+        }
+        }
+        Behavior on width {
+            NumberAnimation {
+                duration: 100
+                easing.type: Easing.InOutQuad
+            }
+        }
     }
 
     RowLayout {
@@ -79,7 +115,7 @@ Rectangle {
             // make width smaller if there's no album art
             implicitWidth: activePlayer.trackArtUrl ? height : 5
             Layout.alignment: Qt.AlignVCenter
-            radius: activePlayer.playbackState === MprisPlaybackState.Playing ? (height / 2) : 15
+            radius: 99
 
             Behavior on radius {
                 NumberAnimation {
