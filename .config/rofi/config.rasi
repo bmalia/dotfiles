@@ -1,7 +1,0 @@
-@import "colors.rasi"
-@theme "~/.config/rofi/KooL_style-6.rasi"
-configuration {
-    modes: [window];
-    font: "Roboto 12";
-    sidebar-mode: true;
-}
