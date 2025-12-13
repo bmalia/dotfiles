@@ -109,15 +109,6 @@ Item {
             function onScrollSpeedChanged() {
                 canvas.requestPaint();
             }
-            function onSegmentedChanged() {
-                canvas.requestPaint();
-            }
-            function onSegmentCountChanged() {
-                canvas.requestPaint();
-            }
-            function onSegmentGapChanged() {
-                canvas.requestPaint();
-            }
         }
         Component.onCompleted: requestPaint()
     }

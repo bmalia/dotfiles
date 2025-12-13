@@ -6,7 +6,6 @@ import QtQuick
 import QtQuick.Layouts
 import qs.modules.common
 import qs.services
-import qs.modules.bar.contents.media
 import qs
 
 ClippingRectangle {
@@ -23,9 +22,12 @@ ClippingRectangle {
         running: activePlayer?.playbackState == MprisPlaybackState.Playing
         interval: 100
         repeat: true
-        onTriggered: activePlayer.positionChanged()
+        onTriggered: {
+            activePlayer.positionChanged();
+        }
     }
 
+    
     Behavior on color {
         ColorAnimation {
             duration: 200
@@ -180,25 +182,26 @@ ClippingRectangle {
             Text {
                 id: title
                 text: activePlayer.trackTitle ? activePlayer.trackTitle : "Unknown Title"
-                font.pixelSize: 14
+                font.pixelSize: artist.visible ? 14 : 15
                 font.bold: true
                 font.family: Config.fontFamily
-                color: Colors.on_secondary_container
+                color: Colors.on_primary_container
             }
             Text {
+                visible: !!activePlayer.trackArtist
                 id: artist
-                text: activePlayer.trackArtist ? activePlayer.trackArtist : activePlayer.identity
+                text: activePlayer.trackArtist
                 font.pixelSize: 9
                 font.family: Config.fontFamily
-                color: Colors.on_secondary_container
+                color: Colors.on_primary_container
             }
         }
 
         // Buttons
         RowLayout {
             id: buttonWrapper
-            spacing: 5
-            Layout.rightMargin: 10
+            spacing: 2
+            Layout.rightMargin: 5
             Layout.leftMargin: 5
             Layout.alignment: Qt.AlignVCenter
 
@@ -206,8 +209,8 @@ ClippingRectangle {
                 id: prevButton
                 text: "skip_previous"
                 renderType: Text.NativeRendering
-                font.pixelSize: 25
-                color: Colors.on_secondary_container
+                font.pixelSize: 20
+                color: Colors.on_primary_container
                 width: hovered ? implicitWidth : 0
                 opacity: hovered ? 1 : 0
                 property bool pressed: false
@@ -235,8 +238,8 @@ ClippingRectangle {
                 font.variableAxes: { "FILL": 1 }
                 renderType: Text.NativeRendering
                 text: activePlayer.playbackState === MprisPlaybackState.Playing ? "pause" : "play_arrow"
-                font.pixelSize: 28
-                color: Colors.on_secondary_container
+                font.pixelSize: 25
+                color: Colors.on_primary_container
                 width: hovered ? implicitWidth : 0
                 opacity: hovered ? 1 : 0
                 property bool pressed: false
@@ -260,11 +263,11 @@ ClippingRectangle {
             Text {
                 id: nextButton
                 text: "skip_next"
-                font.pixelSize: 25
+                font.pixelSize: 20
                 font.family: "Material Symbols Rounded"
                 font.variableAxes: { "FILL": 0 }
                 renderType: Text.NativeRendering
-                color: Colors.on_secondary_container
+                color: Colors.on_primary_container
                 width: hovered ? implicitWidth : 0
                 opacity: hovered ? 1 : 0
                 property bool pressed: false

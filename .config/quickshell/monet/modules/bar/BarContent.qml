@@ -3,7 +3,6 @@ import Quickshell
 import Quickshell.Services.UPower
 import QtQuick.Layouts
 import qs.modules.bar.contents
-import qs.modules.bar.contents.media
 
 Item {
     id: root
@@ -58,6 +57,7 @@ Item {
 
     RowLayout {
         anchors.centerIn: parent
+        height: parent.height
         Loader {
             sourceComponent: Media {}
             Layout.fillHeight: true
