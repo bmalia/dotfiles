@@ -43,7 +43,7 @@ Item {
             Layout.rightMargin: 2
             Layout.topMargin: 5
             Layout.bottomMargin: 5
-            visible: UPower.displayDevice === null ? false : true
+            visible: UPower.displayDevice.isLaptopBattery
         }
 
         Loader {
