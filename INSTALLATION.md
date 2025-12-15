@@ -33,8 +33,7 @@ cd dotfiles
 
 There are are few different versions of the shell you can install:
 
-- Quickshell:
-  - Laptop (Battery module, touchpad gestures, strict idle management): `main`
+- Quickshell (Yosemite): `main`
 - Waybar (Legacy):
   - Desktop (Windows-like status bar, relaxed idle management): `old-desktop`
   - Laptop (Hybrid status bar, touchpad gestures, strict idle management): `old-laptop`
@@ -54,11 +53,8 @@ source packages.conf && yay -Syu <package arrays>
 
 **Replace `<package arrays>` with the following depending on your version:**
 
-- Quickshell:
-  - Laptop: `"${base_packages[@]}" "${laptop_packages[@]}" "${monet_packages[@]}`
-- Waybar/legacy:
-  - Laptop: `"${base_packages[@]}" "${laptop_packages[@]}" "${legacy_packages[@]}"`
-  - Desktop: `"${base_packages[@]}" "${legacy_packages[@]}"`
+- Quickshell: `"${base_packages[@]}" "${yosemite_packages[@]}`
+- Waybar/legacy: `"${base_packages[@]}" "${legacy_packages[@]}"`
 
 \* _If you don't use yay, substitute it for your AUR helper/wrapper_ \
 \* _If you're not on an Arch-based distro, install all of the equivalent packages through your package manager. You can find the packages used in the `packages.conf` file._
