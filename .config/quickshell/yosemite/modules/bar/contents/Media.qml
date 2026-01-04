@@ -85,7 +85,6 @@ ClippingRectangle {
         height: 3
         color: activePlayer.playbackState === MprisPlaybackState.Playing ? Colors.inverse_primary : Colors.primary_container
         width: parent.width * activePlayer.position / activePlayer.length
-        radius: 1.5
 
         Behavior on color {
         ColorAnimation {
