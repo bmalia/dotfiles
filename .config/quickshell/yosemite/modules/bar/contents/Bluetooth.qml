@@ -3,20 +3,20 @@ import Quickshell.Bluetooth
 import Quickshell.Widgets
 import QtQuick
 import QtQuick.Layouts
-import qs
 import qs.modules.common
 import qs.modules.widgets
 
 Rectangle {
+    anchors.fill: parent
     id: container
     Layout.minimumWidth: Config.btShowOnEmpty ? 0 : 40
     visible: Config.btShowOnEmpty ? true : adapterState === "connected"
-    implicitWidth: visible ? (content.implicitWidth + 20) : 0
-    implicitHeight: visible ? (content.implicitHeight + 10) : 0
+    implicitWidth: visible ? (content.implicitWidth + (adapterState === "connected" ? 10 : 10)) : 0
+    // implicitHeight: visible ? (content.implicitHeight + 10) : 0
     color: Colors.surface_container
-    radius: 999
+    radius: 99
 
-    readonly property var adapterState: connectedDevices.length > 0 ? "connected" : Bluetooth.defaultAdapter.enabled ? "on" : "off"
+    readonly property string adapterState: connectedDevices.length > 0 ? "connected" : Bluetooth.defaultAdapter.enabled ? "on" : "off"
     // Apparently Bluetooth.devices is actually a list of all devices the adapter can see, not just paired ones
     readonly property var connectedDevices: Bluetooth.devices ? Bluetooth.devices.values.filter(d => d.state === BluetoothDeviceState.Connected || d.state === BluetoothDeviceState.Connecting) : []
 
@@ -30,22 +30,21 @@ Rectangle {
     RowLayout {
         id: content
         anchors.fill: parent
-        spacing: 2
-        Text {
-            Layout.leftMargin: 10
-            text: container.adapterState === "connected" ? "󰂱" : container.adapterState === "on" ? "󰂯" : "󰂲"
-            font.pixelSize: 20
-            color: Colors.primary
+        spacing: 0
+        MaterialIcon {
+            Layout.leftMargin: 5
+            text: container.adapterState === "connected" ? "bluetooth_connected" : container.adapterState === "on" ? "bluetooth" : "bluetooth_disabled"
+            iconSize: 23
+            color: container.adapterState === "connected" ? Colors.primary : container.adapterState === "on" ? Colors.on_surface : Colors.error
         }
         Repeater {
             model: container.connectedDevices
-            Layout.rightMargin: 10
+            Layout.rightMargin: 0
             delegate: Rectangle {
                 height: 26
                 width: batteryIndicator.width
-                color: modelData.batteryAvailable && modelData.battery < 0.2 ? Colors.error_container : Colors.surface_container
+                color: "transparent"
                 radius: 999
-                anchors.verticalCenter: parent.verticalCenter
 
                 WavyCircularProgress {
                     id: batteryIndicator

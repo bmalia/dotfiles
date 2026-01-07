@@ -10,7 +10,7 @@ Rectangle {
     property var bar
     implicitWidth: trayIcons.implicitWidth + 20
     implicitHeight: 40
-    color: Colors.surface
+    color: "transparent"
     radius: 999
 
     RowLayout {

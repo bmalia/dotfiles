@@ -4,7 +4,6 @@ import QtQuick
 import QtQuick.Layouts
 import qs.modules.common
 import qs.modules.widgets
-import qs
 
 Rectangle {
     property UPowerDevice battery: UPower.displayDevice

@@ -6,7 +6,6 @@ import QtQuick
 import QtQuick.Layouts
 import qs.modules.common
 import qs.services
-import qs
 
 ClippingRectangle {
     antialiasing: true

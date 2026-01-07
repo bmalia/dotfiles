@@ -2,7 +2,6 @@ import Quickshell
 import QtQuick
 import QtQuick.Layouts
 import qs.modules.common
-import qs
 
 Rectangle {
     id: container
