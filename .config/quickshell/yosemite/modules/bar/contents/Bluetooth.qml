@@ -13,7 +13,7 @@ Rectangle {
     visible: Config.btShowOnEmpty ? true : adapterState === "connected"
     implicitWidth: visible ? (content.implicitWidth + (adapterState === "connected" ? 10 : 10)) : 0
     // implicitHeight: visible ? (content.implicitHeight + 10) : 0
-    color: Colors.surface_container
+    color: adapterState === "connected" ? Colors.primary_container : "transparent"
     radius: 99
 
     readonly property string adapterState: connectedDevices.length > 0 ? "connected" : Bluetooth.defaultAdapter.enabled ? "on" : "off"
@@ -55,13 +55,30 @@ Rectangle {
                     scrollSpeed: modelData.state === BluetoothDeviceState.Connecting ? -0.15 : 0
                     waveAmplitude: modelData.state === BluetoothDeviceState.Connecting ? 1 : 0
                     waveCount: 8
-                    centerItem: IconImage {
-                        source: Quickshell.iconPath(modelData.icon)
-                        width: 15
-                        height: 15
-                    }
+                    centerItem: MaterialIcon {
+                        text: fetchDeviceIcon(modelData.icon)
+                        color: Colors.on_surface
+                        iconSize: 16
+                        weight: 500
+                        filled: true
+                    } 
                 }
             }
         }
     }
+
+    function fetchDeviceIcon(deviceIcon) {
+        if (deviceIcon.includes("phone"))
+            return "mobile";
+        if (deviceIcon.includes("gaming"))
+            return "stadia_controller";
+        if (deviceIcon.includes("headset"))
+            return "headphones";
+        if (deviceIcon.includes("mouse"))
+            return "mouse";
+        if (deviceIcon.includes("keyboard"))
+            return "keyboard";
+        return "settings_bluetooth";
+    }
+        
 }

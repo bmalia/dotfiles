@@ -38,12 +38,11 @@ Rectangle {
             waveAmplitude: battery.state === UPowerDeviceState.Charging ? 1 : 0
             waveCount: 9
             scrollSpeed: battery.state === UPowerDeviceState.Charging ? -0.05 : 0
-            centerItem: Text {
+            centerItem: MaterialIcon {
                 text: getBatteryIcon(battery.percentage, battery.state === UPowerDeviceState.Charging)
                 color: battery.percentage > Config.batteryLowThreshold ? Colors.on_surface : criticalFgColor
-                font.pixelSize: 16
+                iconSize: 16
                 font.bold: true
-                font.family: "JetBrainsMono NF"
                 verticalAlignment: Text.AlignVCenter
             }
         }

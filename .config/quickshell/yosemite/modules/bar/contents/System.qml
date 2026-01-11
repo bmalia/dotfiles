@@ -6,13 +6,20 @@ import qs.modules.common
 
 Rectangle {
     radius: 999
-    color: Colors.surface_container
+    color: GlobalVars.sidebarVisible ? Colors.surface_bright : Colors.surface_container
     implicitWidth: content.implicitWidth
 
     Behavior on width {
         NumberAnimation {
             duration: 200
             easing.type: Easing.InOutBounce
+        }
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        onClicked: {
+            GlobalVars.sidebarVisible = !GlobalVars.sidebarVisible
         }
     }
 

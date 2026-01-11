@@ -6,6 +6,7 @@ Text {
     font.family: "Material Symbols Rounded"
     property bool filled: false
     property real iconSize: 24
-    font.variableAxes: filled ? { "FILL": 1 } : { "FILL": 0 }
+    property int weight: 400
+    font.variableAxes: filled ? { "FILL": 1, "wght": weight } : { "FILL": 0, "wght": weight }
     font.pixelSize: iconSize
 }

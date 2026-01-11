@@ -6,12 +6,12 @@ import qs.services
 
 Rectangle {
     radius: 999
-    color: Colors.surface_container
+    color: "transparent"
     implicitWidth: height
 
     MaterialIcon {
-        text: Network.materialSymbol
-        color: Colors.on_surface
+        text: Network.wifiStatus === "disconnected" ? "signal_wifi_bad" : Network.wifiStatus === "connecting" ? "cached" : Network.materialSymbol
+        color: Network.wifiStatus === "disabled" ? Colors.error : Colors.on_surface
         anchors.centerIn: parent
         iconSize: 23
     }
