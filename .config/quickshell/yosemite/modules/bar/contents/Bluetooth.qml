@@ -70,6 +70,8 @@ Rectangle {
     function fetchDeviceIcon(deviceIcon) {
         if (deviceIcon.includes("phone"))
             return "mobile";
+        if (deviceIcon.includes("computer"))
+            return "computer";
         if (deviceIcon.includes("gaming"))
             return "stadia_controller";
         if (deviceIcon.includes("headset"))
