@@ -10,15 +10,24 @@ Item {
 
     ColumnLayout {
         id: contentLayout
-        anchors.fill: parent
+        anchors {
+            top: parent.top
+            left: parent.left
+            right: parent.right
+        }
         anchors.margins: 10
         spacing: 10
 
         Loader {
             id: statusLoader
             Layout.fillWidth: true
-            Layout.alignment: Qt.AlignTop
             sourceComponent: Status {}
+        }
+
+        Loader {
+            id: quickSettingsLoader
+            Layout.fillWidth: true
+            sourceComponent: QuickSettings {}
         }
     }
         

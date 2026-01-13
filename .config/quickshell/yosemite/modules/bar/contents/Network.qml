@@ -11,7 +11,7 @@ Rectangle {
 
     MaterialIcon {
         text: Network.wifiStatus === "disconnected" ? "signal_wifi_bad" : Network.wifiStatus === "connecting" ? "cached" : Network.materialSymbol
-        color: Network.wifiStatus === "disabled" ? Colors.error : Colors.on_surface
+        color: Network.wifiStatus === "disabled" ? Qt.alpha(Colors.on_surface, 0.5) : Colors.on_surface
         anchors.centerIn: parent
         iconSize: 23
     }

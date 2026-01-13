@@ -52,8 +52,3 @@ output_path = '~/.config/swaync/colors.css'
 input_path = './templates/vicinae-colors.toml'
 output_path = '~/.local/share/vicinae/themes/matugen.toml'
 post_hook = 'vicinae theme set matugen'
-
-[templates.pywalfox]
-input_path = 'templates/pywalfox-colors.json'
-output_path = '~/.cache/wal/colors.json'
-post_hook = 'pywalfox update'

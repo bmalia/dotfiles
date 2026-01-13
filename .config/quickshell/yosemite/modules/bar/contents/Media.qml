@@ -184,6 +184,8 @@ ClippingRectangle {
                 font.bold: true
                 font.family: Config.fontFamily
                 color: Colors.on_primary_container
+                elide: Text.ElideRight
+                Layout.maximumWidth: 240
             }
             Text {
                 visible: !!activePlayer.trackArtist
@@ -192,6 +194,8 @@ ClippingRectangle {
                 font.pixelSize: 9
                 font.family: Config.fontFamily
                 color: Colors.on_primary_container
+                elide: Text.ElideRight
+                Layout.maximumWidth: parent.width
             }
         }
 

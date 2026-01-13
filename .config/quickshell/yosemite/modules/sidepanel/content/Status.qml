@@ -29,10 +29,10 @@ Rectangle {
                 anchors.centerIn: parent
                 property string username
                 property string hostname
-                font.pixelSize: 15
+                font.pixelSize: 13
                 color: Colors.on_primary
                 font.bold: true
-                font.family: Config.fontFamily
+                font.family: "JetBrainsMono Nerd Font"
                 text: username + "@" + hostname
 
                 Process {

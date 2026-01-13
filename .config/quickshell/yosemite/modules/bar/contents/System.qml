@@ -6,7 +6,7 @@ import qs.modules.common
 
 Rectangle {
     radius: 999
-    color: GlobalVars.sidebarVisible ? Colors.surface_bright : Colors.surface_container
+    color: GlobalVars.sidebarVisible ? Colors.surface_container_highest : Colors.surface_container
     implicitWidth: content.implicitWidth
 
     Behavior on width {

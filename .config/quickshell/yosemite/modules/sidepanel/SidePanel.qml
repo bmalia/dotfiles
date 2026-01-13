@@ -6,8 +6,8 @@ import QtQuick
 
 PanelWindow {
     id: sidePanel
-    width: 350
-    height: screen.height - Config.barHeight
+    implicitWidth: 400
+    implicitHeight: screen.height - Config.barHeight
     anchors {
         top: true
         right: true
@@ -22,8 +22,8 @@ PanelWindow {
         height: sidePanel.height - 10
         color: Colors.background
         anchors.fill: parent
-        anchors.margins: 5
-        radius: Config.barCornerSize
+        anchors.margins: 11
+        radius: Config.barCornerSize - 5
 
         Loader {
             id: sidePanelContentLoader
