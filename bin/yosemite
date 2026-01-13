@@ -1,0 +1,38 @@
+#!/bin/bash
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+if [[ $# -lt 1 ]]; then
+  echo "Usage: yosemite [appearance|settings] [args...]"
+  echo "Commands:"
+  echo "  appearance [toggle]          Do various appearance tasks"
+  echo "  settings                     Open yosemite-shell settings"
+  echo "Run yosemite [mode] --help for more details on a specific command."
+  exit 1
+fi
+
+command="$1"
+shift
+
+case "$command" in
+  appearance)
+    "$SCRIPT_DIR/yosemite-resources/yosemite_appearance.sh" "$@"
+    ;;
+  settings)
+    "$SCRIPT_DIR/yosemite-resources/yosemite_settings.sh" "$@"
+    ;;
+  --help|-h)
+    echo "yosemite: Yosemite Shell Management CLI"
+    echo "Usage: yosemite [appearance|settings] [args...]"
+    echo "Options:"
+    echo "  appearance [toggle]          Do various appearance tasks"
+    echo "  settings                     Open yosemite-shell settings"
+    echo "  --help -h                    Show this help message"
+    echo "Run yosemite [mode] --help for more details on a specific command."
+    ;;
+  *)
+    echo "Unknown command: $command"
+    echo "Run '$0 --help' for usage."
+    exit 1
+    ;;
+esac
