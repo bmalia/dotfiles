@@ -5,20 +5,17 @@ import QtQuick
 import QtQuick.Layouts
 import qs.modules.common
 import qs.modules.widgets
+import qs.services
 
 Rectangle {
     anchors.fill: parent
     id: container
     Layout.minimumWidth: Config.btShowOnEmpty ? 0 : 40
-    visible: Config.btShowOnEmpty ? true : adapterState === "connected"
-    implicitWidth: visible ? (content.implicitWidth + (adapterState === "connected" ? 10 : 10)) : 0
+    visible: Config.btShowOnEmpty ? true : BtService.btStatus === "connected"
+    implicitWidth: visible ? (content.implicitWidth + (BtService.btStatus === "connected" ? 10 : 10)) : 0
     // implicitHeight: visible ? (content.implicitHeight + 10) : 0
-    color: adapterState === "connected" ? Colors.primary_container : "transparent"
+    color: BtService.btStatus === "connected" ? Colors.secondary_container : "transparent"
     radius: 99
-
-    readonly property string adapterState: connectedDevices.length > 0 ? "connected" : Bluetooth.defaultAdapter.enabled ? "on" : "off"
-    // Apparently Bluetooth.devices is actually a list of all devices the adapter can see, not just paired ones
-    readonly property var connectedDevices: Bluetooth.devices ? Bluetooth.devices.values.filter(d => d.state === BluetoothDeviceState.Connected || d.state === BluetoothDeviceState.Connecting) : []
 
     Behavior on implicitWidth {
         NumberAnimation {
@@ -30,16 +27,16 @@ Rectangle {
     RowLayout {
         id: content
         anchors.fill: parent
-        spacing: 0
+        spacing: 1
         MaterialIcon {
             Layout.leftMargin: 5
-            text: container.adapterState === "connected" ? "bluetooth_connected" : container.adapterState === "on" ? "bluetooth" : "bluetooth_disabled"
+            text: BtService.materialSymbol
             iconSize: 23
-            color: container.adapterState === "connected" ? Colors.primary : container.adapterState === "on" ? Colors.on_surface : Colors.error
+            color: BtService.btStatus === "connected" ? Colors.secondary : BtService.btStatus === "on" ? Colors.on_surface : Qt.alpha(Colors.on_surface, 0.5)
         }
         Repeater {
-            model: container.connectedDevices
-            Layout.rightMargin: 0
+            model: BtService.connectedDevices
+            Layout.rightMargin: 5
             delegate: Rectangle {
                 height: 26
                 width: batteryIndicator.width
@@ -50,15 +47,16 @@ Rectangle {
                     id: batteryIndicator
                     progress: modelData.batteryAvailable ? modelData.battery : 0
                     color: modelData.batteryAvailable && modelData.battery < 0.2 ? Colors.error : Colors.secondary
+                    trackColor: Qt.alpha(Colors.on_secondary_container, 0.3)
                     diameter: 26
                     thickness: 2.5
                     scrollSpeed: modelData.state === BluetoothDeviceState.Connecting ? -0.15 : 0
                     waveAmplitude: modelData.state === BluetoothDeviceState.Connecting ? 1 : 0
                     waveCount: 8
                     centerItem: MaterialIcon {
-                        text: fetchDeviceIcon(modelData.icon)
-                        color: Colors.on_surface
-                        iconSize: 16
+                        text: container.fetchDeviceIcon(modelData.icon)
+                        color: Colors.on_primary_container
+                        iconSize: 15
                         weight: 500
                         filled: true
                     } 
