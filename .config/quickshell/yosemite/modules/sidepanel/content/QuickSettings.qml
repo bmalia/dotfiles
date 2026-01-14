@@ -28,6 +28,9 @@ Rectangle {
             label: "Network"
             subtext: Network.wifiStatus === "connected" ? Network.networkName : Network.wifiStatus === "disabled" ? "Disabled" : "Not Connected"
             enabled: Network.wifiStatus !== "disabled"
+            onActionClicked: {
+                Quickshell.execDetached([]);
+            }
             onToggled: (newState) => {
                 Network.toggleWifi();
             }
@@ -40,6 +43,9 @@ Rectangle {
             label: "Bluetooth"
             subtext: BtService.btStatus === "connected" ? BtService.exposedDevice.name : BtService.btStatus === "on" ? "On" : ""
             enabled: BtService.btStatus !== "off"
+            onActionClicked: {
+                Quickshell.execDetached(["blueberry"]);
+            }
             onToggled: (newState) => {
                 BtService.toggleBluetooth();
             }

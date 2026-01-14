@@ -18,6 +18,8 @@ Rectangle {
 
     signal toggled(bool newState)
 
+    signal actionClicked()
+
     height: content.implicitHeight + 16
     color: switch (type) {
     case QuickSettingTile.TileType.Toggle:
@@ -39,6 +41,7 @@ Rectangle {
     }
 
     RowLayout {
+        z: 3
         id: content
         anchors {
             left: parent.left
@@ -55,11 +58,20 @@ Rectangle {
             color: root.enabled ? Colors.primary : Colors.surface_container
             radius: 15
             Layout.leftMargin: 0
+            z: 4
 
             Behavior on color {
                 ColorAnimation {
                     duration: 200
                 }
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                enabled: QuickSettingTile.TileType.Status === root.type && root.enabled
+                onClicked: root.actionClicked();
+                cursorShape: Qt.PointingHandCursor
+                z: 4
             }
 
             MaterialIcon {
@@ -135,5 +147,6 @@ Rectangle {
             root.enabled = !root.enabled;
             root.toggled(root.enabled);
         }
+        z: 2
     }
 }

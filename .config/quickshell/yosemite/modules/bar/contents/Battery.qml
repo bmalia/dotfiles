@@ -32,11 +32,11 @@ Rectangle {
             id: circle
             progress: battery.percentage
             diameter: 30
-            thickness: 3
+            thickness: 4
             color: battery.percentage > Config.batteryLowThreshold ? Colors.primary : criticalFgColor
             trackColor: battery.percentage > Config.batteryLowThreshold ? Colors.secondary_container : criticalBgColor
             waveAmplitude: battery.state === UPowerDeviceState.Charging ? 1 : 0
-            waveCount: 9
+            waveCount: 8
             scrollSpeed: battery.state === UPowerDeviceState.Charging ? -0.05 : 0
             centerItem: MaterialIcon {
                 text: getBatteryIcon(battery.percentage, battery.state === UPowerDeviceState.Charging)

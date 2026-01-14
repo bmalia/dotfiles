@@ -12,7 +12,7 @@ Rectangle {
     id: container
     Layout.minimumWidth: Config.btShowOnEmpty ? 0 : 40
     visible: Config.btShowOnEmpty ? true : BtService.btStatus === "connected"
-    implicitWidth: visible ? (content.implicitWidth + (BtService.btStatus === "connected" ? 10 : 10)) : 0
+    implicitWidth: visible ? (content.implicitWidth + 10) : 0
     // implicitHeight: visible ? (content.implicitHeight + 10) : 0
     color: BtService.btStatus === "connected" ? Colors.secondary_container : "transparent"
     radius: 99
