@@ -195,7 +195,7 @@ ClippingRectangle {
                 font.family: Config.fontFamily
                 color: Colors.on_primary_container
                 elide: Text.ElideRight
-                Layout.maximumWidth: parent.width
+                Layout.maximumWidth: 240
             }
         }
 

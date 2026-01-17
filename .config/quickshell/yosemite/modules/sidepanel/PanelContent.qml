@@ -30,5 +30,4 @@ Item {
             sourceComponent: QuickSettings {}
         }
     }
-        
 }
