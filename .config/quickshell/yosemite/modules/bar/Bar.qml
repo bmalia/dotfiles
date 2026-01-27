@@ -19,6 +19,7 @@ Variants {
                 bottom: Config.barPosition === "bottom" ? true : undefined
             }
             implicitHeight: bar.implicitHeight + (Config.barStyle === "floating" ? 20 : Config.barCornerSize)
+            WlrLayershell.layer: WlrLayer.Bottom
             color: "transparent"
 
             // Only the bar's height is reserved as exclusive zone

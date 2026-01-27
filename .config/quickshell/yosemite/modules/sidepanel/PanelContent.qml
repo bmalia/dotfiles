@@ -29,5 +29,11 @@ Item {
             Layout.fillWidth: true
             sourceComponent: QuickSettings {}
         }
+
+        Loader {
+            id: wifiBluetoothLoader
+            Layout.fillWidth: true
+            sourceComponent: TabPanel {}
+        }
     }
 }

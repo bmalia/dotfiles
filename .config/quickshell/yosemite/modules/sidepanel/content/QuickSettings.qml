@@ -29,7 +29,7 @@ Rectangle {
             subtext: Network.wifiStatus === "connected" ? Network.networkName : Network.wifiStatus === "disabled" ? "Disabled" : "Not Connected"
             enabled: Network.wifiStatus !== "disabled"
             onActionClicked: {
-                Quickshell.execDetached([]);
+                Network.update();
             }
             onToggled: (newState) => {
                 Network.toggleWifi();

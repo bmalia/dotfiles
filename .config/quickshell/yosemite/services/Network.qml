@@ -66,6 +66,7 @@ Singleton {
     function rescanWifi(): void {
         wifiScanning = true;
         rescanProcess.running = true;
+        console.log("Rescanning Wi-Fi networks...");
     }
 
     function connectToWifiNetwork(accessPoint: WifiAccessPoint): void {
