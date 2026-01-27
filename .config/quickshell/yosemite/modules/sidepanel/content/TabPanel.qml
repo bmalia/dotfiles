@@ -11,15 +11,13 @@ import qs.services
 Rectangle {
     id: root
     width: parent.width
-    height: content.implicitHeight + 20
+    height: parent.implicitHeight + 5
     color: Colors.surface_container_lowest
     radius: 20
 
     ColumnLayout {
         id: content
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.top: parent.top
+        anchors.fill: parent
         anchors.margins: 10
         spacing: 10
 
@@ -35,6 +33,8 @@ Rectangle {
 
         StackLayout {
             Layout.fillWidth: true
+            Layout.fillHeight: true
+
             currentIndex: toggleGroup.selectedIndex
 
             Rectangle { // Notifications Panel

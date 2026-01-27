@@ -9,6 +9,7 @@ Item {
     anchors.fill: parent
 
     ColumnLayout {
+        anchors.fill: parent
         id: contentLayout
         anchors {
             top: parent.top
@@ -33,6 +34,7 @@ Item {
         Loader {
             id: wifiBluetoothLoader
             Layout.fillWidth: true
+            Layout.fillHeight: true
             sourceComponent: TabPanel {}
         }
     }
