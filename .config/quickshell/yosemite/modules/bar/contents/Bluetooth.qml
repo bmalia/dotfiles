@@ -38,6 +38,8 @@ Rectangle {
             model: BtService.connectedDevices
             Layout.rightMargin: 5
             delegate: Rectangle {
+                id: deviceContainer
+                required property BluetoothDevice modelData
                 height: 26
                 width: batteryIndicator.width
                 color: "transparent"
@@ -45,17 +47,17 @@ Rectangle {
 
                 WavyCircularProgress {
                     id: batteryIndicator
-                    progress: modelData.batteryAvailable ? modelData.battery : 0
-                    color: modelData.batteryAvailable && modelData.battery < 0.2 ? Colors.error : Colors.secondary
+                    progress: deviceContainer.modelData.batteryAvailable ? deviceContainer.modelData.battery : 0
+                    color: deviceContainer.modelData.batteryAvailable && deviceContainer.modelData.battery < 0.2 ? Colors.error : Colors.secondary
                     trackColor: Qt.alpha(Colors.on_secondary_container, 0.3)
                     diameter: 26
                     thickness: 2.5
-                    scrollSpeed: modelData.state === BluetoothDeviceState.Connecting ? -0.15 : 0
-                    waveAmplitude: modelData.state === BluetoothDeviceState.Connecting ? 1 : 0
+                    scrollSpeed: deviceContainer.modelData.state === BluetoothDeviceState.Connecting ? -0.15 : 0
+                    waveAmplitude: deviceContainer.modelData.state === BluetoothDeviceState.Connecting ? 1 : 0
                     waveCount: 8
                     centerItem: MaterialIcon {
-                        text: container.fetchDeviceIcon(modelData.icon)
-                        color: Colors.on_primary_container
+                        text: BtService.fetchDeviceIcon(deviceContainer.modelData.icon)
+                        color: Colors.on_secondary_container
                         iconSize: 15
                         weight: 500
                         filled: true
@@ -63,22 +65,6 @@ Rectangle {
                 }
             }
         }
-    }
-
-    function fetchDeviceIcon(deviceIcon) {
-        if (deviceIcon.includes("phone"))
-            return "mobile";
-        if (deviceIcon.includes("computer"))
-            return "computer";
-        if (deviceIcon.includes("gaming"))
-            return "stadia_controller";
-        if (deviceIcon.includes("headset"))
-            return "headphones";
-        if (deviceIcon.includes("mouse"))
-            return "mouse";
-        if (deviceIcon.includes("keyboard"))
-            return "keyboard";
-        return "settings_bluetooth";
     }
         
 }

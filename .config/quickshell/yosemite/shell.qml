@@ -11,7 +11,7 @@ ShellRoot {
     Loader {
         id: root
 
-        sourceComponent: Bar{}
+        sourceComponent: Bar {}
     }
 
     Loader {
@@ -19,6 +19,6 @@ ShellRoot {
 
         active: GlobalVars.sidebarVisible
 
-        sourceComponent: SidePanel{}
+        sourceComponent: SidePanel {}
     }
 }

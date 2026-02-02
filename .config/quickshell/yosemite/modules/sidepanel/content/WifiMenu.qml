@@ -52,7 +52,7 @@ Rectangle {
             Button {
                 id: refreshButton
                 width: 50
-                height: 20
+                height: width
                 Layout.alignment: Qt.AlignRight
                 contentItem: MaterialIcon {
                     text: "refresh"
@@ -61,7 +61,7 @@ Rectangle {
                 }
                 background: Rectangle {
                     width: 30
-                    color: refreshButton.down ? Colors.surface_variant : Colors.surface_container_highest
+                    color: refreshButton.down ? Colors.primary_container : Colors.surface_container_highest
                     radius: 999
                 }
                 onClicked: {
