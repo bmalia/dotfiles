@@ -32,6 +32,12 @@ Item {
         }
 
         Loader {
+            id: mediaLoader
+            Layout.fillWidth: true
+            sourceComponent: Media {}
+        }
+
+        Loader {
             id: wifiBluetoothLoader
             Layout.fillWidth: true
             Layout.fillHeight: true
