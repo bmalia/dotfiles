@@ -84,6 +84,10 @@ Rectangle {
                 color: settingsButton.down ? Colors.primary_container : Colors.surface_container
                 radius: 999
             }
+
+            onClicked: {
+                Quickshell.execDetached(["quickshell", "-p", Quickshell.shellPath("Settings.qml")]);
+            }
         }
 
         Button {
