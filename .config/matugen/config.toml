@@ -47,3 +47,11 @@ output_path = '~/.config/swaync/colors.css'
 input_path = './templates/vicinae-colors.toml'
 output_path = '~/.local/share/vicinae/themes/matugen.toml'
 post_hook = 'vicinae theme set matugen'
+
+[templates.kvantum_kvconfig]
+input_path = './templates/kvantum-colors.kvconfig'
+output_path = '~/.config/Kvantum/matugen/matugen.kvconfig'
+
+[templates.kvantum_svg]
+input_path = './templates/kvantum-colors.svg'
+output_path = '~/.config/Kvantum/matugen/matugen.svg'

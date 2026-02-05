@@ -8,7 +8,8 @@ Singleton {
     <* else *>
     property bool darkMode: false
     <* endif *>
-    
+    property url image: "{{image}}"
+    property color clockColor: "{{colors.primary.dark.hex}}"
     <* for name, value in colors *>
     property color {{name}}: "{{value.default.hex}}"
     <* endfor *>
