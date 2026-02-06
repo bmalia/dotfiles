@@ -4,9 +4,9 @@ wallpaper="$1"
 mode=$(gsettings get org.gnome.desktop.interface color-scheme)
 
 if [ "$mode" = "'prefer-dark'" ]; then
-    matugen image $wallpaper -t scheme-vibrant -m dark
+    matugen image $wallpaper -t scheme-tonal-spot -m dark
 else
-    matugen image $wallpaper -t scheme-vibrant -m light
+    matugen image $wallpaper -t scheme-tonal-spot -m light
 fi
 
 ln -sf "$wallpaper" "$HOME/current_wallpaper"

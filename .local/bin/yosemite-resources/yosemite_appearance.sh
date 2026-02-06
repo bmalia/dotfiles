@@ -20,11 +20,11 @@ if [ "$operation" == "toggle" ]; then
   echo "Current theme: $currentTheme"
   if [[ "$currentTheme" = "prefer-dark" ]]; then
     gsettings set org.gnome.desktop.interface color-scheme prefer-light
-    matugen image ~/current_wallpaper -t scheme-vibrant -m light
+    matugen image ~/current_wallpaper -t scheme-tonal-spot -m light
     echo "Switched to light appearance."
   else
     gsettings set org.gnome.desktop.interface color-scheme prefer-dark
-    matugen image ~/current_wallpaper -t scheme-vibrant -m dark
+    matugen image ~/current_wallpaper -t scheme-tonal-spot -m dark
     echo "Switched to dark appearance."
   fi
 else
