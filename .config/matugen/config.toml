@@ -15,11 +15,6 @@ output_path = "~/.config/hypr/colors.conf"
 input_path = 'templates/kitty-colors.conf'
 output_path = '~/.config/kitty/colors.conf'
 
-[templates.waybar]
-input_path = 'templates/colors.css'
-output_path = '~/.config/waybar/colors.css'
-post_hook = 'pkill -SIGUSR2 waybar'
-
 [templates.gtk3]
 input_path = 'templates/gtk-colors.css'
 output_path = '~/.config/gtk-3.0/colors.css'
@@ -38,7 +33,7 @@ output_path = '~/.config/qt6ct/colors/matugen.conf'
 
 [templates.quickshell]
 input_path = 'templates/quickshell-colors.qml'
-output_path = '~/.config/quickshell/monet/modules/common/Colors.qml'
+output_path = '~/.config/quickshell/yosemite/modules/common/Colors.qml'
 
 [templates.swayosd]
 input_path = 'templates/colors.css'
@@ -53,7 +48,10 @@ input_path = './templates/vicinae-colors.toml'
 output_path = '~/.local/share/vicinae/themes/matugen.toml'
 post_hook = 'vicinae theme set matugen'
 
-[templates.pywalfox]
-input_path = 'templates/pywalfox-colors.json'
-output_path = '~/.cache/wal/colors.json'
-post_hook = 'pywalfox update'
+[templates.kvantum_kvconfig]
+input_path = './templates/kvantum-colors.kvconfig'
+output_path = '~/.config/Kvantum/matugen/matugen.kvconfig'
+
+[templates.kvantum_svg]
+input_path = './templates/kvantum-colors.svg'
+output_path = '~/.config/Kvantum/matugen/matugen.svg'

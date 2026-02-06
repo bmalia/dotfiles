@@ -100,6 +100,7 @@ setopt no_auto_menu  # require an extra TAB press to open the completion menu
 ## Aliases ##
 #############
 alias ls="eza --icons -a --group-directories-first"
+alias cat="bat"
 eval $(thefuck --alias)
 eval "$(zoxide init zsh)"
 alias cd="z"

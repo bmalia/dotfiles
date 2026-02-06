@@ -19,15 +19,14 @@ sleep 1
 
 echo "Select the version of the dotfiles you want to install:"
 echo "- Quickshell-based:"
-echo "  - Monet-laptop (1)"
-echo "  - Monet-desktop (Coming soon)"
+echo "  - Yosemite (1)"
 echo "- Waybar-based:"
 echo "  - Pixel-laptop (2)"
 echo "  - Pixel-desktop (3)"
 read -p "Enter the number corresponding to your choice: " choice
 case $choice in
     1)
-        config="monet-laptop";;
+        config="yosemite";;
     2)
         config="pixel-laptop";;
     3)
@@ -82,8 +81,8 @@ source packages.conf
 echo "Done"
 echo "  - Installing packages..."
 case $config in
-    monet-laptop)
-        yay -Syu --needed "${base_packages[@]}" "${laptop_packages[@]}" "${monet_packages[@]}";;
+    yosemite)
+        yay -Syu --needed "${base_packages[@]}" "${yosemite_packages[@]}";;
     pixel-laptop)
         yay -Syu --needed "${base_packages[@]}" "${laptop_packages[@]}" "${legacy_packages[@]}";;
     pixel-desktop)
@@ -102,7 +101,7 @@ echo -n "  - Switching to repo version for $config... "
 cd ~/dotfiles
 git pull > /dev/null
 case $config in
-    monet-laptop)
+    yosemite)
         git checkout main > /dev/null;;
     pixel-laptop)
         git checkout old-laptop > /dev/null;;

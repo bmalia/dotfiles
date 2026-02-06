@@ -4,7 +4,7 @@
 
 ## Active Versions
 
-<p align="center"><b>Monet-Laptop</b><sup>quickshell</sup></p>
+<p align="center"><b>Yosemite-Shell</b><sup>quickshell</sup></p>
 <p align="center">
   <img src="assets/lpqs1.png" width="32%">
   <img src="assets/lpqs2.png" width="32%">
