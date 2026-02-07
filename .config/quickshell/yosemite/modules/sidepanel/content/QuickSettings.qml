@@ -70,7 +70,12 @@ Rectangle {
             type: QuickSettingTile.TileType.Toggle
             icon: "coffee"
             label: "Caffinate"
-            subtext: "Not supported"
+            enabled: IdleInhibitor.inhibit
+            iconFilled: IdleInhibitor.inhibit
+            subtext: IdleInhibitor.inhibit ? "Staying Awake" : null
+            onToggled: (newState) => {
+                IdleInhibitor.toggleInhibit(newState);
+            }
         }
     }
 }

@@ -18,7 +18,7 @@ Singleton {
     property bool use24hrClock: false // Whether to use 24 hour clock in the time display
 
     property bool batteryUseErrorContainer: true // Whether to use error container colors for low battery (less noticable) or just error colors (more noticable)
-    property real batteryLowThreshold: 0.15 // Battery percentage threshold to consider battery as low (0.0 - 1.0)
+    property real batteryLowThreshold: 0.2 // Battery percentage threshold to consider battery as low (0.0 - 1.0)
 
     property bool btShowOnEmpty: true // Whether to show the Bluetooth icon when no devices are connected
 

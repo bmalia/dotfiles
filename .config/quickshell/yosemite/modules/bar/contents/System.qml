@@ -12,27 +12,45 @@ Rectangle {
     Behavior on width {
         NumberAnimation {
             duration: 200
-            easing.type: Easing.InOutBounce
+            easing.type: Easing.InOutBack
         }
     }
 
     MouseArea {
         anchors.fill: parent
         onClicked: {
-            GlobalVars.sidebarVisible = !GlobalVars.sidebarVisible
+            GlobalVars.sidebarVisible = !GlobalVars.sidebarVisible;
         }
     }
 
     RowLayout {
         id: content
-        anchors.fill: parent
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
         spacing: 0
+
+        Behavior on width {
+            NumberAnimation {
+                duration: 200
+                easing.type: Easing.InOutBack
+            }
+        }
 
         Loader {
             sourceComponent: Network {}
             Layout.fillHeight: true
             Layout.leftMargin: 2
             Layout.rightMargin: 2
+            Layout.topMargin: 2
+            Layout.bottomMargin: 2
+        }
+
+        Loader {
+            sourceComponent: IdleStatus {}
+            Layout.fillHeight: true
+            Layout.leftMargin: 0
+            Layout.rightMargin: 0
             Layout.topMargin: 2
             Layout.bottomMargin: 2
         }
@@ -46,14 +64,5 @@ Rectangle {
             Layout.bottomMargin: 2
             visible: this.item.adapterState === "connected" || Config.btShowOnEmpty
         }
-
-        /* Loader {
-            sourceComponent: Privacy {}
-            Layout.fillHeight: true
-            Layout.leftMargin: 2
-            Layout.rightMargin: 2
-            Layout.topMargin: 2
-            Layout.bottomMargin: 2
-        } */
     }
 }
