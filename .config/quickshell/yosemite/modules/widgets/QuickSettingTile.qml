@@ -18,7 +18,7 @@ Rectangle {
 
     signal toggled(bool newState)
 
-    signal actionClicked()
+    signal actionClicked
 
     height: content.implicitHeight + 16
     color: switch (type) {
@@ -41,8 +41,8 @@ Rectangle {
     }
 
     RowLayout {
-        z: 3
         id: content
+        z: 3
         anchors {
             left: parent.left
             top: parent.top
@@ -69,7 +69,7 @@ Rectangle {
             MouseArea {
                 anchors.fill: parent
                 enabled: QuickSettingTile.TileType.Status === root.type && root.enabled
-                onClicked: root.actionClicked();
+                onClicked: root.actionClicked()
                 cursorShape: Qt.PointingHandCursor
                 z: 4
             }
@@ -98,12 +98,12 @@ Rectangle {
                 text: label
                 font.pixelSize: 16
                 color: switch (type) {
-                    case QuickSettingTile.TileType.Toggle:
-                        return root.enabled ? Colors.on_primary : Colors.on_surface_variant;
-                    case QuickSettingTile.TileType.Status:
-                        return Colors.on_surface_variant;
+                case QuickSettingTile.TileType.Toggle:
+                    return root.enabled ? Colors.on_primary : Colors.on_surface_variant;
+                case QuickSettingTile.TileType.Status:
+                    return Colors.on_surface_variant;
                 }
-                font.family: Config.fontFamily
+                font.family: Config.options.fontFamily
                 font.bold: true
                 elide: Text.ElideRight
                 Layout.preferredWidth: root.width - iconContainer.width - 18
@@ -121,12 +121,12 @@ Rectangle {
                 font.pixelSize: 13
                 font.weight: Font.Medium
                 color: switch (type) {
-                    case QuickSettingTile.TileType.Toggle:
-                        return root.enabled ? Colors.on_primary : Colors.on_surface_variant;
-                    case QuickSettingTile.TileType.Status:
-                        return Colors.on_surface_variant;
+                case QuickSettingTile.TileType.Toggle:
+                    return root.enabled ? Colors.on_primary : Colors.on_surface_variant;
+                case QuickSettingTile.TileType.Status:
+                    return Colors.on_surface_variant;
                 }
-                font.family: Config.fontFamily
+                font.family: Config.options.fontFamily
                 elide: Text.ElideMiddle
                 Layout.preferredWidth: root.width - iconContainer.width - 18
 

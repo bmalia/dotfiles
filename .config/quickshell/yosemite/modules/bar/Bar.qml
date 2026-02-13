@@ -13,12 +13,12 @@ Variants {
 
             screen: modelData
             anchors {
-                top: Config.barPosition === "top" ? true : undefined
+                top: Config.options.barPosition == 0 ? true : undefined
                 left: true
                 right: true
-                bottom: Config.barPosition === "bottom" ? true : undefined
+                bottom: Config.options.barPosition == 1 ? true : undefined
             }
-            implicitHeight: bar.implicitHeight + (Config.barStyle === "floating" ? 20 : Config.barCornerSize)
+            implicitHeight: bar.implicitHeight + (Config.options.barStyle == 1 ? 20 : Config.options.barCornerSize)
             WlrLayershell.layer: WlrLayer.Bottom
             color: "transparent"
 
@@ -27,36 +27,36 @@ Variants {
 
             RoundCorner {
                 id: leftCorner
-                corner: Config.barPosition === "top" ? RoundCorner.CornerEnum.TopLeft : RoundCorner.CornerEnum.BottomLeft
-                anchors.top: Config.barPosition === "top" ? bar.bottom : undefined
+                corner: Config.options.barPosition == 0 ? RoundCorner.CornerEnum.TopLeft : RoundCorner.CornerEnum.BottomLeft
+                anchors.top: Config.options.barPosition == 0 ? bar.bottom : undefined
                 anchors.left: bar.left
-                anchors.bottom: Config.barPosition === "bottom" ? bar.top : undefined
-                implicitSize: Config.barCornerSize
-                visible: Config.barStyle === "edge"
+                anchors.bottom: Config.options.barPosition == 1 ? bar.top : undefined
+                implicitSize: Config.options.barCornerSize
+                visible: Config.options.barStyle == 0
             }
 
             RoundCorner {
                 id: rightCorner
-                corner: Config.barPosition === "top" ? RoundCorner.CornerEnum.TopRight : RoundCorner.CornerEnum.BottomRight
-                anchors.top: Config.barPosition === "top" ? bar.bottom : undefined
-                anchors.bottom: Config.barPosition === "bottom" ? bar.top : undefined
+                corner: Config.options.barPosition == 0 ? RoundCorner.CornerEnum.TopRight : RoundCorner.CornerEnum.BottomRight
+                anchors.top: Config.options.barPosition == 0 ? bar.bottom : undefined
+                anchors.bottom: Config.options.barPosition == 1 ? bar.top : undefined
                 anchors.right: bar.right
-                implicitSize: Config.barCornerSize
-                visible: Config.barStyle === "edge"
+                implicitSize: Config.options.barCornerSize
+                visible: Config.options.barStyle == 0
             }
 
             Rectangle {
                 id: bar
-                implicitHeight: Config.barHeight
+                implicitHeight: 50
                 anchors {
                     left: parent.left
                     right: parent.right
-                    top: Config.barPosition === "top" ? parent.top : undefined
-                    bottom: Config.barPosition === "bottom" ? parent.bottom : undefined
+                    top: Config.options.barPosition == 0 ? parent.top : undefined
+                    bottom: Config.options.barPosition == 1 ? parent.bottom : undefined
                 }
                 color: Colors.background
-                anchors.margins: Config.barStyle === "floating" ? 5 : 0
-                radius: Config.barStyle === "floating" ? 99 : 0
+                anchors.margins: Config.options.barStyle == 1 ? 5 : 0
+                radius: Config.options.barStyle == 1 ? 99 : 0
 
                 Loader {
                     anchors.fill: parent

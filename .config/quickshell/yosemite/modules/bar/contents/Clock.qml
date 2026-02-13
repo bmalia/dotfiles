@@ -23,12 +23,12 @@ Rectangle {
         textFormat: Text.RichText
         text: {
             // 24hr clock config
-            let parts = Config.use24hrClock ? Qt.formatDateTime(clock.date, "HH:mm - ddd, MMM d").split("-") : Qt.formatDateTime(clock.date, "h:mm AP -  ddd, MMM d").split("-");
+            let parts = Config.options.use24hrClock ? Qt.formatDateTime(clock.date, "HH:mm - ddd, MMM d").split("-") : Qt.formatDateTime(clock.date, "h:mm AP -  ddd, MMM d").split("-");
             let time = parts[0];
             let date = parts[1];
             "<span> <b>" + time + "</b> </span> <span style='color:" + ";'> -" + date + "</span>";
         }
-        font.family: Config.fontFamily
+        font.family: Config.options.fontFamily
         font.pixelSize: 17
         color: Colors.on_surface
     }

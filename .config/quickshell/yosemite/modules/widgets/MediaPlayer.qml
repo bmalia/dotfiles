@@ -46,7 +46,7 @@ Rectangle {
                 text: root.player.trackTitle
                 font.bold: true
                 font.pointSize: 12
-                font.family: Config.fontFamily
+                font.family: Config.options.fontFamily
                 color: albumColors.colors.length > 3 ? albumColors.colors[3] : Colors.on_surface
                 elide: Text.ElideRight
                 horizontalAlignment: Text.AlignLeft
@@ -57,7 +57,7 @@ Rectangle {
             Text {
                 text: root.player.trackArtist
                 font.pointSize: 10
-                font.family: Config.fontFamily
+                font.family: Config.options.fontFamily
                 color: albumColors.colors.length > 0 ? albumColors.colors[1] : Colors.on_surface
                 elide: Text.ElideRight
                 horizontalAlignment: Text.AlignLeft
@@ -68,7 +68,7 @@ Rectangle {
             Text {
                 text: root.player.trackAlbum
                 font.pointSize: 8
-                font.family: Config.fontFamily
+                font.family: Config.options.fontFamily
                 color: albumColors.colors.length > 0 ? albumColors.colors[1] : Colors.on_surface
                 elide: Text.ElideRight
                 horizontalAlignment: Text.AlignLeft

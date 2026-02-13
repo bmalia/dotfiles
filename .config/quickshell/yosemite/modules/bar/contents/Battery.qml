@@ -6,14 +6,13 @@ import qs.modules.common
 import qs.modules.widgets
 
 Rectangle {
-    property UPowerDevice battery: UPower.displayDevice
     id: container
+    property UPowerDevice battery: UPower.displayDevice
     implicitWidth: text.width + circle.width + 20
-    property color criticalBgColor: Config.batteryUseErrorContainer ? Colors.error_container : Colors.error
-    property color criticalFgColor: Config.batteryUseErrorContainer ? Colors.error : Colors.on_error
-    color: battery.state === UPowerDeviceState.Charging ? Colors.primary_container : battery.percentage > Config.batteryLowThreshold ? Colors.surface_container : criticalBgColor
+    property color criticalBgColor: Config.options.batteryUseErrorContainer ? Colors.error_container : Colors.error
+    property color criticalFgColor: Config.options.batteryUseErrorContainer ? Colors.error : Colors.on_error
+    color: battery.state === UPowerDeviceState.Charging ? Colors.primary_container : battery.percentage > Config.options.batteryLowThreshold ? Colors.surface_container : criticalBgColor
     radius: 999
-    
 
     Behavior on color {
         ColorAnimation {
@@ -33,14 +32,14 @@ Rectangle {
             progress: battery.percentage
             diameter: 30
             thickness: 4
-            color: battery.percentage > Config.batteryLowThreshold ? Colors.primary : criticalFgColor
-            trackColor: battery.percentage > Config.batteryLowThreshold ? Colors.secondary_container : criticalBgColor
+            color: battery.percentage > Config.options.batteryLowThreshold ? Colors.primary : criticalFgColor
+            trackColor: battery.percentage > Config.options.batteryLowThreshold ? Colors.secondary_container : criticalBgColor
             waveAmplitude: battery.state === UPowerDeviceState.Charging ? 1 : 0
             waveCount: 8
             scrollSpeed: battery.state === UPowerDeviceState.Charging ? -0.05 : 0
             centerItem: MaterialIcon {
                 text: getBatteryIcon(battery.percentage, battery.state === UPowerDeviceState.Charging)
-                color: battery.percentage > Config.batteryLowThreshold ? Colors.on_surface : criticalFgColor
+                color: battery.percentage > Config.options.batteryLowThreshold ? Colors.on_surface : criticalFgColor
                 iconSize: 16
                 font.bold: true
                 verticalAlignment: Text.AlignVCenter
@@ -50,10 +49,10 @@ Rectangle {
         Text {
             id: text
             text: Math.round(battery.percentage * 100) + "%"
-            color: battery.state === UPowerDeviceState.Charging ? Colors.on_primary_container : battery.percentage > Config.batteryLowThreshold ? Colors.on_surface : criticalFgColor
+            color: battery.state === UPowerDeviceState.Charging ? Colors.on_primary_container : battery.percentage > Config.options.batteryLowThreshold ? Colors.on_surface : criticalFgColor
             font.pixelSize: 16
             font.bold: true
-            font.family: Config.fontFamily
+            font.family: Config.options.fontFamily
             verticalAlignment: Text.AlignVCenter
         }
     }

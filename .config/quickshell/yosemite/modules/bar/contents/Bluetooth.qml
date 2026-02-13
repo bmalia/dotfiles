@@ -8,10 +8,10 @@ import qs.modules.widgets
 import qs.services
 
 Rectangle {
-    anchors.fill: parent
     id: container
-    Layout.minimumWidth: Config.btShowOnEmpty ? 0 : 40
-    visible: Config.btShowOnEmpty ? true : BtService.btStatus === "connected"
+    anchors.fill: parent
+    Layout.minimumWidth: Config.options.btShowOnEmpty ? 0 : 40
+    visible: Config.options.btShowOnEmpty ? true : BtService.btStatus === "connected"
     implicitWidth: visible ? (content.implicitWidth + 10) : 0
     // implicitHeight: visible ? (content.implicitHeight + 10) : 0
     color: BtService.btStatus === "connected" ? Colors.secondary_container : "transparent"
@@ -61,10 +61,9 @@ Rectangle {
                         iconSize: 15
                         weight: 500
                         filled: true
-                    } 
+                    }
                 }
             }
         }
     }
-        
 }

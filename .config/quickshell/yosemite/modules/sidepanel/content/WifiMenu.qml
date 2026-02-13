@@ -17,7 +17,7 @@ Rectangle {
         text: "Wi-Fi is disabled"
         color: Colors.on_surface_variant
         font.pixelSize: 14
-        font.family: Config.fontFamily
+        font.family: Config.options.fontFamily
     }
 
     ColumnLayout {
@@ -42,7 +42,7 @@ Rectangle {
                 font.pixelSize: 16
                 font.bold: true
                 color: Colors.on_surface_variant
-                font.family: Config.fontFamily
+                font.family: Config.options.fontFamily
             }
 
             Item {
@@ -105,7 +105,7 @@ Rectangle {
                 color: Colors.on_primary
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                font.family: Config.fontFamily
+                font.family: Config.options.fontFamily
             }
 
             background: Rectangle {

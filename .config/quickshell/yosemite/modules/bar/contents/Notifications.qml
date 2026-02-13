@@ -27,10 +27,8 @@ Rectangle {
             text: Notifications.trackedNotifications.values.length.toString()
             color: Colors.on_surface
             font.pixelSize: 18
-            font.family: Config.fontFamily
+            font.family: Config.options.fontFamily
             font.bold: true
         }
-
     }
-
 }

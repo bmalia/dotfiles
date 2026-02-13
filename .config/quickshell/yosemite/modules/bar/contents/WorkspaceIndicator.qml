@@ -24,7 +24,7 @@ Rectangle {
         let all = Hyprland.workspaces.values;
         let result = [];
         // Always show 1-10 (only real workspaces)
-        for (let i = 1; i <= Config.persistentWorkspaceCount; ++i) {
+        for (let i = 1; i <= Config.options.persistentWorkspaceCount; ++i) {
             let ws = all.find(w => Number(w.name) === i && Number.isInteger(Number(w.name)) && Number(w.name) > 0);
             if (ws) {
                 result.push(ws);
@@ -40,7 +40,7 @@ Rectangle {
         // Add any extra workspaces (not already included and not special)
         for (let ws of all) {
             let num = Number(ws.name);
-            if ((!Number.isInteger(num) || num > Config.persistentWorkspaceCount) && !result.find(w => w.id === ws.id) && Number.isInteger(num) && num > 0) // Only add numbered workspaces
+            if ((!Number.isInteger(num) || num > Config.options.persistentWorkspaceCount) && !result.find(w => w.id === ws.id) && Number.isInteger(num) && num > 0) // Only add numbered workspaces
             {
                 result.push(ws);
             }
@@ -111,7 +111,7 @@ Rectangle {
                     text: modelData.name
                     color: modelData.isPlaceholder ? "#888" : (modelData.id === Hyprland.focusedWorkspace.id ? Colors.on_primary : Colors.on_surface)
                     font.pixelSize: 16
-                    font.family: Config.fontFamily
+                    font.family: Config.options.fontFamily
                     font.bold: modelData.isPlaceholder ? false : true
                     scale: 1 / parent.scale // <-- This keeps the text size visually constant
                 }

@@ -59,7 +59,7 @@ Rectangle {
                     source: Quickshell.iconPath(HyprlandUtil.guessIcon(modelData.wayland.appId))
                     implicitSize: 28
                     z: 5
-                    anchors.verticalCenterOffset: Config.barPosition === "bottom" ? -1 : 1
+                    anchors.verticalCenterOffset: Config.options.barPosition == 1 ? -1 : 1
                 }
 
                 MouseArea {
@@ -70,8 +70,8 @@ Rectangle {
                 }
 
                 Rectangle {
-                    anchors.bottom: Config.barPosition === "bottom" ? parent.bottom : undefined
-                    anchors.top: Config.barPosition === "top" ? parent.top : undefined
+                    anchors.bottom: Config.options.barPosition == 1 ? parent.bottom : undefined
+                    anchors.top: Config.options.barPosition == 0 ? parent.top : undefined
                     anchors.horizontalCenter: parent.horizontalCenter
                     width: modelData.activated ? parent.width * 0.4 : height
                     height: 4

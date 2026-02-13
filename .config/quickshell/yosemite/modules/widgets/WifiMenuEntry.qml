@@ -47,7 +47,7 @@ Rectangle {
                 font.pixelSize: 16
                 font.bold: true
                 color: root.wifi.active ? Colors.on_secondary_container : Colors.on_surface
-                font.family: Config.fontFamily
+                font.family: Config.options.fontFamily
                 elide: Text.ElideRight
                 Layout.maximumWidth: root.width - icon.width - 80
             }
@@ -57,7 +57,7 @@ Rectangle {
                 text: wifi.active ? "Connected" : "Connecting..."
                 font.pixelSize: 12
                 color: root.wifi.active ? Colors.on_secondary_container : Colors.on_surface_variant
-                font.family: Config.fontFamily
+                font.family: Config.options.fontFamily
             }
         }
 
@@ -74,7 +74,7 @@ Rectangle {
                 text: wifi.isSecure ? wifi.security : "Open"
                 font.pixelSize: 12
                 color: root.wifi.active ? Colors.on_secondary_container : Colors.on_surface_variant
-                font.family: Config.fontFamily
+                font.family: Config.options.fontFamily
                 horizontalAlignment: Text.AlignRight
             }
 
@@ -82,7 +82,7 @@ Rectangle {
                 text: (wifi.frequency * 0.001).toFixed(1) + " GHz"
                 font.pixelSize: 12
                 color: root.wifi.active ? Colors.on_secondary_container : Colors.on_surface_variant
-                font.family: Config.fontFamily
+                font.family: Config.options.fontFamily
                 horizontalAlignment: Text.AlignRight
             }
         }

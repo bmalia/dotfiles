@@ -181,7 +181,7 @@ ClippingRectangle {
                 text: activePlayer.trackTitle ? activePlayer.trackTitle : "Unknown Title"
                 font.pixelSize: artist.visible ? 14 : 15
                 font.bold: true
-                font.family: Config.fontFamily
+                font.family: Config.options.fontFamily
                 color: activePlayer.playbackState === MprisPlaybackState.Playing ? Colors.on_primary_container : Colors.on_surface
                 elide: Text.ElideMiddle
                 Layout.maximumWidth: 240
@@ -191,7 +191,7 @@ ClippingRectangle {
                 visible: !!activePlayer.trackArtist
                 text: activePlayer.trackArtist
                 font.pixelSize: 9
-                font.family: Config.fontFamily
+                font.family: Config.options.fontFamily
                 color: activePlayer.playbackState === MprisPlaybackState.Playing ? Colors.on_primary_container : Colors.on_surface
                 elide: Text.ElideMiddle
                 Layout.maximumWidth: 240

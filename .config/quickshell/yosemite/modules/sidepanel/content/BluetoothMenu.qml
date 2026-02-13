@@ -18,7 +18,7 @@ Rectangle {
         text: "Bluetooth is disabled"
         color: Colors.on_surface_variant
         font.pixelSize: 14
-        font.family: Config.fontFamily
+        font.family: Config.options.fontFamily
     }
 
     ColumnLayout {
@@ -33,7 +33,7 @@ Rectangle {
             Layout.bottomMargin: 5
             text: "Connected Devices"
             font.pixelSize: 16
-            font.family: Config.fontFamily
+            font.family: Config.options.fontFamily
             color: Colors.on_surface_variant
             font.bold: true
         }
@@ -51,9 +51,9 @@ Rectangle {
         }
 
         RowLayout {
+            id: headerRow
             Layout.topMargin: 5
             Layout.bottomMargin: 5
-            id: headerRow
             Layout.fillWidth: true
 
             Text {
@@ -61,7 +61,7 @@ Rectangle {
                 font.pixelSize: 16
                 font.bold: true
                 color: Colors.on_surface_variant
-                font.family: Config.fontFamily
+                font.family: Config.options.fontFamily
             }
 
             Item {

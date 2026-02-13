@@ -66,7 +66,7 @@ Rectangle {
         }
         Text {
             text: root.notification.summary
-            font.family: Config.fontFamily
+            font.family: Config.options.fontFamily
             color: Colors.on_surface
             font.pixelSize: 16
             font.bold: true

@@ -57,7 +57,7 @@ Item {
                         color: buttonContainer.index === root.selectedIndex ? Colors.on_secondary : Colors.on_secondary_container
                         font.pixelSize: 14
                         Layout.alignment: Qt.AlignVCenter
-                        font.family: Config.fontFamily
+                        font.family: Config.options.fontFamily
 
                         Behavior on color {
                             ColorAnimation {

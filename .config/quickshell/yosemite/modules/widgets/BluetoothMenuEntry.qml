@@ -60,7 +60,7 @@ Rectangle {
                 text: root.device.name
                 color: root.device.connected ? Colors.on_secondary_container : Colors.on_surface
                 font.pixelSize: 16
-                font.family: Config.fontFamily
+                font.family: Config.options.fontFamily
                 font.bold: true
                 elide: Text.ElideRight
                 Layout.maximumWidth: root.width - batteryIndicator.width - 110
@@ -71,7 +71,7 @@ Rectangle {
                 text: root.device.connected ? "Connected" : "Not connected"
                 color: root.device.connected ? Colors.on_secondary_container : Colors.on_surface_variant
                 font.pixelSize: 12
-                font.family: Config.fontFamily
+                font.family: Config.options.fontFamily
                 elide: Text.ElideRight
             }
 
@@ -80,7 +80,7 @@ Rectangle {
                 text: "Saved"
                 color: root.device.connected ? Colors.on_secondary_container : Colors.on_surface_variant
                 font.pixelSize: 10
-                font.family: Config.fontFamily
+                font.family: Config.options.fontFamily
                 elide: Text.ElideRight
             }
         }
@@ -104,7 +104,7 @@ Rectangle {
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                     font.pixelSize: 12
-                    font.family: Config.fontFamily
+                    font.family: Config.options.fontFamily
                     font.bold: true
                 }
                 background: Rectangle {
@@ -137,7 +137,7 @@ Rectangle {
                     color: root.device.connected ? Colors.on_error : Colors.on_error_container
                     horizontalAlignment: Text.AlignHCenter
                     font.pixelSize: 12
-                    font.family: Config.fontFamily
+                    font.family: Config.options.fontFamily
                     font.bold: true
                 }
                 background: Rectangle {

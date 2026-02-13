@@ -15,4 +15,5 @@
 .config/quickshell/monet/.qmlls.ini
 .config/quickshell/yosemite/.qmlls.ini
 .config/quickshell/*/modules/common/Colors.qml
+.config/quickshell/*/config.json
 .config/Kvantum/matugen
