@@ -22,6 +22,13 @@ Item {
             Layout.topMargin: 5
             Layout.bottomMargin: 5
         }
+        Loader {
+            sourceComponent: Clock {}
+            Layout.fillHeight: true
+            Layout.rightMargin: 5
+            Layout.topMargin: 5
+            Layout.bottomMargin: 5
+        }
         Item {
             Layout.fillWidth: true
         }
@@ -67,7 +74,7 @@ Item {
             Layout.bottomMargin: 5
         }
         Loader {
-            sourceComponent: Clock {}
+            sourceComponent: Taskbar {}
             Layout.fillHeight: true
             Layout.rightMargin: 5
             Layout.topMargin: 5
