@@ -52,19 +52,39 @@ Rectangle {
     property int wsCount: displayWorkspaces.length
     property int wsSize: height - 12
     property int wsSpacing: workspaceRow.spacing
-    implicitWidth: wsCount > 0 ? (wsCount * wsSize) + ((wsCount - 1) * wsSpacing) + 12 : wsSize + 12
+    implicitWidth: workspaceRow.implicitWidth + 5
 
-    Row {
+    RowLayout {
         id: workspaceRow
         anchors.fill: parent
-        anchors.margins: 6
-        spacing: 6
+        anchors.margins: 2
+        spacing: 1
+
+        Rectangle {
+            Layout.fillHeight: true
+            Layout.rightMargin: 3
+            implicitWidth: height
+            radius: 99
+            color: Colors.primary
+            MaterialIcon {
+                anchors.centerIn: parent
+                text: "dashboard"
+                color: Colors.on_primary
+                iconSize: 23
+                filled: false
+                weight: 400
+            }
+        }
 
         Repeater {
             model: container.displayWorkspaces
             Rectangle {
-                width: workspaceRow.height
-                height: workspaceRow.height
+                Layout.fillHeight: true
+                Layout.topMargin: 5
+                Layout.bottomMargin: 5
+                Layout.leftMargin: 3
+                Layout.rightMargin: 3
+                implicitWidth: height
                 radius: height / 2
 
                 // Scale and fade effect if focused

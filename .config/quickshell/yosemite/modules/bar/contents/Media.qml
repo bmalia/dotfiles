@@ -8,10 +8,10 @@ import qs.modules.common
 import qs.services
 
 ClippingRectangle {
-    antialiasing: true
     id: container
+    antialiasing: true
     color: activePlayer.playbackState === MprisPlaybackState.Playing ? Colors.primary_container : Colors.surface_container
-    radius: 99
+    radius: 10
     implicitWidth: activePlayer ? albumart.width + info.width + 20 + (hovered ? buttonWrapper.width + buttonWrapper.Layout.leftMargin + buttonWrapper.Layout.rightMargin : 0) : 0
     implicitHeight: activePlayer ? 40 : 0
     readonly property MprisPlayer activePlayer: MprisController.activePlayer // Uses the active player determined by MprisController
@@ -26,7 +26,6 @@ ClippingRectangle {
         }
     }
 
-    
     Behavior on color {
         ColorAnimation {
             duration: 200
@@ -78,18 +77,18 @@ ClippingRectangle {
         id: progressBar
         anchors {
             left: parent.left
-            top: parent.top
             bottom: parent.bottom
         }
-        height: 3
-        color: activePlayer.playbackState === MprisPlaybackState.Playing ? Colors.inverse_primary : Colors.primary_container
+        height: 2
+        radius: 10
+        color: Colors.primary
         width: parent.width * activePlayer.position / activePlayer.length
 
         Behavior on color {
-        ColorAnimation {
-            duration: 200
-            easing.type: Easing.InOutQuad
-        }
+            ColorAnimation {
+                duration: 200
+                easing.type: Easing.InOutQuad
+            }
         }
         Behavior on width {
             NumberAnimation {
@@ -115,7 +114,7 @@ ClippingRectangle {
             // make width smaller if there's no album art
             implicitWidth: activePlayer.trackArtUrl ? height : 5
             Layout.alignment: Qt.AlignVCenter
-            radius: 99
+            radius: activePlayer.playbackState === MprisPlaybackState.Playing ? 20 : 10
 
             Behavior on radius {
                 NumberAnimation {
@@ -183,18 +182,18 @@ ClippingRectangle {
                 font.pixelSize: artist.visible ? 14 : 15
                 font.bold: true
                 font.family: Config.fontFamily
-                color: Colors.on_primary_container
-                elide: Text.ElideRight
+                color: activePlayer.playbackState === MprisPlaybackState.Playing ? Colors.on_primary_container : Colors.on_surface
+                elide: Text.ElideMiddle
                 Layout.maximumWidth: 240
             }
             Text {
-                visible: !!activePlayer.trackArtist
                 id: artist
+                visible: !!activePlayer.trackArtist
                 text: activePlayer.trackArtist
                 font.pixelSize: 9
                 font.family: Config.fontFamily
-                color: Colors.on_primary_container
-                elide: Text.ElideRight
+                color: activePlayer.playbackState === MprisPlaybackState.Playing ? Colors.on_primary_container : Colors.on_surface
+                elide: Text.ElideMiddle
                 Layout.maximumWidth: 240
             }
         }
@@ -202,7 +201,7 @@ ClippingRectangle {
         // Buttons
         RowLayout {
             id: buttonWrapper
-            spacing: 2
+            spacing: 0
             Layout.rightMargin: 5
             Layout.leftMargin: 5
             Layout.alignment: Qt.AlignVCenter
@@ -211,14 +210,18 @@ ClippingRectangle {
                 id: prevButton
                 text: "skip_previous"
                 renderType: Text.NativeRendering
-                font.pixelSize: 20
-                color: Colors.on_primary_container
-                width: hovered ? implicitWidth : 0
+                font.pixelSize: 28
+                visible: activePlayer.canGoPrevious
+                color: activePlayer.playbackState === MprisPlaybackState.Playing ? Colors.on_primary_container : Colors.on_surface
+                width: hovered ? activePlayer.canGoPrevious ? implicitWidth : 0 : 0
                 opacity: hovered ? 1 : 0
                 property bool pressed: false
                 scale: pressed ? 0.85 : 1.0
                 font.family: "Material Symbols Rounded"
-                font.variableAxes: { "FILL": 0 }
+                font.variableAxes: {
+                    "FILL": 0,
+                    "wght": 350
+                }
                 Behavior on scale {
                     NumberAnimation {
                         duration: 100
@@ -237,11 +240,14 @@ ClippingRectangle {
             Text {
                 id: playPauseButton
                 font.family: "Material Symbols Rounded"
-                font.variableAxes: { "FILL": 1 }
+                font.variableAxes: {
+                    "FILL": 1,
+                    "wght": 350
+                }
                 renderType: Text.NativeRendering
                 text: activePlayer.playbackState === MprisPlaybackState.Playing ? "pause" : "play_arrow"
-                font.pixelSize: 25
-                color: Colors.on_primary_container
+                font.pixelSize: 28
+                color: activePlayer.playbackState === MprisPlaybackState.Playing ? Colors.on_primary_container : Colors.on_surface
                 width: hovered ? implicitWidth : 0
                 opacity: hovered ? 1 : 0
                 property bool pressed: false
@@ -265,12 +271,16 @@ ClippingRectangle {
             Text {
                 id: nextButton
                 text: "skip_next"
-                font.pixelSize: 20
+                visible: activePlayer.canGoNext
+                font.pixelSize: 28
                 font.family: "Material Symbols Rounded"
-                font.variableAxes: { "FILL": 0 }
+                font.variableAxes: {
+                    "FILL": 0,
+                    "wght": 350
+                }
                 renderType: Text.NativeRendering
-                color: Colors.on_primary_container
-                width: hovered ? implicitWidth : 0
+                color: activePlayer.playbackState === MprisPlaybackState.Playing ? Colors.on_primary_container : Colors.on_surface
+                width: hovered ? activePlayer.canGoNext ? implicitWidth : 0 : 0
                 opacity: hovered ? 1 : 0
                 property bool pressed: false
                 scale: pressed ? 0.85 : 1.0
