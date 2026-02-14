@@ -13,12 +13,12 @@ Variants {
 
             screen: modelData
             anchors {
-                top: Config.options.barPosition == 0 ? true : undefined
+                top: Config.options.barPosition == 0 ? true : false
                 left: true
                 right: true
-                bottom: Config.options.barPosition == 1 ? true : undefined
+                bottom: Config.options.barPosition == 1 ? true : false
             }
-            implicitHeight: bar.implicitHeight + (Config.options.barStyle == 1 ? 20 : Config.options.barCornerSize)
+            implicitHeight: bar.implicitHeight + Config.options.barCornerSize
             WlrLayershell.layer: WlrLayer.Bottom
             color: "transparent"
 
