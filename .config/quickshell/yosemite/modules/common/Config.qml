@@ -92,6 +92,8 @@ Singleton {
             property bool batteryUseErrorContainer: true
             property real batteryLowThreshold: 0.2
             property bool btShowOnEmpty: true
+
+            property list<string> taskbarPinnedApps: []
         }
     }
 

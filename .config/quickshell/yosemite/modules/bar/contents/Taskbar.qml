@@ -47,47 +47,94 @@ Rectangle {
 
         Repeater {
             id: taskbarRepeater
-            model: Hyprland.toplevels
-            delegate: Rectangle {
-                implicitWidth: 40
-                implicitHeight: 40
-                color: modelData.activated ? modelData.urgents ? Colors.error_container : Colors.primary_container : "transparent"
-                radius: 10
+            model: TaskbarApps.apps
+            delegate: Item {
+                id: appEntry
+                required property var modelData
+                required property int index
+                property bool isSeparator: modelData.appId === "SEPARATOR"
+                Layout.fillHeight: true
+                width: isSeparator ? 1 : 40
+                Loader {
+                    active: !appEntry.isSeparator
+                    sourceComponent: Rectangle {
+                        id: appButton
+                        property bool isActive: modelData.toplevels.some(t => t.activated)
+                        property DesktopEntry desktopEntry: DesktopEntries.heuristicLookup(modelData.appId)
+                        implicitHeight: 40
+                        width: 40
+                        color: isActive ? Colors.primary_container : "transparent"
+                        radius: 10
 
-                IconImage {
-                    anchors.centerIn: parent
-                    source: Quickshell.iconPath(HyprlandUtil.guessIcon(modelData.wayland.appId))
-                    implicitSize: 28
-                    z: 5
-                    anchors.verticalCenterOffset: Config.options.barPosition == 1 ? -1 : 1
-                }
+                        IconImage {
+                            anchors.centerIn: parent
+                            source: Quickshell.iconPath(HyprlandUtil.guessIcon(modelData.appId))
+                            implicitSize: 28
+                            z: 5
+                            anchors.verticalCenterOffset: Config.options.barPosition == 1 ? -1 : 1
+                        }
 
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: modelData.wayland.activate()
-                    cursorShape: Qt.PointingHandCursor
-                    hoverEnabled: true
-                }
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: {
+                                if (modelData.toplevels.length > 0)
+                                    modelData.toplevels[0].activate();
+                                else
+                                    desktopEntry.execute();
+                            }
+                            cursorShape: Qt.PointingHandCursor
+                            hoverEnabled: true
+                        }
 
-                Rectangle {
-                    anchors.bottom: Config.options.barPosition == 1 ? parent.bottom : undefined
-                    anchors.top: Config.options.barPosition == 0 ? parent.top : undefined
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    width: modelData.activated ? parent.width * 0.4 : height
-                    height: 4
-                    anchors.margins: 2
-                    radius: 20
-                    color: Colors.primary
+                        RowLayout {
+                            anchors.bottom: Config.options.barPosition == 1 ? parent.bottom : undefined
+                            anchors.top: Config.options.barPosition == 0 ? parent.top : undefined
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.margins: 2
+                            spacing: 2
 
-                    Behavior on width {
-                        NumberAnimation {
-                            duration: 200
-                            easing.type: Easing.InOutQuad
+                            Repeater {
+                                id: toplevelRepeater
+                                model: modelData.toplevels
+                                delegate: Rectangle {
+                                    required property var modelData
+                                    implicitWidth: this.modelData.activated ? appEntry.width * 0.4 : height
+                                    implicitHeight: 4
+                                    color: Colors.primary
+                                    radius: 3
+
+                                    Behavior on implicitWidth {
+                                        NumberAnimation {
+                                            duration: 200
+                                            easing.type: Easing.OutQuint
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        Behavior on color {
+                            ColorAnimation {
+                                duration: 200
+                                easing.type: Easing.InOutQuad
+                            }
                         }
                     }
                 }
+
+                Loader {
+                    anchors.fill: parent
+                    active: appEntry.isSeparator && appEntry.index < TaskbarApps.apps.length - 1
+                    sourceComponent: Rectangle {
+                        color: Qt.alpha(Colors.on_surface, 0.2)
+                        implicitWidth: 1
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.top: parent.top
+                        anchors.bottom: parent.bottom
+                        anchors.margins: 6
+                    }
+                }
             }
-            onItemAdded: {}
         }
     }
 
