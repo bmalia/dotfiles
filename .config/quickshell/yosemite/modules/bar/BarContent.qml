@@ -4,81 +4,23 @@ import Quickshell.Services.UPower
 import QtQuick.Layouts
 import qs.modules.bar.contents
 
-Item {
+Rectangle {
     id: root
-    property var bar
-    anchors.fill: parent
-
-    // Main bar layout for left/right modules
-    RowLayout {
-        id: barRow
-        anchors.fill: parent
-
-        // Left modules
-        Loader {
-            sourceComponent: WorkspaceIndicator {}
-            Layout.fillHeight: true
-            Layout.leftMargin: 5
-            Layout.topMargin: 5
-            Layout.bottomMargin: 5
-        }
-        Loader {
-            sourceComponent: Clock {}
-            Layout.fillHeight: true
-            Layout.rightMargin: 5
-            Layout.topMargin: 5
-            Layout.bottomMargin: 5
-        }
-        Item {
-            Layout.fillWidth: true
-        }
-        // Right modules
-
-        Loader {
-            sourceComponent: SystemTray {
-                bar: root.bar
-            }
-            Layout.fillHeight: true
-            Layout.rightMargin: 5
-            Layout.topMargin: 5
-            Layout.bottomMargin: 5
-        }
-
-        Loader {
-            sourceComponent: Battery {}
-            Layout.fillHeight: true
-            Layout.rightMargin: 0
-            Layout.topMargin: 5
-            Layout.bottomMargin: 5
-            active: UPower.displayDevice.isLaptopBattery
-        }
-
-        Loader {
-            id: systemLoader
-            sourceComponent: System {}
-            Layout.fillHeight: true
-            Layout.rightMargin: 5
-            Layout.topMargin: 5
-            Layout.bottomMargin: 5
-        }
-    }
+    width: 50
+    height: 50
+    color: "transparent"
 
     RowLayout {
-        anchors.centerIn: parent
-        height: parent.height
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        spacing: 10
+
         Loader {
-            sourceComponent: Media {}
+            sourceComponent: CookieButton {}
             Layout.fillHeight: true
-            Layout.rightMargin: 5
-            Layout.topMargin: 5
-            Layout.bottomMargin: 5
+            Layout.margins: 5
         }
-        Loader {
-            sourceComponent: Taskbar {}
-            Layout.fillHeight: true
-            Layout.rightMargin: 5
-            Layout.topMargin: 5
-            Layout.bottomMargin: 5
-        }
+        
     }
 }

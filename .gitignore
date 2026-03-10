@@ -14,6 +14,6 @@
 .config/gtk-4.0/servers
 .config/quickshell/monet/.qmlls.ini
 .config/quickshell/yosemite/.qmlls.ini
-.config/quickshell/*/modules/common/Colors.qml
+.config/quickshell/*/modules/common/mdcolors.json
 .config/quickshell/*/config.json
 .config/Kvantum/matugen
