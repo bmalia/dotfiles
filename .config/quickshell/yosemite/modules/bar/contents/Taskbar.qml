@@ -116,7 +116,6 @@ Rectangle {
                         Behavior on color {
                             ColorAnimation {
                                 duration: 200
-                                easing.type: Easing.InOutQuad
                             }
                         }
                     }

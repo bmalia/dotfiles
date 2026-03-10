@@ -34,24 +34,7 @@ Singleton {
 
     property string networkName: ""
     property int networkStrength
-    property string materialSymbol: root.ethernet
-        ? "lan"
-        : root.wifiEnabled
-            ? (
-                Network.networkStrength > 83 ? "signal_wifi_4_bar" :
-                Network.networkStrength > 67 ? "network_wifi" :
-                Network.networkStrength > 50 ? "network_wifi_3_bar" :
-                Network.networkStrength > 33 ? "network_wifi_2_bar" :
-                Network.networkStrength > 17 ? "network_wifi_1_bar" :
-                "signal_wifi_0_bar"
-            )
-            : (root.wifiStatus === "connecting")
-                ? "signal_wifi_statusbar_not_connected"
-                : (root.wifiStatus === "disconnected")
-                    ? "wifi_find"
-                    : (root.wifiStatus === "disabled")
-                        ? "signal_wifi_off"
-                        : "signal_wifi_bad"
+    property string materialSymbol: root.ethernet ? "lan" : root.wifiEnabled ? (Network.networkStrength > 83 ? "signal_wifi_4_bar" : Network.networkStrength > 67 ? "network_wifi" : Network.networkStrength > 50 ? "network_wifi_3_bar" : Network.networkStrength > 33 ? "network_wifi_2_bar" : Network.networkStrength > 17 ? "network_wifi_1_bar" : "signal_wifi_0_bar") : (root.wifiStatus === "connecting") ? "signal_wifi_statusbar_not_connected" : (root.wifiStatus === "disconnected") ? "wifi_find" : (root.wifiStatus === "disabled") ? "signal_wifi_off" : "signal_wifi_bad"
 
     // Control
     function enableWifi(enabled = true): void {
@@ -73,16 +56,16 @@ Singleton {
         accessPoint.askingPassword = false;
         root.wifiConnectTarget = accessPoint;
         // We use this instead of `nmcli connection up SSID` because this also creates a connection profile
-        connectProc.exec(["nmcli", "dev", "wifi", "connect", accessPoint.ssid])
-
+        connectProc.exec(["nmcli", "dev", "wifi", "connect", accessPoint.ssid]);
     }
 
     function disconnectWifiNetwork(): void {
-        if (active) disconnectProc.exec(["nmcli", "connection", "down", active.ssid]);
+        if (active)
+            disconnectProc.exec(["nmcli", "connection", "down", active.ssid]);
     }
 
     function openPublicWifiPortal() {
-        Quickshell.execDetached(["xdg-open", "https://nmcheck.gnome.org/"]) // From some StackExchange thread, seems to work
+        Quickshell.execDetached(["xdg-open", "https://nmcheck.gnome.org/"]); // From some StackExchange thread, seems to work
     }
 
     function changePassword(network: WifiAccessPoint, password: string, username = ""): void {
@@ -94,7 +77,7 @@ Singleton {
                 "SSID": network.ssid
             },
             "command": ["bash", "-c", 'nmcli connection modify "$SSID" wifi-sec.psk "$PASSWORD"']
-        })
+        });
     }
 
     Process {
@@ -104,26 +87,26 @@ Singleton {
     Process {
         id: connectProc
         environment: ({
-            LANG: "C",
-            LC_ALL: "C"
-        })
+                LANG: "C",
+                LC_ALL: "C"
+            })
         stdout: SplitParser {
             onRead: line => {
                 // print(line)
-                getNetworks.running = true
+                getNetworks.running = true;
             }
         }
         stderr: SplitParser {
             onRead: line => {
                 // print("err:", line)
                 if (line.includes("Secrets were required")) {
-                    root.wifiConnectTarget.askingPassword = true
+                    root.wifiConnectTarget.askingPassword = true;
                 }
             }
         }
         onExited: (exitCode, exitStatus) => {
-            root.wifiConnectTarget.askingPassword = (exitCode !== 0)
-            root.wifiConnectTarget = null
+            root.wifiConnectTarget.askingPassword = (exitCode !== 0);
+            root.wifiConnectTarget = null;
         }
     }
 
@@ -137,8 +120,8 @@ Singleton {
     Process {
         id: changePasswordProc
         onExited: { // Re-attempt connection after changing password
-            connectProc.running = false
-            connectProc.running = true
+            connectProc.running = false;
+            connectProc.running = true;
         }
     }
 
@@ -156,7 +139,7 @@ Singleton {
     // Status update
     function update() {
         updateConnectionType.startCheck();
-        wifiStatusProcess.running = true
+        wifiStatusProcess.running = true;
         updateNetworkName.running = true;
         updateNetworkStrength.running = true;
     }
@@ -186,7 +169,7 @@ Singleton {
         }
         onExited: (exitCode, exitStatus) => {
             const lines = updateConnectionType.buffer.trim().split('\n');
-            const connectivity = lines.pop() // none, limited, full
+            const connectivity = lines.pop(); // none, limited, full
             let hasEthernet = false;
             let hasWifi = false;
             let wifiStatus = "disconnected";
@@ -195,22 +178,19 @@ Singleton {
                     hasEthernet = true;
                 else if (line.includes("wifi:")) {
                     if (line.includes("disconnected")) {
-                        wifiStatus = "disconnected"
-                    }
-                    else if (line.includes("connected")) {
+                        wifiStatus = "disconnected";
+                    } else if (line.includes("connected")) {
                         hasWifi = true;
-                        wifiStatus = "connected"
+                        wifiStatus = "connected";
 
                         if (connectivity === "limited") {
                             hasWifi = false;
-                            wifiStatus = "limited"
+                            wifiStatus = "limited";
                         }
-                    }
-                    else if (line.includes("connecting")) {
-                        wifiStatus = "connecting"
-                    }
-                    else if (line.includes("unavailable")) {
-                        wifiStatus = "disabled"
+                    } else if (line.includes("connecting")) {
+                        wifiStatus = "connecting";
+                    } else if (line.includes("unavailable")) {
+                        wifiStatus = "disabled";
                     }
                 }
             });
@@ -234,7 +214,7 @@ Singleton {
     Process {
         id: updateNetworkStrength
         running: true
-        command: ["sh", "-c", "nmcli -f IN-USE,SIGNAL,SSID device wifi | awk '/^\*/{if (NR!=1) {print $2}}'"]
+        command: ["sh", "-c", "nmcli -f IN-USE,SIGNAL,SSID device wifi | awk '/^\\*/{if (NR!=1) {print $2}}'"]
         stdout: SplitParser {
             onRead: data => {
                 root.networkStrength = parseInt(data);
@@ -247,9 +227,9 @@ Singleton {
         command: ["nmcli", "radio", "wifi"]
         Component.onCompleted: running = true
         environment: ({
-            LANG: "C",
-            LC_ALL: "C"
-        })
+                LANG: "C",
+                LC_ALL: "C"
+            })
         stdout: StdioCollector {
             onStreamFinished: {
                 root.wifiEnabled = text.trim() === "enabled";
@@ -260,11 +240,11 @@ Singleton {
     Process {
         id: getNetworks
         running: true
-        command: ["nmcli", "-g", "ACTIVE,SIGNAL,FREQ,SSID,BSSID,SECURITY", "d", "w"]
+        command: ["nmcli", "-f", "IN-USE,SIGNAL,SSID", "device", "wifi"]
         environment: ({
-            LANG: "C",
-            LC_ALL: "C"
-        })
+                LANG: "C",
+                LC_ALL: "C"
+            })
         stdout: StdioCollector {
             onStreamFinished: {
                 const PLACEHOLDER = "STRINGWHICHHOPEFULLYWONTBEUSED";
