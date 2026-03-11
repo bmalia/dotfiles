@@ -29,6 +29,13 @@ Rectangle {
             Layout.topMargin: 5
             Layout.bottomMargin: 5
         }
+
+        Loader {
+            sourceComponent: Clock {}
+            Layout.fillHeight: true
+            Layout.topMargin: 5
+            Layout.bottomMargin: 5
+        }
         
     }
 }
