@@ -6,13 +6,13 @@ import qs.modules.widgets.shapes
 import "../../widgets/shapes/material-shapes.js" as MaterialShapes
 
 Item {
-    width: 40
+    width: 44
 
     Rectangle {
         id: button
         z: 1
         anchors.fill: parent
-        color: Appearance.colors.primary_container
+        color: Appearance.colors.primary
         radius: 99
         property var hovered: false
 
@@ -22,7 +22,7 @@ Item {
             anchors.centerIn: parent
             z: 2
             roundedPolygon: parent.hovered ? MaterialShapes.getClover4Leaf() : CookieButtonState.currentShape
-            color: Appearance.colors.on_primary_container
+            color: Appearance.colors.on_primary
             rotation: parent.hovered ? 90 : CookieButtonState.currentRotation
 
             Behavior on rotation {

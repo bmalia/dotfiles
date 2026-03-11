@@ -14,12 +14,20 @@ Rectangle {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        spacing: 10
+        spacing: 5
 
         Loader {
             sourceComponent: CookieButton {}
             Layout.fillHeight: true
-            Layout.margins: 5
+            Layout.topMargin: 3
+            Layout.bottomMargin: 3
+        }
+
+        Loader {
+            sourceComponent: Workspaces {}
+            Layout.fillHeight: true
+            Layout.topMargin: 5
+            Layout.bottomMargin: 5
         }
         
     }

@@ -14,7 +14,7 @@ Singleton {
 
     Timer {
         id: shapeResetTimer
-        interval: 350
+        interval: 500
         running: false
         repeat: false
         onTriggered: {
