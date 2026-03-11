@@ -44,6 +44,7 @@ Rectangle {
         previousWorkspaceId = effectiveActiveWorkspaceId;
         delta = 0;
         updateOccupied();
+        width = Config.options.workspaceCount * 27 + 10;
     }
     Connections {
         target: Hyprland.workspaces

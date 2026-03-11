@@ -5,6 +5,7 @@ import qs.modules.widgets.shapes
 import qs.modules.common
 import "../modules/widgets/shapes/material-shapes.js" as MaterialShapes
 
+//Service for controlling the state of the cookie button
 Singleton {
     id: root
     property var currentShape: MaterialShapes.getFlower()
@@ -23,13 +24,13 @@ Singleton {
         }
     }
 
-    function setTransientShape(shape, rotation) {
+    function setTransientShape(shape, rotation) { // Sets a shape that resets to the default after a short delay
         root.currentShape = shape;
         root.currentRotation = rotation;
         shapeResetTimer.restart();
     }
 
-    function setPersistentShape(shape, rotation) {
+    function setPersistentShape(shape, rotation) { // Sets a shape that remains until changed again underneath transient shapes
         root.persistentShape = shape;
         root.persistentRotation = rotation;
         root.currentShape = shape;

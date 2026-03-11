@@ -1,10 +1,12 @@
 import QtQuick
+import Quickshell
 import QtQuick.Effects
 import qs.modules.common
 import qs.services
 import qs.modules.widgets.shapes
 import "../../widgets/shapes/material-shapes.js" as MaterialShapes
 
+// A expressive button that acts as both a app launcher and a indicator for various shell events
 Item {
     width: 44
 
@@ -38,6 +40,9 @@ Item {
             hoverEnabled: true
             onEntered: parent.hovered = true
             onExited: parent.hovered = false
+            onClicked: {
+                Quickshell.execDetached(["vicinae", "toggle"])
+            }
         }
     }
 
