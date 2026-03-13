@@ -9,7 +9,7 @@ import qs.modules.common
 ShellRoot {
     Loader {
         id: root
-
+        active: Config.ready
         sourceComponent: Bar {}
     }
 }

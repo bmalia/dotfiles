@@ -68,7 +68,7 @@ Rectangle {
         anchors.margins: 5
         spacing: 0
     }
-
+    
     WheelHandler {
         onWheel: event => {
             if (event.angleDelta.y < 0)
@@ -182,6 +182,7 @@ Rectangle {
                         onClicked: {
                             Hyprland.dispatch("workspace " + actualIndex);
                         }
+                        cursorShape: Qt.PointingHandCursor
                     }
                 }
             }

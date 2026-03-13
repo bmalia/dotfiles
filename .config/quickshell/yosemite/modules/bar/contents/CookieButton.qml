@@ -19,8 +19,8 @@ Item {
         property var hovered: false
 
         ShapeCanvas {
-            implicitWidth: parent.width - 15
-            implicitHeight: parent.height - 15
+            implicitWidth: 29
+            implicitHeight: 29
             anchors.centerIn: parent
             z: 2
             roundedPolygon: parent.hovered ? MaterialShapes.getClover4Leaf() : CookieButtonState.currentShape

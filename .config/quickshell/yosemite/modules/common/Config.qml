@@ -69,7 +69,7 @@ Singleton {
         watchChanges: true
         blockWrites: root.block
         onFileChanged: fileReloadTimer.restart()
-        onAdapterUpdated: writeAdapter()
+        onAdapterUpdated: fileWriteTimer.restart()
         onLoaded: {
             root.ready = true;
         }
