@@ -30,7 +30,6 @@ Rectangle {
         previousWorkspaceId = effectiveActiveWorkspaceId;
     }
 
-    // Update the occupied workspaces list whenever the workspace count changes
     function updateOccupied() {
         occupied = Array.from({
             length: Config.options.workspaceCount
@@ -82,7 +81,7 @@ Rectangle {
     Item {
         anchors.fill: parent
 
-        // 1) Background cells
+        // Background
         RowLayout {
             id: bgRow
             z: 0
@@ -117,7 +116,7 @@ Rectangle {
             }
         }
 
-        // 2) Indicator, free-floating (not in repeater/layout)
+        // Active indicator
         Rectangle {
             id: indicator
             z: 1
@@ -137,7 +136,7 @@ Rectangle {
             }
         }
 
-        // 3) Text layer above indicator
+        // Workspace numbers
         RowLayout {
             id: textRow
             z: 2

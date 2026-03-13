@@ -1,20 +1,38 @@
 import QtQuick
 import Quickshell
-import Quickshell.Services.UPower
+import Quickshell.Wayland
+import Quickshell.Hyprland
 import QtQuick.Layouts
 import qs.modules.bar.contents
+import qs.modules.common
 
 Rectangle {
     id: root
     width: 50
     height: 50
     color: "transparent"
+    readonly property HyprlandMonitor monitor: Hyprland.monitorFor(root.QsWindow.window?.screen)
+    property bool windowOnMonitor: Hyprland.toplevels.values.some(t => t.workspace.id === root.monitor.activeWorkspace?.id) // Ridiculously hacky, but it works (windows on workspaces that aren't visible still count as being "on" the monitor)
+
+    property real focusT: windowOnMonitor ? 1 : 0
+    Behavior on focusT {
+        NumberAnimation {
+            duration: 500
+            easing.type: Easing.BezierSpline
+            easing.bezierCurve: Appearance.easings.expressiveDefaultSpatial
+        }
+    }
 
     RowLayout {
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
+        id: layout
+        anchors.fill: parent
         spacing: 5
+
+        Item {
+            Layout.fillWidth: true
+            Layout.minimumWidth: 0
+            Layout.preferredWidth: Math.max(0.0001, 1 - root.focusT)
+        }
 
         Loader {
             sourceComponent: CookieButton {}
@@ -36,6 +54,17 @@ Rectangle {
             Layout.topMargin: 5
             Layout.bottomMargin: 5
         }
-        
+
+        Item {
+            Layout.fillWidth: true
+            Layout.minimumWidth: 0
+            Layout.preferredWidth: Math.max(0.0001, root.focusT)
+        }
+
+        Item {
+            Layout.fillWidth: true
+            Layout.minimumWidth: 0
+            Layout.preferredWidth: Math.max(0.0001, 1 - root.focusT)
+        }
     }
 }

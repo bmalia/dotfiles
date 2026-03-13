@@ -5,7 +5,6 @@ import qs.modules.widgets.shapes
 import qs.modules.common
 import "../modules/widgets/shapes/material-shapes.js" as MaterialShapes
 
-//Service for controlling the state of the cookie button
 Singleton {
     id: root
     property var currentShape: MaterialShapes.getFlower()
