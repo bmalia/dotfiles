@@ -55,3 +55,12 @@ output_path = '~/.config/Kvantum/matugen/matugen.kvconfig'
 [templates.kvantum_svg]
 input_path = './templates/kvantum-colors.svg'
 output_path = '~/.config/Kvantum/matugen/matugen.svg'
+
+[templates.discord]
+input_path = './templates/discord.css'
+output_path = '~/.config/Equicord/themes/midnight-discord.css'
+
+[templates.steam]
+input_path = './templates/steam.css'
+output_path = '~/.config/AdwSteamGtk/custom.css'
+post_hook = 'adwaita-steam-gtk -i'
