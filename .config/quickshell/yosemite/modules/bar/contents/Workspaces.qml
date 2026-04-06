@@ -22,9 +22,9 @@ Rectangle {
     onEffectiveActiveWorkspaceIdChanged: {
         if (effectiveActiveWorkspaceId != previousWorkspaceId) {
             if (effectiveActiveWorkspaceId > previousWorkspaceId) {
-                CookieButtonState.setTransientShape(MaterialShapes.getArrow(), 90);
+                CookieButtonState.setTransientShape(MaterialShapes.getArrow(), 90, 500);
             } else if (effectiveActiveWorkspaceId < previousWorkspaceId) {
-                CookieButtonState.setTransientShape(MaterialShapes.getArrow(), -90);
+                CookieButtonState.setTransientShape(MaterialShapes.getArrow(), -90, 500);
             }
         }
         previousWorkspaceId = effectiveActiveWorkspaceId;

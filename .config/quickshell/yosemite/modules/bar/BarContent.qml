@@ -5,6 +5,7 @@ import Quickshell.Hyprland
 import QtQuick.Layouts
 import qs.modules.bar.contents
 import qs.modules.common
+import Quickshell.Services.UPower
 
 Rectangle {
     id: root
@@ -26,6 +27,8 @@ Rectangle {
     RowLayout {
         id: layout
         anchors.fill: parent
+        anchors.leftMargin: 10
+        anchors.rightMargin: 10
         spacing: 5
 
         Item {
@@ -59,6 +62,14 @@ Rectangle {
             Layout.fillWidth: true
             Layout.minimumWidth: 0
             Layout.preferredWidth: Math.max(0.0001, root.focusT)
+        }
+
+        Loader {
+            sourceComponent: Battery {}
+            Layout.fillHeight: true
+            Layout.topMargin: 5
+            Layout.bottomMargin: 5
+            active: UPower.displayDevice.isLaptopBattery
         }
 
         Item {

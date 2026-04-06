@@ -10,7 +10,6 @@ Rectangle {
     implicitWidth: content.implicitWidth + 10
     radius: 15
     color: Appearance.colors.surface
-    property bool hovered: false
 
     RowLayout {
         id: content

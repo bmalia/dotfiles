@@ -11,10 +11,11 @@ Singleton {
     property int currentRotation: 0
     property var persistentShape: MaterialShapes.getFlower()
     property var persistentRotation: 0
+    property int transientDuration: 500
 
     Timer {
         id: shapeResetTimer
-        interval: 500
+        interval: root.transientDuration
         running: false
         repeat: false
         onTriggered: {
@@ -23,9 +24,10 @@ Singleton {
         }
     }
 
-    function setTransientShape(shape, rotation) { // Sets a shape that resets to the default after a short delay
+    function setTransientShape(shape, rotation, duration) { // Sets a shape that resets to the default after a short delay
         root.currentShape = shape;
         root.currentRotation = rotation;
+        root.transientDuration = duration;
         shapeResetTimer.restart();
     }
 
