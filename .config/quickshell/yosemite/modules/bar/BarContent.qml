@@ -6,6 +6,7 @@ import QtQuick.Layouts
 import qs.modules.bar.contents
 import qs.modules.common
 import Quickshell.Services.UPower
+import Quickshell.Services.SystemTray
 
 Rectangle {
     id: root
@@ -62,6 +63,7 @@ Rectangle {
             Layout.fillWidth: true
             Layout.minimumWidth: 0
             Layout.preferredWidth: Math.max(0.0001, root.focusT)
+            visible: root.focusT > 0
         }
 
         Loader {
@@ -70,6 +72,14 @@ Rectangle {
             Layout.topMargin: 5
             Layout.bottomMargin: 5
             active: UPower.displayDevice.isLaptopBattery
+        }
+
+        Loader {
+            sourceComponent: SysTray {}
+            Layout.fillHeight: true
+            Layout.topMargin: 5
+            Layout.bottomMargin: 5
+            active: SystemTray.items.values.length > 0
         }
 
         Item {
