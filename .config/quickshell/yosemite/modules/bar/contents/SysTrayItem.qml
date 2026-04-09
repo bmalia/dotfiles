@@ -30,6 +30,7 @@ MouseArea {
         source: root.item.icon
     }
 
+    /* // WIP, wayland crash issue
     Loader {
         id: menu
         function open() {
@@ -55,4 +56,5 @@ MouseArea {
             }
         }
     }
+    */
 }

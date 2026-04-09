@@ -9,6 +9,9 @@ Rectangle {
     color: Appearance.colors.surface
     radius: 10
 
+    border.width: 1
+    border.color: Qt.alpha(Appearance.colors.on_surface, 0.12)
+
     RowLayout {
         id: layout
         anchors.top: parent.top

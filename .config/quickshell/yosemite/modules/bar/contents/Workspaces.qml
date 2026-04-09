@@ -12,6 +12,9 @@ Rectangle {
     width: Config.options.workspaceCount * 27 + 10
     color: Appearance.colors.background
     radius: 99
+    border.width: 1
+    border.color: Qt.alpha(Appearance.colors.on_surface, 0.12)
+    
     property list<bool> occupied: []
     property int previousWorkspaceId: 1
     property int delta: 0

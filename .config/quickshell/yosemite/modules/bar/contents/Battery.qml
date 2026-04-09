@@ -14,6 +14,9 @@ ClippingRectangle {
     color: Appearance.colors.surface
     radius: 20
 
+    border.width: 1
+    border.color: Qt.alpha(Appearance.colors.on_surface, 0.12)
+
     property UPowerDevice battery: UPower.displayDevice
     property bool hovered: false
 
