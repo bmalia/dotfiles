@@ -5,13 +5,14 @@ import Quickshell.Hyprland
 import QtQuick.Layouts
 import qs.modules.bar.contents
 import qs.modules.common
+import qs.services
 import Quickshell.Services.UPower
 import Quickshell.Services.SystemTray
 
 Rectangle {
     id: root
     width: 50
-    height: 50
+    height: 70
     color: "transparent"
     clip: true
     readonly property HyprlandMonitor monitor: Hyprland.monitorFor(root.QsWindow.window?.screen)
@@ -26,6 +27,55 @@ Rectangle {
             duration: 500
             easing.type: Easing.BezierSpline
             easing.bezierCurve: Appearance.easings.expressiveDefaultSpatial
+        }
+    }
+
+    component AnimatedLoader: Item {
+        id: wrapper
+        required property bool shouldShow
+        required property Component sourceComponent
+        property bool mounted: shouldShow
+        property real animatedWidth: shouldShow ? contentLoader.implicitWidth : 0
+
+        Layout.fillHeight: true
+        Layout.minimumWidth: 0
+        Layout.preferredWidth: animatedWidth
+
+        visible: mounted || animatedWidth > 0.5
+        clip: true
+        opacity: shouldShow ? 1 : 0
+
+        onShouldShowChanged: {
+            if (shouldShow)
+                mounted = true
+        }
+
+        onAnimatedWidthChanged: {
+            if (!shouldShow && animatedWidth <= 0.5)
+                mounted = false
+        }
+
+        Behavior on animatedWidth {
+            NumberAnimation {
+                duration: 500
+                easing.type: Easing.BezierSpline
+                easing.bezierCurve: Appearance.easings.expressiveDefaultSpatial
+            }
+        }
+
+        Behavior on opacity {
+            NumberAnimation {
+                duration: 200
+                easing.type: Easing.BezierSpline
+                easing.bezierCurve: Appearance.easings.expressiveDefaultEffects
+            }
+        }
+
+        Loader {
+            id: contentLoader
+            anchors.fill: parent
+            active: wrapper.mounted
+            sourceComponent: wrapper.sourceComponent
         }
     }
 
@@ -84,22 +134,20 @@ Rectangle {
             visible: root.focusT > 0
         }
 
-        Loader {
+        Loader { // Unlikely to change at runtime
             sourceComponent: Battery {}
             Layout.fillHeight: true
             Layout.topMargin: 5
             Layout.bottomMargin: 5
-            active: visible
             visible: UPower.displayDevice.isLaptopBattery
+            active: visible
         }
 
-        Loader {
+        AnimatedLoader {
+            shouldShow: SystemTray.items.values.length > 0
             sourceComponent: SysTray {}
-            Layout.fillHeight: true
             Layout.topMargin: 5
             Layout.bottomMargin: 5
-            visible: SystemTray.items.values.length > 0
-            active: visible
         }
 
         Item { // Right spacer
@@ -117,8 +165,6 @@ Rectangle {
         anchors {
             top: parent.top
             bottom: parent.bottom
-            topMargin: 5
-            bottomMargin: 5
         }
         x: root.collapsedMiddleLeft + (root.expandedMiddleLeft - root.collapsedMiddleLeft) * root.focusT
         color: "transparent"
@@ -128,22 +174,11 @@ Rectangle {
             anchors.fill: parent
             spacing: layout.spacing
 
-            Rectangle {
-                implicitWidth: 68
-                Layout.fillHeight: true
-                radius: 10
-                color: Appearance.colors.surface
-                border.width: 1
-                border.color: Qt.alpha(Appearance.colors.on_surface, 0.12)
-            }
-
-            Rectangle {
-                implicitWidth: 96
-                Layout.fillHeight: true
-                radius: 10
-                color: Appearance.colors.surface
-                border.width: 1
-                border.color: Qt.alpha(Appearance.colors.on_surface, 0.12)
+            AnimatedLoader {
+                shouldShow: !!MprisController.activePlayer
+                sourceComponent: Media {}
+                Layout.topMargin: 5
+                Layout.bottomMargin: 5
             }
         }
     }
