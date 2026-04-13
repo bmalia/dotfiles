@@ -16,22 +16,12 @@ Rectangle {
     property bool hovered: false
     property bool hasTrackArt: root.activePlayer.trackArtUrl !== ""
     property real progress: activePlayer.position / activePlayer.length
-    property real normalizedProgress: {
-        const raw = Number(progress ?? 0);
-        if (!isFinite(raw))
-            return 0;
-        if (raw > 1 && raw <= 100)
-            return Math.max(0, Math.min(1, raw / 100));
-        return Math.max(0, Math.min(1, raw));
-    }
-    property real displayedProgress: normalizedProgress
+    property real displayedProgress: progress
 
-    color: hovered ? Appearance.colors.surface_variant : Appearance.colors.surface
-    radius: activePlayer.isPlaying ? 90 : 12
+    color: Appearance.colors.surface
+    radius: 90
     border.width: 1
     border.color: Qt.alpha(Appearance.colors.on_surface, 0.12)
-
-    onNormalizedProgressChanged: displayedProgress = normalizedProgress
 
     Timer {
         id: progressPollTimer
@@ -62,6 +52,8 @@ Rectangle {
         hoverEnabled: true
         onEntered: root.hovered = true
         onExited: root.hovered = false
+        z: 10
+        propagateComposedEvents: true
     }
 
     RowLayout {
@@ -92,10 +84,11 @@ Rectangle {
                 width: Math.max(10, parent.height - 8)
                 height: width
                 progress: root.displayedProgress
-                thickness: 1.5
+                thickness: 2
                 color: Appearance.colors.primary
                 trackColor: Qt.alpha(Appearance.colors.on_surface, 0.12)
-                waveAmplitude: root.activePlayer.isPlaying ? 0.5 : 0
+                waveAmplitude: root.activePlayer.isPlaying ? 0.65 : 0
+                scrollSpeed: 0.05
                 waveCount: 9
                 progressGap: 0
             }
@@ -103,7 +96,7 @@ Rectangle {
             Component {
                 id: artComponent
                 ClippingWrapperRectangle {
-                    implicitWidth: artProgress.width - 1.5 * 2
+                    implicitWidth: artProgress.width - 2 * 2
                     implicitHeight: implicitWidth
                     radius: 99
 
@@ -111,6 +104,8 @@ Rectangle {
                         anchors.fill: parent
                         source: root.activePlayer.trackArtUrl
                         fillMode: Image.PreserveAspectCrop
+
+                        
                     }
                 }
             }
@@ -118,7 +113,7 @@ Rectangle {
             Component {
                 id: iconComponent
                 Rectangle {
-                    implicitWidth: artProgress.width - 1.5 * 2
+                    implicitWidth: artProgress.width - 2 * 2
                     implicitHeight: implicitWidth
                     radius: 99
                     color: Qt.alpha(Appearance.colors.on_surface, 0.08)
@@ -139,7 +134,7 @@ Rectangle {
             spacing: 0
             Layout.rightMargin: 12
 
-            Layout.maximumWidth: 300
+            Layout.maximumWidth: 250
 
             Text {
                 id: title
@@ -148,7 +143,7 @@ Rectangle {
                 font.bold: true
                 font.pixelSize: 13
                 color: Appearance.colors.on_surface
-                elide: Text.ElideRight
+                elide: Text.ElideMiddle
                 Layout.fillWidth: true
             }
 
@@ -163,17 +158,71 @@ Rectangle {
                 Layout.fillWidth: true
             }
         }
+
+        Rectangle {
+            visible: root.activePlayer.canControl && root.hovered
+            id: controlsContainer
+            Layout.fillHeight: true
+            Layout.margins: 6
+            implicitWidth: controls.implicitWidth + 6 * 2
+            radius: 90
+            color: Qt.alpha(Appearance.colors.surface_variant, 0.6)
+
+            RowLayout {
+                id: controls
+                anchors.fill: parent
+                spacing: 5
+                anchors.leftMargin: 6
+                anchors.rightMargin: 6
+
+                IconButton {
+                    visible: root.activePlayer.canGoPrevious
+                    implicitHeight: 15
+                    implicitWidth: height
+                    icon.text: "skip_previous"
+                    icon.color: Appearance.colors.on_surface
+                    icon.weight: 300
+                    icon.filled: true
+                    icon.font.pixelSize: 20
+                    backgroundColor: "transparent"
+
+                    onClicked: root.activePlayer.previous()
+                }
+
+                IconButton {
+                    visible: root.activePlayer.canPlayPause
+                    implicitHeight: 15
+                    implicitWidth: height
+                    icon.text: root.activePlayer.isPlaying ? "pause" : "play_arrow"
+                    icon.color: Appearance.colors.on_surface
+                    icon.weight: 300
+                    icon.filled: true
+                    icon.font.pixelSize: 20
+                    backgroundColor: "transparent"
+
+                    onClicked: root.activePlayer.togglePlaying()
+                }
+
+                IconButton {
+                    visible: root.activePlayer.canGoNext
+                    implicitHeight: 15
+                    implicitWidth: height
+                    icon.text: "skip_next"
+                    icon.color: Appearance.colors.on_surface
+                    icon.weight: 300
+                    icon.filled: true
+                    icon.font.pixelSize: 20
+                    backgroundColor: "transparent"
+
+                    onClicked: root.activePlayer.next()
+                }
+            }
+        }
     }
 
     Behavior on color {
         ColorAnimation {
             duration: 200
-        }
-    }
-
-    Behavior on radius {
-        NumberAnimation {
-            duration: 500
         }
     }
 

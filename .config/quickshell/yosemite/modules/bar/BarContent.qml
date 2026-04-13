@@ -125,6 +125,7 @@ Rectangle {
             Layout.fillHeight: true
             Layout.minimumWidth: root.middleWidth
             Layout.preferredWidth: root.middleWidth
+            visible: root.middleWidth > 0
         }
 
         Item { // Middle-right spacer
