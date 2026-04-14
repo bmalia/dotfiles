@@ -132,7 +132,7 @@ Rectangle {
         ColumnLayout {
             Layout.fillHeight: true
             spacing: 0
-            Layout.rightMargin: 12
+            Layout.rightMargin: 10
 
             Layout.maximumWidth: 250
 
@@ -183,7 +183,7 @@ Rectangle {
                     icon.color: Appearance.colors.on_surface
                     icon.weight: 300
                     icon.filled: true
-                    icon.font.pixelSize: 20
+                    icon.font.pixelSize: 22
                     backgroundColor: "transparent"
 
                     onClicked: root.activePlayer.previous()
@@ -197,7 +197,7 @@ Rectangle {
                     icon.color: Appearance.colors.on_surface
                     icon.weight: 300
                     icon.filled: true
-                    icon.font.pixelSize: 20
+                    icon.font.pixelSize: 22
                     backgroundColor: "transparent"
 
                     onClicked: root.activePlayer.togglePlaying()
@@ -211,10 +211,56 @@ Rectangle {
                     icon.color: Appearance.colors.on_surface
                     icon.weight: 300
                     icon.filled: true
-                    icon.font.pixelSize: 20
+                    icon.font.pixelSize: 22
                     backgroundColor: "transparent"
 
                     onClicked: root.activePlayer.next()
+                }
+
+                Rectangle {
+                    visible: root.activePlayer.shuffleSupported || root.activePlayer.loopSupported
+                    width: 1.5
+                    radius: 9
+                    Layout.fillHeight: true
+                    Layout.topMargin: 5
+                    Layout.bottomMargin: 5
+                    Layout.leftMargin: 2
+                    Layout.rightMargin: 2
+                    color: Appearance.colors.outline_variant
+                }
+
+                IconButton {
+                    visible: root.activePlayer.shuffleSupported
+                    implicitHeight: 15
+                    implicitWidth: height
+                    icon.text: "shuffle"
+                    icon.color: root.activePlayer.shuffle ? Appearance.colors.tertiary : Appearance.colors.on_surface
+                    backgroundColor: "transparent"
+                    icon.weight: 400
+                    icon.font.pixelSize: 18
+
+                    onClicked: root.activePlayer.shuffle = !root.activePlayer.shuffle
+                }
+
+                IconButton {
+                    visible: root.activePlayer.loopSupported
+                    implicitHeight: 15
+                    implicitWidth: height
+                    icon.text: root.activePlayer.loopMode === MprisLoopState.Track ? "repeat_one" : "repeat"
+                    icon.color: root.activePlayer.loopMode === MprisLoopState.None ? Appearance.colors.on_surface : Appearance.colors.tertiary
+                    backgroundColor: "transparent"
+                    icon.weight: 400
+                    icon.font.pixelSize: 18
+
+                    onClicked: {
+                        console.log("Current loop mode:", root.activePlayer.loopMode);
+                        if (root.activePlayer.loopMode === MprisLoopState.None)
+                            root.activePlayer.loopMode = MprisLoopState.Track;
+                        else if (root.activePlayer.loopMode === MprisLoopState.Track)
+                            root.activePlayer.loopMode = MprisLoopState.Playlist;
+                        else
+                            root.activePlayer.loopMode = MprisLoopState.None;
+                    }
                 }
             }
         }
