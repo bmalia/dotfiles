@@ -11,7 +11,7 @@ import qs.services
 
 Rectangle {
     id: root
-    implicitWidth: content.implicitWidth + 3
+    implicitWidth: content.implicitWidth
     readonly property var activePlayer: MprisController.activePlayer
     property bool hovered: false
     property bool hasTrackArt: root.activePlayer.trackArtUrl !== ""
@@ -30,20 +30,7 @@ Rectangle {
         repeat: true
 
         onTriggered: {
-            const player = root.activePlayer;
-            const length = Number(player?.length ?? 0);
-            const position = Number(player?.position ?? 0);
-            const fallback = Number(player?.progress ?? 0);
-
-            let sampled = 0;
-            if (isFinite(length) && length > 0 && isFinite(position))
-                sampled = position / length;
-            else if (isFinite(fallback))
-                sampled = fallback;
-
-            sampled = Math.max(0, Math.min(1, sampled));
-            if (Math.abs(sampled - root.displayedProgress) > 0.0005)
-                root.displayedProgress = sampled;
+            root.progress = root.activePlayer.position / root.activePlayer.length
         }
     }
 
@@ -62,7 +49,7 @@ Rectangle {
         anchors {
             top: parent.top
             bottom: parent.bottom
-            horizontalCenter: parent.horizontalCenter
+            left: parent.left
             margins: 0
         }
 
@@ -116,14 +103,14 @@ Rectangle {
                     implicitWidth: artProgress.width - 2 * 2
                     implicitHeight: implicitWidth
                     radius: 99
-                    color: Qt.alpha(Appearance.colors.on_surface, 0.08)
+                    color: Appearance.colors.surface_container
 
                     MaterialIcon {
                         anchors.centerIn: parent
                         text:"music_note"
                         filled: true
                         font.pixelSize: Math.max(12, parent.height * 0.55)
-                        color: Qt.alpha(Appearance.colors.on_surface, 0.75)
+                        color: Appearance.colors.on_surface
                     }
                 }
             }
@@ -148,7 +135,7 @@ Rectangle {
             }
 
             Text {
-                visible: root.activePlayer.trackArtist !== ""
+                visible: root.activePlayer.trackArtist
                 id: artist
                 text: root.activePlayer.trackArtist
                 font.family: Config.options.fontFamily
@@ -160,10 +147,12 @@ Rectangle {
         }
 
         Rectangle {
-            visible: root.activePlayer.canControl && root.hovered
+            visible: root.hovered
             id: controlsContainer
             Layout.fillHeight: true
-            Layout.margins: 6
+            Layout.topMargin: 6
+            Layout.bottomMargin: 6
+            Layout.rightMargin: 6
             implicitWidth: controls.implicitWidth + 6 * 2
             radius: 90
             color: Qt.alpha(Appearance.colors.surface_variant, 0.6)
@@ -224,8 +213,8 @@ Rectangle {
                     Layout.fillHeight: true
                     Layout.topMargin: 5
                     Layout.bottomMargin: 5
-                    Layout.leftMargin: 2
-                    Layout.rightMargin: 2
+                    Layout.leftMargin: 1
+                    Layout.rightMargin: 1
                     color: Appearance.colors.outline_variant
                 }
 
@@ -261,6 +250,14 @@ Rectangle {
                         else
                             root.activePlayer.loopMode = MprisLoopState.None;
                     }
+                }
+
+                Text {
+                    visible: !root.activePlayer.canControl
+                    text: "No controls available"
+                    font.family: Config.options.fontFamily
+                    font.pixelSize: 11
+                    color: Appearance.colors.on_surface_variant
                 }
             }
         }

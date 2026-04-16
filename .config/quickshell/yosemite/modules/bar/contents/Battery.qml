@@ -27,9 +27,11 @@ ClippingRectangle {
     RowLayout {
         spacing: 5
         id: content
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors {
+            top: parent.top
+            bottom: parent.bottom
+            horizontalCenter: parent.horizontalCenter
+        }
 
         Item {
             id: batteryContainer
