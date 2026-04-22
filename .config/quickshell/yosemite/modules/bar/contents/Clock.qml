@@ -9,7 +9,7 @@ Rectangle {
     id: root
     implicitWidth: content.implicitWidth + 10
     radius: 15
-    color: Appearance.colors.surface
+    color: Qt.alpha(Appearance.colors.surface, Config.options.backgroundOpacity)
 
     border.width: 1
     border.color: Qt.alpha(Appearance.colors.on_surface, 0.12)

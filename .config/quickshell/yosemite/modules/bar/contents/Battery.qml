@@ -11,7 +11,7 @@ import "../../widgets/shapes/material-shapes.js" as MaterialShapes
 ClippingRectangle {
     id: root
     implicitWidth: content.implicitWidth + widthOffset
-    color: Appearance.colors.surface
+    color: Qt.alpha(Appearance.colors.surface, Config.options.backgroundOpacity)
     radius: 20
 
     border.width: 1

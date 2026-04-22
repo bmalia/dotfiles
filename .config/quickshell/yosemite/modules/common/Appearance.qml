@@ -31,6 +31,8 @@ Singleton {
 
             property bool darkMode: true
 
+            property string wallpaper: ""
+
             property string background: "#1a1112"
             property string error: "#ffb4ab"
             property string error_container: "#93000a"

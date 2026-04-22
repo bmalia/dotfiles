@@ -18,7 +18,7 @@ Rectangle {
     property real progress: activePlayer.position / activePlayer.length
     property real displayedProgress: progress
 
-    color: Appearance.colors.surface
+    color: Qt.alpha(Appearance.colors.surface, Config.options.backgroundOpacity)
     radius: 90
     border.width: 1
     border.color: Qt.alpha(Appearance.colors.on_surface, 0.12)

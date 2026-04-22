@@ -83,7 +83,7 @@ Singleton {
         adapter: JsonAdapter {
             id: configJson
 
-            property string fontFamily: "Google Sans"
+            property string fontFamily: "Roboto"
             property int barStyle: 0 // 0 = edge, 1 = floating
             property int barPosition: 0 // 0 = top, 1 = bottom
             property int barCornerSize: 23
@@ -92,6 +92,7 @@ Singleton {
             property bool batteryUseErrorContainer: true
             property real batteryLowThreshold: 0.2
             property bool btShowOnEmpty: true
+            property real backgroundOpacity: 0.8
 
             property list<string> taskbarPinnedApps: []
         }

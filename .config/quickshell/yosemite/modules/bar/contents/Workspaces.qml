@@ -10,7 +10,7 @@ import "../../widgets/shapes/material-shapes.js" as MaterialShapes
 Rectangle {
     id: root
     width: Config.options.workspaceCount * 27 + 10
-    color: Appearance.colors.background
+    color: Qt.alpha(Appearance.colors.background, Config.options.backgroundOpacity)
     radius: 99
     border.width: 1
     border.color: Qt.alpha(Appearance.colors.on_surface, 0.12)
@@ -114,7 +114,7 @@ Rectangle {
                     topRightRadius: radiusNext
                     bottomRightRadius: radiusNext
 
-                    color: root.occupied[index] ? Appearance.colors.surface_container : "transparent"
+                    color: root.occupied[index] ? Qt.alpha(Appearance.colors.surface_container, Config.options.backgroundOpacity) : "transparent"
                 }
             }
         }

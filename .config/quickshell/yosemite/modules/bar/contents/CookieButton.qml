@@ -13,7 +13,7 @@ Item {
         id: button
         z: 1
         anchors.fill: parent
-        color: Appearance.colors.primary
+        color: Appearance.colors.primary_container
         radius: 99
         property var hovered: false
 
@@ -23,7 +23,7 @@ Item {
             anchors.centerIn: parent
             z: 2
             roundedPolygon: parent.hovered ? MaterialShapes.getClover4Leaf() : CookieButtonState.currentShape
-            color: Appearance.colors.on_primary
+            color: Appearance.colors.on_primary_container
             rotation: parent.hovered ? 90 : CookieButtonState.currentRotation
 
             Behavior on rotation {
@@ -46,6 +46,7 @@ Item {
     }
 
     RectangularShadow {
+        visible: false
         anchors.fill: button
         z: 0
         radius: button.radius

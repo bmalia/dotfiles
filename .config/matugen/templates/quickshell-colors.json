@@ -4,6 +4,7 @@
     <* else *>
     "darkMode": false,
     <* endif *>
+    "wallpaper": "{{image}}",
     "background": "{{colors.background.default.hex}}",
     "error": "{{colors.error.default.hex}}",
     "error_container": "{{colors.error_container.default.hex}}",
