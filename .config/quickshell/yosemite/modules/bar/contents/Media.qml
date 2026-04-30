@@ -130,8 +130,13 @@ Rectangle {
                 font.bold: true
                 font.pixelSize: 13
                 color: Appearance.colors.on_surface
-                elide: Text.ElideMiddle
+                elide: Text.ElideRight
                 Layout.fillWidth: true
+
+                font.variableAxes: ({
+                    "wdth": 113,
+                    "wght": 475,
+                })
             }
 
             Text {

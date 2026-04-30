@@ -1,6 +1,6 @@
 import QtQuick
 import Quickshell
-import Quickshell.Wayland
+import qs.modules.widgets
 import Quickshell.Hyprland
 import QtQuick.Layouts
 import qs.modules.bar.contents
@@ -30,55 +30,6 @@ Rectangle {
         }
     }
 
-    component AnimatedLoader: Item {
-        id: wrapper
-        required property bool shouldShow
-        required property Component sourceComponent
-        property bool mounted: shouldShow
-        property real animatedWidth: shouldShow ? contentLoader.implicitWidth : 0
-
-        Layout.fillHeight: true
-        Layout.minimumWidth: 0
-        Layout.preferredWidth: animatedWidth
-
-        visible: mounted || animatedWidth > 0.5
-        clip: true
-        opacity: shouldShow ? 1 : 0
-
-        onShouldShowChanged: {
-            if (shouldShow)
-                mounted = true
-        }
-
-        onAnimatedWidthChanged: {
-            if (!shouldShow && animatedWidth <= 0.5)
-                mounted = false
-        }
-
-        Behavior on animatedWidth {
-            NumberAnimation {
-                duration: 500
-                easing.type: Easing.BezierSpline
-                easing.bezierCurve: Appearance.easings.expressiveDefaultSpatial
-            }
-        }
-
-        Behavior on opacity {
-            NumberAnimation {
-                duration: 200
-                easing.type: Easing.BezierSpline
-                easing.bezierCurve: Appearance.easings.expressiveDefaultEffects
-            }
-        }
-
-        Loader {
-            id: contentLoader
-            anchors.fill: parent
-            active: wrapper.mounted
-            sourceComponent: wrapper.sourceComponent
-        }
-    }
-
     RowLayout {
         id: layout
         anchors.fill: parent
@@ -94,6 +45,7 @@ Rectangle {
 
         Loader {
             sourceComponent: CookieButton {}
+            active: true
             Layout.fillHeight: true
             Layout.topMargin: 3
             Layout.bottomMargin: 3
@@ -135,18 +87,16 @@ Rectangle {
             visible: root.focusT > 0
         }
 
-        Loader { // Unlikely to change at runtime
-            sourceComponent: Battery {}
-            Layout.fillHeight: true
-            Layout.topMargin: 5
-            Layout.bottomMargin: 5
-            visible: UPower.displayDevice.isLaptopBattery
-            active: visible
-        }
-
         AnimatedLoader {
             shouldShow: SystemTray.items.values.length > 0
             sourceComponent: SysTray {}
+            Layout.topMargin: 5
+            Layout.bottomMargin: 5
+        }
+
+        Loader {
+            sourceComponent: System {}
+            Layout.fillHeight: true
             Layout.topMargin: 5
             Layout.bottomMargin: 5
         }
