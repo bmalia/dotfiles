@@ -40,8 +40,8 @@ hl.config({
 
         border_size = 1,
         col = {
-            active_border = colors.outline,
-            inactive_border = colors.outline_variant
+            active_border = "rgba(0DB7D455)",
+            inactive_border = "rgba(31313600)"
         },
         resize_on_border = true,
         layout = "dwindle",

@@ -46,6 +46,7 @@ output_path = '~/.config/swayosd/colors.css'
 [templates.swaync]
 input_path = 'templates/colors.css'
 output_path = '~/.config/swaync/colors.css'
+post_hook = 'swaync-client -rs'
 
 [templates.vicinae]
 input_path = './templates/vicinae-colors.toml'
