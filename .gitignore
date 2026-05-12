@@ -1,5 +1,6 @@
 .config/hypr/colors.conf
-.config/hypr/user.conf
+.config/hypr/hyprland/colors.lua
+.config/hypr/hyprland/custom
 .config/kitty/colors.conf
 .config/rofi/colors.rasi
 .config/rofi/current_wallpaper

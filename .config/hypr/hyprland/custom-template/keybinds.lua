@@ -1,0 +1,4 @@
+-- Custom Keybinds --
+-- Add your own keybinds in this file. Note that these will override the default binds, 
+-- so setting a bind with the same keys as a default bind will replace the default, which
+-- might break some things. Read the default keybinds file before changing anything.

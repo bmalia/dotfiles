@@ -8,7 +8,11 @@ reload_apps = true
 # set = false
 
 [templates.hyprland]
-input_path = "~/.config/matugen/templates/hyprland-colors.conf"
+input_path = 'templates/hyprland.lua'
+output_path = '~/.config/hypr/hyprland/colors.lua'
+
+[templates.hyprutils]
+input_path = "~/.config/matugen/templates/hypr-colors.conf"
 output_path = "~/.config/hypr/colors.conf"
 
 [templates.kitty]
