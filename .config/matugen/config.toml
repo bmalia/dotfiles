@@ -17,7 +17,8 @@ output_path = "~/.config/hypr/colors.conf"
 
 [templates.kitty]
 input_path = 'templates/kitty-colors.conf'
-output_path = '~/.config/kitty/colors.conf'
+output_path = '~/.config/kitty/themes/matugen.conf'
+post_hook = "kitty +kitten themes --reload-in=all matugen"
 
 [templates.gtk3]
 input_path = 'templates/gtk-colors.css'

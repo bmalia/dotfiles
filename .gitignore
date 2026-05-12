@@ -1,7 +1,8 @@
 .config/hypr/colors.conf
 .config/hypr/hyprland/colors.lua
 .config/hypr/hyprland/custom
-.config/kitty/colors.conf
+.config/kitty/themes/
+.config/kitty/current-theme.conf
 .config/rofi/colors.rasi
 .config/rofi/current_wallpaper
 .config/waybar/colors.css
