@@ -1,3 +1,4 @@
+local colors = require("hyprland.colors")
 -- Window Rules --
 local suppressMaximizeRule = hl.window_rule({
     -- Ignore maximize requests from all apps. You'll probably like this.
@@ -93,3 +94,13 @@ hl.workspace_rule({
     gaps_out = 40,
     no_shadow = true,
 })
+
+-- Reverse smart gaps for hidpi screens
+hl.workspace_rule({ workspace = "w[tv1]s[false]", gaps_out = 100, gaps_in = 10 })
+hl.workspace_rule({ workspace = "f[1]s[false]", gaps_out = 100, gaps_in = 10 })
+hl.window_rule({ match = { float = false, workspace = "w[tv1]s[false]" }, border_size = 1 })
+hl.window_rule({ match = { float = false, workspace = "w[tv1]s[false]" }, rounding = 20 })
+hl.window_rule({ match = { float = false, workspace = "w[tv1]s[false]" }, border_color = colors.primary })
+hl.window_rule({ match = { float = false, workspace = "f[1]s[false]" }, border_size = 1 })
+hl.window_rule({ match = { float = false, workspace = "f[1]s[false]" }, rounding = 20 })
+hl.window_rule({ match = { float = false, workspace = "f[1]s[false]" }, border_color = colors.primary})
