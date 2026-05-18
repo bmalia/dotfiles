@@ -1,68 +1,52 @@
-import Quickshell
 import QtQuick
 import QtQuick.Layouts
-import qs.modules.bar.contents
+import Quickshell.Widgets
+import Quickshell.Services.UPower
 import qs.modules.common
+import qs.modules.widgets.shapes
+import qs.modules.widgets
+import qs.services
+import "../../widgets/shapes/material-shapes.js" as MaterialShapes
 
 Rectangle {
-    radius: 999
-    color: GlobalVars.sidebarVisible ? Colors.surface_container_highest : Colors.surface_container
-    implicitWidth: content.implicitWidth
+    id: root
+    implicitWidth: content.implicitWidth + 16
+    color: Qt.alpha(Appearance.colors.surface, Config.options.backgroundOpacity)
+    radius: 12
 
-    Behavior on width {
-        NumberAnimation {
-            duration: 200
-            easing.type: Easing.InOutBack
-        }
-    }
-
-    MouseArea {
-        anchors.fill: parent
-        onClicked: {
-            GlobalVars.sidebarVisible = !GlobalVars.sidebarVisible;
-        }
-    }
+    border.width: 1
+    border.color: Qt.alpha(Appearance.colors.on_surface, 0.12)
 
     RowLayout {
         id: content
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        spacing: 0
+        anchors {
+            left: parent.left
+            top: parent.top
+            bottom: parent.bottom
+            leftMargin: 8
+            rightMargin: 8
+        }
+        spacing: 5
+        
+        Loader {
+            id: batteryLoader
+            sourceComponent: Battery {}
+            Layout.fillHeight: true
+            Layout.topMargin: 5
+            Layout.bottomMargin: 5
+            visible: UPower.displayDevice.isLaptopBattery
+            active: visible
 
-        Behavior on width {
-            NumberAnimation {
-                duration: 200
-                easing.type: Easing.InOutBack
+            MouseArea {
+                anchors.fill: parent
+                onClicked: batteryPopup.open() // WIP
             }
         }
 
-        Loader {
-            sourceComponent: Network {}
-            Layout.fillHeight: true
-            Layout.leftMargin: 2
-            Layout.rightMargin: 2
-            Layout.topMargin: 2
-            Layout.bottomMargin: 2
-        }
-
-        Loader {
-            sourceComponent: IdleStatus {}
-            Layout.fillHeight: true
-            Layout.leftMargin: 0
-            Layout.rightMargin: 0
-            Layout.topMargin: 2
-            Layout.bottomMargin: 2
-        }
-
-        Loader {
-            sourceComponent: Bluetooth {}
-            Layout.fillHeight: true
-            Layout.leftMargin: 2
-            Layout.rightMargin: 2
-            Layout.topMargin: 2
-            Layout.bottomMargin: 2
-            visible: this.item.adapterState === "connected" || Config.btShowOnEmpty
+        MaterialIcon {
+            text: BtService.materialSymbol
+            iconSize: 23
+            color: BtService.btStatus === "connected" ? Appearance.colors.primary : BtService.btStatus === "off" ? Qt.alpha(Appearance.colors.on_surface, 0.38) : Appearance.colors.on_surface
         }
     }
 }

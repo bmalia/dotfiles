@@ -1,0 +1,30 @@
+import QtQuick
+import Quickshell.Services.SystemTray
+import QtQuick.Layouts
+import qs.modules.common
+import qs.modules.widgets
+
+Rectangle {
+    implicitWidth: layout.implicitWidth + 20
+    color: Qt.alpha(Appearance.colors.surface, Config.options.backgroundOpacity)
+    radius: 20
+
+    border.width: 1
+    border.color: Qt.alpha(Appearance.colors.on_surface, 0.12)
+
+    RowLayout {
+        id: layout
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        spacing: 8
+
+        Repeater {
+            model: SystemTray.items
+            delegate: SysTrayItem {
+                required property SystemTrayItem modelData
+                item: modelData
+            }
+        }
+    }
+}

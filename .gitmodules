@@ -1,0 +1,3 @@
+[submodule ".config/quickshell/yosemite/modules/widgets/shapes"]
+	path = .config/quickshell/yosemite/modules/widgets/shapes
+	url = https://github.com/end-4/rounded-polygon-qmljs.git

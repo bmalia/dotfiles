@@ -35,6 +35,7 @@ zstyle ':z4h:direnv:success' notify 'yes'
 # SSH when connecting to these hosts.
 zstyle ':z4h:ssh:example-hostname1'   enable 'yes'
 zstyle ':z4h:ssh:*.example-hostname2' enable 'no'
+zstyle ':z4h:ssh:potatopi'            enable 'yes'
 # The default value if none of the overrides above match the hostname.
 zstyle ':z4h:ssh:*'                   enable 'no'
 
@@ -99,11 +100,18 @@ setopt no_auto_menu  # require an extra TAB press to open the completion menu
 #############
 ## Aliases ##
 #############
-alias ls="eza --icons -a --group-directories-first"
-alias cat="bat"
-eval $(thefuck --alias)
-eval "$(zoxide init zsh)"
-alias cd="z"
+if command -v eza >/dev/null 2>&1; then
+  alias ls="eza --icons -a --group-directories-first"
+fi
+
+if command -v thefuck >/dev/null 2>&1; then
+  eval "$(thefuck --alias)"
+fi
+
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init zsh)"
+  alias cd="z"
+fi
 alias upd="yay -Syu && flatpak update && z4h update"
 
 fortune -c | cowsay -f $(find /usr/share/cowsay -type f | shuf -n 1)
