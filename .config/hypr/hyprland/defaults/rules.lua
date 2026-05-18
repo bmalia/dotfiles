@@ -96,11 +96,13 @@ hl.workspace_rule({
 })
 
 -- Reverse smart gaps for hidpi screens
-hl.workspace_rule({ workspace = "w[tv1]s[false]", gaps_out = 100, gaps_in = 10 })
-hl.workspace_rule({ workspace = "f[1]s[false]", gaps_out = 100, gaps_in = 10 })
-hl.window_rule({ match = { float = false, workspace = "w[tv1]s[false]" }, border_size = 1 })
+--[[
+hl.workspace_rule({ workspace = "w[tv1]s[false]", gaps_out = 70, gaps_in = 10 })
+hl.workspace_rule({ workspace = "f[1]s[false]", gaps_out = 70, gaps_in = 10 })
+hl.window_rule({ match = { float = false, workspace = "w[tv1]s[false]" }, border_size = 0 })
 hl.window_rule({ match = { float = false, workspace = "w[tv1]s[false]" }, rounding = 20 })
 hl.window_rule({ match = { float = false, workspace = "w[tv1]s[false]" }, border_color = colors.primary })
-hl.window_rule({ match = { float = false, workspace = "f[1]s[false]" }, border_size = 1 })
+hl.window_rule({ match = { float = false, workspace = "f[1]s[false]" }, border_size = 0 })
 hl.window_rule({ match = { float = false, workspace = "f[1]s[false]" }, rounding = 20 })
 hl.window_rule({ match = { float = false, workspace = "f[1]s[false]" }, border_color = colors.primary})
+--]]

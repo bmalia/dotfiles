@@ -7,6 +7,7 @@ require("hyprland.defaults.autostart") -- Autostart
 require("hyprland.defaults.general") -- General settings
 require("hyprland.defaults.keybinds") -- Keybinds
 require("hyprland.defaults.rules") -- Window rules
+require("hyprland.defaults.permissions") -- Permissions
 
 -- Custom configs
 require("hyprland.custom.general") -- General settings

@@ -9,4 +9,5 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("hypridle") -- Idle daemon
     hl.exec_cmd("swayosd-server") -- OSD for brightness, volume, etc.
     hl.exec_cmd("vicinae server") -- Launcher
+    hl.exec_cmd("hyprpm reload") -- Load plugins
 end)
