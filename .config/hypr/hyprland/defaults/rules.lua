@@ -80,15 +80,6 @@ hl.layer_rule({
     }
 })
 
-hl.layer_rule({
-    name = "quickshell-blur",
-    blur = true,
-    ignore_alpha = false,
-    match = {
-        class = "^quickshell$",
-    }
-})
-
 hl.workspace_rule({
     workspace = "special:scratchpad",
     gaps_out = 40,

@@ -19,7 +19,7 @@ Variants {
                 bottom: Config.options.barPosition == 1 ? true : false
             }
             color: "transparent"
-            implicitHeight: 50
+            implicitHeight: 45
 
             Loader {
                 active: true

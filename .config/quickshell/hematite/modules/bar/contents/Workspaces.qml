@@ -9,11 +9,8 @@ import "../../widgets/shapes/material-shapes.js" as MaterialShapes
 
 Rectangle {
     id: root
-    width: Config.options.workspaceCount * 27 + 10
-    color: Qt.alpha(Appearance.colors.background, Config.options.backgroundOpacity)
-    radius: 99
-    border.width: 1
-    border.color: Qt.alpha(Appearance.colors.on_surface, 0.12)
+    implicitWidth: Config.options.workspaceCount * 27
+    color: "transparent"
     
     property list<bool> occupied: []
     property int previousWorkspaceId: 1
@@ -60,16 +57,6 @@ Rectangle {
             root.updateOccupied();
         }
     }
-
-    RowLayout {
-        id: row
-        z: 3
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.margins: 5
-        spacing: 0
-    }
     
     WheelHandler {
         onWheel: event => {
@@ -90,8 +77,8 @@ Rectangle {
             z: 0
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.margins: 5
+            anchors.left: parent.left
+            anchors.margins: 2
             spacing: 0
 
             Repeater {
@@ -128,7 +115,7 @@ Rectangle {
             height: 24
             radius: 99
             anchors.verticalCenter: bgRow.verticalCenter
-            x: 10 + (root.effectiveActiveWorkspaceId - 1 - root.workspaceGroup * Config.options.workspaceCount) * 26
+            x: 4 + (root.effectiveActiveWorkspaceId - 1 - root.workspaceGroup * Config.options.workspaceCount) * 27
 
             Behavior on x {
                 NumberAnimation {

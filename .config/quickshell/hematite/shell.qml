@@ -12,4 +12,7 @@ ShellRoot {
         active: Config.ready
         sourceComponent: Bar {}
     }
+    Component.onCompleted: {
+        console.log("Shell started. Waiting for config load...");
+    }
 }

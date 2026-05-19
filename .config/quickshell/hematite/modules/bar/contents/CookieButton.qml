@@ -13,13 +13,12 @@ Item {
         id: button
         z: 1
         anchors.fill: parent
-        color: Appearance.colors.primary_container
-        radius: 99
+        color: "transparent"
         property var hovered: false
 
         ShapeCanvas {
-            implicitWidth: 29
-            implicitHeight: 29
+            implicitWidth: 25
+            implicitHeight: 25
             anchors.centerIn: parent
             z: 2
             roundedPolygon: parent.hovered ? MaterialShapes.getClover4Leaf() : CookieButtonState.currentShape

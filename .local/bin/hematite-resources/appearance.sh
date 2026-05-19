@@ -17,28 +17,28 @@ done
 
 if [ "$operation" == "toggle" ]; then
   # Get wallpaper path from state file
-  if [ -f ~/.local/state/yosemite/wallpaper_path ]; then
-    wallpaper=$(cat ~/.local/state/yosemite/wallpaper_path)
+  if [ -f ~/.local/state/quickshell/hematite/wallpaper_path ]; then
+    wallpaper=$(cat ~/.local/state/quickshell/hematite/wallpaper_path)
   else
     echo "Creating nonexistent wallpaper state file with default wallpaper path."
-    mkdir -p ~/.local/state/yosemite
-    echo "$HOME/dotfiles/assets/default_wallpaper.jpg" > ~/.local/state/yosemite/wallpaper_path
+    mkdir -p ~/.local/state/quickshell/hematite
+    echo "$HOME/dotfiles/assets/default_wallpaper.jpg" > ~/.local/state/quickshell/hematite/wallpaper_path
     wallpaper="$HOME/dotfiles/assets/default_wallpaper.jpg"
     echo "Created state file. You might have to reset your wallpaper if you want correct colors."
   fi
 
-  if [ -f "$HOME/.local/state/yosemite/color_index" ]; then
-    color_index=$(cat ~/.local/state/yosemite/color_index)
+  if [ -f "$HOME/.config/hematite/colorgen/color_index" ]; then
+    color_index=$(cat ~/.config/hematite/colorgen/color_index)
   else
-    echo "0" > ~/.local/state/yosemite/color_index
+    echo "0" > ~/.config/hematite/colorgen/color_index
     color_index=0
   fi
 
-  if [ -f "$HOME/.local/state/yosemite/scheme" ]; then
-    scheme=$(cat ~/.local/state/yosemite/scheme)
+  if [ -f "$HOME/.config/hematite/colorgen/scheme" ]; then
+    scheme=$(cat ~/.config/hematite/colorgen/scheme)
   else
     scheme="scheme-tonal-spot"
-    echo "scheme-tonal-spot" > ~/.local/state/yosemite/scheme
+    echo "scheme-tonal-spot" > ~/.config/hematite/colorgen/scheme
   fi
 
   currentTheme=$(gsettings get org.gnome.desktop.interface color-scheme | tr -d "'")

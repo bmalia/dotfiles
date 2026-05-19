@@ -38,7 +38,7 @@ output_path = '~/.config/qt6ct/colors/matugen.conf'
 
 [templates.quickshell]
 input_path = 'templates/quickshell-colors.json'
-output_path = '~/.config/quickshell/yosemite/modules/common/mdcolors.json'
+output_path = '~/.local/state/quickshell/ferros/generated/colors.json'
 
 [templates.swayosd]
 input_path = 'templates/colors.css'

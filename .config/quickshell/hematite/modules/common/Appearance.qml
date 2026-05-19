@@ -2,11 +2,11 @@ pragma Singleton
 import QtQuick
 import Quickshell
 import Quickshell.Io
-import Qt.labs.platform
+import QtCore
 
 Singleton {
     id: root
-    readonly property string filePath: StandardPaths.standardLocations(StandardPaths.ConfigLocation)[0] + "/quickshell/yosemite/modules/common/mdcolors.json"
+    readonly property string filePath: StandardPaths.standardLocations(StandardPaths.StateLocation)[0] + "/ferros/generated/colors.json"
     property alias colors: colorsJson
     property bool ready: false
 

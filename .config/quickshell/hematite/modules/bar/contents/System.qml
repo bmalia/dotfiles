@@ -11,11 +11,7 @@ import "../../widgets/shapes/material-shapes.js" as MaterialShapes
 Rectangle {
     id: root
     implicitWidth: content.implicitWidth + 16
-    color: Qt.alpha(Appearance.colors.surface, Config.options.backgroundOpacity)
-    radius: 12
-
-    border.width: 1
-    border.color: Qt.alpha(Appearance.colors.on_surface, 0.12)
+    color: "transparent"
 
     RowLayout {
         id: content
