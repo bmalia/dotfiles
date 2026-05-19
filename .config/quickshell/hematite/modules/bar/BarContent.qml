@@ -14,6 +14,16 @@ Rectangle {
     color: "transparent"
     clip: true
     readonly property HyprlandMonitor monitor: Hyprland.monitorFor(root.QsWindow.window?.screen)
+    readonly property var barMask: barMaskRegion
+
+    Region {
+        id: barMaskRegion
+        item: leftBg
+
+        Region {
+            item: rightBg
+        }
+    }
 
     RowLayout {
         id: layout
@@ -23,6 +33,7 @@ Rectangle {
         spacing: 5
 
         Item {
+            id: leftSection
             Layout.fillHeight: true
             implicitWidth: leftBg.implicitWidth + leftRound.implicitWidth
 
@@ -81,18 +92,12 @@ Rectangle {
             }
         }
 
-        Loader {
-            sourceComponent: Clock {}
-            Layout.fillHeight: true
-            Layout.topMargin: 2.5
-            Layout.bottomMargin: 2.5
-        }
-
         Item {
             Layout.fillWidth: true
         }
 
         Item {
+            id: rightSection
             Layout.fillHeight: true
             implicitWidth: rightBg.implicitWidth
 
@@ -100,7 +105,7 @@ Rectangle {
                 id: rightBg
                 property bool hovered: false
                 bottomLeftRadius: 99
-                implicitWidth: rightContent.implicitWidth + 10
+                implicitWidth: rightContent.implicitWidth + 15
                 color: Appearance.colors.background
                 anchors {
                     top: parent.top

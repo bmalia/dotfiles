@@ -76,7 +76,7 @@ hl.layer_rule({
     blur = true,
     ignore_alpha = false,
     match = {
-        class = "^vicinae$",
+        namespace = "vicinae",
     }
 })
 

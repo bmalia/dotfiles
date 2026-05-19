@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell
 import Quickshell.Wayland
@@ -8,8 +9,9 @@ Variants {
 
     delegate: Component {
         PanelWindow {
-            id: barContainer
+            id: root
             required property var modelData
+            readonly property var barContentItem: contentLoader.item
 
             screen: modelData
             anchors {
@@ -20,10 +22,13 @@ Variants {
             }
             color: "transparent"
             implicitHeight: 45
+            mask: contentLoader.item ? barContentItem.barMask : null
 
             Loader {
+                id: contentLoader
                 active: true
-                sourceComponent: BarContent {}
+                sourceComponent: BarContent {
+                }
                 anchors.fill: parent
             }
         }

@@ -4,6 +4,7 @@
 import QtQuick
 import Quickshell
 import qs.modules.bar
+import qs.modules.island
 import qs.modules.common
 
 ShellRoot {
@@ -11,6 +12,11 @@ ShellRoot {
         id: root
         active: Config.ready
         sourceComponent: Bar {}
+    }
+    Loader {
+        id: islandLoader
+        active: Config.ready
+        sourceComponent: Island {}
     }
     Component.onCompleted: {
         console.log("Shell started. Waiting for config load...");
