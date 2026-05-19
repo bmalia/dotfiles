@@ -1,160 +1,151 @@
-#!/bin/bash
-echo "Hello!"
-echo "This script will attempt to install the necessary packages and apply all of the configs for these dotfiles."
-echo "You may be prompted for your password."
-sleep 1
+#! /bin/bash
 
-echo "Checking for yay installation..."
-sleep 0.5
-if ! command -v yay &> /dev/null
-then
-    echo "Yay is not installed or unuseable in some way."
-    echo "Yay will be installed."
-    install_yay=true
-else
-    echo "Yay is installed and useable."
-    install_yay=false
-fi
-sleep 1
+set -oe pipefail
 
-echo "Select the version of the dotfiles you want to install:"
-echo "- Quickshell-based:"
-echo "  - Yosemite (1)"
-echo "- Waybar-based:"
-echo "  - Pixel-laptop (2)"
-echo "  - Pixel-desktop (3)"
-read -p "Enter the number corresponding to your choice: " choice
-case $choice in
-    1)
-        config="yosemite";;
-    2)
-        config="pixel-laptop";;
-    3)
-        config="pixel-desktop";;
-    *)
-        echo "Invalid choice. Exiting."
-        exit 1;;
-esac
-echo "Config selected: $config"
-sleep 1
-
-echo "Would you like to use GNU-Stow to manage the dotfiles?"
-read -p "[Y/n]: " use_stow
-sleep 1
-
-echo "Installation summary:"
-echo "Selected configuration: $config"
-if [[ $install_yay = true ]]; then
-    echo " - Yay will be installed"
-fi
-if [[ $use_stow = y || $use_stow = Y ]]; then
-    echo " - Stow will be used"
-else
-    echo " - Dotfiles will be installed manually"
-fi
-
-echo "Would you like to begin the installation?"
-read -p "[y/N]: " confirm
-if [[ $confirm != y && $confirm != Y ]]; then
-    echo "Exiting..."
-    exit 1
-fi
-
-sleep 1
-if [[ $install_yay = true ]]; then
-    echo "Phase 0: Installing yay"
-    echo -n "  - Downloading files... "
-    git clone https://aur.archlinux.org/yay.git > /dev/null
-    echo "Done"
-    echo -n"  - Installing package... "
-    cd yay
-    makepkg -si --noconfirm > /dev/null
-    echo "Done"
+function gather_system_info() {
+    echo -ne "\e[1mGathering system information...\x1b[0m "
     sleep 0.5
-    echo "Yay installed successfully!"
-fi
+    # check os-release for arch
+    if [[ -f /etc/os-release ]]; then
+        # get the id and id_like fields
+        . /etc/os-release
+        if [[ $ID == "arch" || $ID_LIKE == *"arch"* ]] 
+        then
+            dist="arch"
+        else
+            echo -e "\e[31mError\e[0m"
+            echo "└─This installer only supports Arch and Arch-like distros. Support for other distros is coming soon."
+            exit 1
+        fi
+    else
+        echo "Cannot determine distribution."
+        exit 1
+    fi
+    # check for yay
+    if command -v yay &> /dev/null
+    then
+        yay=true
+        echo -e "\e[32mDone\e[0m"
+    else
+        yay=false
+        echo -e "\e[32mDone\e[0m"
+        echo -e "\e[2;37m└─Yay isn't installed, will be installed later.\e[0m"
+    fi
+}
 
-sleep 1
-echo "Phase 1: Installing packages"
-echo -n "  - Compiling package list for config $config... "
-source packages.conf
-echo "Done"
-echo "  - Installing packages..."
-case $config in
-    yosemite)
-        yay -Syu --needed "${base_packages[@]}" "${yosemite_packages[@]}";;
-    pixel-laptop)
-        yay -Syu --needed "${base_packages[@]}" "${laptop_packages[@]}" "${legacy_packages[@]}";;
-    pixel-desktop)
-        yay -Syu --needed "${base_packages[@]}" "${legacy_packages[@]}";;
-    *)
-        echo -n "Error"
-        echo "Invalid config value: $config"
-        echo "Exiting..."
-        exit 1;
-esac
-echo "Packages installed successfully!"
-sleep 1
+function get_release() {
+    echo -e "\e[1mWhich release channel do you want to install?\e[0m"
+    echo "1) Stable"
+    echo "2) Staging"
+    read -rp "=> " release_channel
+    if [[ $release_channel -gt 2 || $release_channel -lt 1 ]]; then
+        echo "Invalid release channel."
+        exit 1
+    fi
+}
 
-echo "Phase 2: Installing configs"
-echo -n "  - Switching to repo version for $config... "
-cd ~/dotfiles
-git pull > /dev/null
-case $config in
-    yosemite)
-        git checkout main > /dev/null;;
-    pixel-laptop)
-        git checkout old-laptop > /dev/null;;
-    pixel-desktop)
-        git checkout old-desktop > /dev/null;;
-    *)
-        echo -n "Error"
-        echo "Invalid config value: $config"
-        echo "Exiting..."
-        exit 1;
-esac
-echo "Done"
-sleep .5
-echo "WARNING: The configs for hyprland/lock/idle, waybar, quickshell, matugen, rofi, kitty, waypaper, and wlogout are about to be removed."
-echo "If you would like to keep these, exit the script and back them up before coming back."
-echo "Would you like to proceed?"
-read -p "[y/N]: " dest_confirm
-if [[ $dest_confirm != y && $dest_confirm != Y ]]; then
-    echo "Exiting..."
-    exit 1
-fi
-sleep 0.5
-echo -n "  - Removing current configs... "
-rm -r ~/.config/hypr ~/.config/kitty ~/.config/matugen ~/.config/quickshell ~/.config/rofi ~/.config/waybar ~/.config/waypaper ~/.config/wlogout > /dev/null
-echo "Done"
-if [[ $use_stow = y || $use_stow = Y ]]; then
-    echo -n "  - Stowing ~/dotfiles to ~/.config... "
+function install_yay() {
+    echo -e "\e[1mInstalling yay...\x1b[0m"
+    sleep 0.5
+    git clone https://aur.archlinux.org/yay.git /tmp/yay
+    (cd /tmp/yay && makepkg -si --noconfirm)
+    cd ~
+    rm -rf /tmp/yay
+    echo -e "\e[32mDone\e[0m"
+}
+
+function install_packages() {
+    echo -e "\e[1mInstalling packages...\x1b[0m"
+    echo -e "For your computer's safety, the package installation will \e[1mNOT\e[0m be done unattended. Your input will be required to confirm installation and intervene if required."
+    echo "This script will automatically exit if at any point a package fails to install."
+    echo "Proceeding in 5 seconds."
+    sleep 5
+    source packages.conf
+    yay -Syu --needed "${base_packages[@]}" "${yosemite_packages[@]}"
+    if [[ $? -ne 0 ]]; then
+        echo -e "\e[31mError\e[0m"
+        echo "└─Package installation failed. Please check the output above for more details."
+        exit 1
+    fi
+    echo -e "\e[32mDone\e[0m"
+}
+
+function install_configs() {
+    echo -e "\e[1mInstalling configs...\x1b[0m"
+    sleep 0.5
+    cd "$(dirname "${BASH_SOURCE[0]}")"
+    echo -en "Switching to release branch... "
+    case "$release_channel" in
+        1)
+            git checkout main;;
+        2)
+            git checkout staging;;
+    esac
+    echo -e "\e[32mDone\e[0m"
+    echo -e "\e[33;1mNote: This script is about to overwrite your existing configs with the ones provided by yosemite. Would you like to back up your existing configs before proceeding?\e[0m"
+    read -rp "(y/n) => " backup
+    if [[ $backup == "y" ]]; then
+        echo -e "\e[1mBacking up configs...\x1b[0m"
+        mkdir -p ~/config-bak
+        mkdir -p ~/config-bak/.config
+        mkdir -p ~/config-bak/.local
+        echo -e "\e[2;37m├─Created backup directories in ~/config-bak\e[0m"
+        echo -e "\e[2;37m├─Backing up .config...\e[0m"
+        for dir in fastfetch gtk-3.0 gtk-4.0 hypr kitty Kvantum matugen qt6ct quickshell swaync swayosd waypaper wlogout; do
+            [[ -d ~/.config/$dir ]] && mv ~/.config/$dir ~/config-bak/.config/
+            echo -e "\e[2;37m│ ├─Backed up $dir\e[0m"
+        done
+        echo -e "\e[2;37m├─Backing up .themes...\e[0m"
+        mv ~/.themes ~/config-bak/
+        echo -e "\e[2;37m│ ├─Backed up .themes\e[0m"
+        echo -e "\e[1mDone\e[0m"
+    else
+        rm -rf ~/.config/fastfetch ~/.config/gtk-3.0 ~/.config/gtk-4.0 ~/.config/hypr ~/.config/kitty ~/.config/Kvantum ~/.config/matugen ~/.config/qt6ct ~/.config/quickshell ~/.config/swaync ~/.config/swayosd ~/.config/waypaper ~/.config/wlogout
+        rm -rf ~/.themes
+        echo "Existing configs have been removed. Proceeding..."
+    fi
+
+    echo -e "\e[1mStowing in configs...\x1b[0m"]
+    cd "$(dirname "${BASH_SOURCE[0]}")"
     stow .
-    cp ~/.config/hypr/user-template.conf ~/.config/hypr/user.conf
-    echo "Done"
-else
-    echo -n "  - Copying ~/dotfiles/.config/ to ~/.config... "
-    cp -r .config/* ~/.config/
-    cp ~/.config/hypr/user-template.conf ~/.config/hypr/user.conf
-    echo "Done"
+    echo -e "\e[32mDone\e[0m"
+}
+
+function post_install() {
+    echo -e "\e[1mPerforming post-install tasks...\x1b[0m"
+    sleep 0.5
+    echo -en "\e[2;37m├─Generating matugen colors...\e[0m "
+    matugen image ./assets/default_wallpaper.jpg -m dark
+    echo -e "\e[32mDone\e[0m"
+    echo -en "\e[2;37m├─Setting wallpaper...\e[0m "
+    swww img ./assets/default_wallpaper.jpg
+    echo -e "\e[32mDone\e[0m"
+    echo -en "\e[2;37m├─Generating template configs...\e[0m "
+    cp ~/.config/hyper/user-template.conf ~/.config/hyper/user.conf
+    
+}
+
+echo "Hello!"
+echo "This script will install Yosemite-Shell onto your system."
+echo "Please ensure you make backups of any important data or configurations before proceeding, this script may be destructive."
+echo "---------------------------------"
+gather_system_info
+get_release
+echo -e "\e[1mSummary:\e[0m"
+echo -e "├─ Release channel: \e[32m$release_channel\e[0m"
+echo -e "└─ Installing yay: \e[32m$yay\e[0m"
+echo "---------------------------------"
+read -rp "Are you ready to proceed? (y/n) " ready
+if [[ $ready != "y" ]]; then
+    echo "Aborting installation."
+    exit 0
+fi
+
+if [[ $yay != true ]]; then
+    install_yay
 fi
 sleep 0.5
-echo "Configs installed successfully!"
 
-echo "Generating placeholder colors and wallpaper..."
-mkdir -p ~/Pictures/wallpapers
-cp assets/default_wallpaper.jpg ~/Pictures/wallpapers/default_wallpaper.jpg
+install_packages
 sleep 0.5
-swww img ~/Pictures/wallpapers/default_wallpaper.jpg
-matugen image ~/Pictures/wallpapers/default_wallpaper.jpg
-echo "Placeholders generated!"
-
-echo "Installation complete!"
-echo "Look at https://github.com/bmalia/dotfiles/blob/main/README.md for keybinds and general help"
-echo "Follow post-installation procedures in https://github.com/bmalia/dotfiles/blob/main/INSTALLATION.md to get everything working properly."
-echo "Open an issue on the GitHub if you notice any problems or have suggestions"
-echo "Enjoy your new desktop!"
-sleep 5
-echo "[Press any key to reboot your system now.]"
-read -n 1 -s
-reboot
+install_configs
