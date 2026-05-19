@@ -61,9 +61,9 @@ Rectangle {
     WheelHandler {
         onWheel: event => {
             if (event.angleDelta.y < 0)
-                Hyprland.dispatch(`workspace r+1`);
+                Hyprland.dispatch("hl.dsp.focus({workspace = \"+1\"})");
             else if (event.angleDelta.y > 0)
-                Hyprland.dispatch(`workspace r-1`);
+                Hyprland.dispatch("hl.dsp.focus({workspace = \"-1\"})");
         }
         acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
     }
@@ -169,7 +169,7 @@ Rectangle {
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            Hyprland.dispatch("workspace " + actualIndex);
+                            Hyprland.dispatch("hl.dsp.focus({workspace = " + actualIndex + "})");
                         }
                         cursorShape: Qt.PointingHandCursor
                     }
