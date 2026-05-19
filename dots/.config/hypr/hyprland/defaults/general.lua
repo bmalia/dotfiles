@@ -211,7 +211,7 @@ hl.config({
             bar_buttons_alignment = "left",
             icon_on_hover = true,
             inactive_button_color = colors.surface_container_high,
-        }
+        },
     }
 })
 
