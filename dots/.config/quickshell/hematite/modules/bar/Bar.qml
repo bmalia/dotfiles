@@ -15,13 +15,13 @@ Variants {
 
             screen: modelData
             anchors {
-                top: Config.options.barPosition == 0 ? true : false
+                top: !Config.options.bar.bottom
                 left: true
                 right: true
-                bottom: Config.options.barPosition == 1 ? true : false
+                bottom: Config.options.bar.bottom
             }
             color: "transparent"
-            implicitHeight: 45
+            implicitHeight: Config.options.bar.floating ? 50 : 45
             mask: contentLoader.item ? barContentItem.barMask : null
 
             Loader {

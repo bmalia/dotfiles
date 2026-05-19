@@ -40,7 +40,8 @@ Rectangle {
             Rectangle {
                 id: leftBg
                 property bool hovered: false
-                bottomRightRadius: 99
+                bottomRightRadius: Config.options.bar.bottom ? 0 : 99
+                topRightRadius: !Config.options.bar.bottom ? 0 : 99
                 implicitWidth: leftContent.implicitWidth + 10
                 color: Appearance.colors.background
                 anchors {
@@ -84,10 +85,12 @@ Rectangle {
             RoundCorner {
                 id: leftRound
                 anchors {
-                    top: parent.top
+                    top: !Config.options.bar.bottom ? parent.top : undefined
                     left: leftBg.right
+                    bottom: Config.options.bar.bottom ? parent.bottom : undefined
                 }
                 color: Appearance.colors.background
+                corner: Config.options.bar.bottom ? RoundCorner.CornerEnum.BottomLeft : RoundCorner.CornerEnum.TopLeft
                 implicitSize: 15
             }
         }
@@ -104,7 +107,8 @@ Rectangle {
             Rectangle {
                 id: rightBg
                 property bool hovered: false
-                bottomLeftRadius: 99
+                bottomLeftRadius: Config.options.bar.bottom ? 0 : 99
+                topLeftRadius: !Config.options.bar.bottom ? 0 : 99
                 implicitWidth: rightContent.implicitWidth + 15
                 color: Appearance.colors.background
                 anchors {
@@ -147,12 +151,13 @@ Rectangle {
 
             RoundCorner {
                 anchors {
-                    top: parent.top
+                    top: !Config.options.bar.bottom ? parent.top : undefined
+                    bottom: Config.options.bar.bottom ? parent.bottom : undefined
                     right: rightBg.left
                 }
                 color: Appearance.colors.background
                 implicitSize: 15
-                corner: RoundCorner.CornerEnum.TopRight
+                corner: Config.options.bar.bottom ? RoundCorner.CornerEnum.BottomRight : RoundCorner.CornerEnum.TopRight
             }
         }
     }

@@ -9,7 +9,7 @@ import "../../widgets/shapes/material-shapes.js" as MaterialShapes
 
 Rectangle {
     id: root
-    implicitWidth: Config.options.workspaceCount * 27
+    implicitWidth: Config.options.bar.workspaces.count * 27
     color: "transparent"
     
     property list<bool> occupied: []
@@ -17,7 +17,7 @@ Rectangle {
     property int delta: 0
     readonly property HyprlandMonitor monitor: Hyprland.monitorFor(root.QsWindow.window?.screen)
     readonly property int effectiveActiveWorkspaceId: monitor?.activeWorkspace?.id ?? 1
-    readonly property int workspaceGroup: Math.floor((effectiveActiveWorkspaceId - 1) / Config.options.workspaceCount)
+    readonly property int workspaceGroup: Math.floor((effectiveActiveWorkspaceId - 1) / Config.options.bar.workspaces.count)
 
     onEffectiveActiveWorkspaceIdChanged: {
         if (effectiveActiveWorkspaceId != previousWorkspaceId) {
@@ -32,9 +32,9 @@ Rectangle {
 
     function updateOccupied() {
         occupied = Array.from({
-            length: Config.options.workspaceCount
+            length: Config.options.bar.workspaces.count
         }, (_, i) => {
-            return Hyprland.workspaces.values.some(ws => ws.id === workspaceGroup * Config.options.workspaceCount + i + 1);
+            return Hyprland.workspaces.values.some(ws => ws.id === workspaceGroup * Config.options.bar.workspaces.count + i + 1);
         });
     }
 
@@ -43,7 +43,7 @@ Rectangle {
         previousWorkspaceId = effectiveActiveWorkspaceId;
         delta = 0;
         updateOccupied();
-        width = Config.options.workspaceCount * 27 + 10;
+        width = Config.options.bar.workspaces.count * 27 + 10;
     }
     Connections {
         target: Hyprland.workspaces
@@ -82,7 +82,7 @@ Rectangle {
             spacing: 0
 
             Repeater {
-                model: Config.options.workspaceCount
+                model: Config.options.bar.workspaces.count
                 delegate: Rectangle {
                     z: 0
                     required property int index
@@ -115,7 +115,7 @@ Rectangle {
             height: 24
             radius: 99
             anchors.verticalCenter: bgRow.verticalCenter
-            x: 4 + (root.effectiveActiveWorkspaceId - 1 - root.workspaceGroup * Config.options.workspaceCount) * 27
+            x: 4 + (root.effectiveActiveWorkspaceId - 1 - root.workspaceGroup * Config.options.bar.workspaces.count) * 27
 
             Behavior on x {
                 NumberAnimation {
@@ -134,11 +134,11 @@ Rectangle {
             spacing: 0
 
             Repeater {
-                model: Config.options.workspaceCount
+                model: Config.options.bar.workspaces.count
                 delegate: Rectangle {
                     z: 2
                     required property int index
-                    property int actualIndex: index + 1 + root.workspaceGroup * Config.options.workspaceCount
+                    property int actualIndex: index + 1 + root.workspaceGroup * Config.options.bar.workspaces.count
                     Layout.fillHeight: true
                     Layout.topMargin: 2
                     Layout.bottomMargin: 2
