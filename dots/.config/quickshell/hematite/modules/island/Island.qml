@@ -13,6 +13,9 @@ Variants {
             property bool expanded: false
             property bool collapsed: false
 
+            required property var modelData
+            screen: modelData
+
             anchors {
                 top: !Config.options.bar.bottom
                 bottom: Config.options.bar.bottom
