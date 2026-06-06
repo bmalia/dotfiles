@@ -1,5 +1,5 @@
 hl.config({
-    ecosystem = { enforce_permissions = true },
+    ecosystem = { enforce_permissions = false },
 })
 
 -- Screen capture --
