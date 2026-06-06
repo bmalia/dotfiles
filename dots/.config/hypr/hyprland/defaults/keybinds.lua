@@ -2,6 +2,7 @@
 
 -- Window management
 hl.bind("SUPER + Q", hl.dsp.window.close()) -- Close active window
+hl.bind("SUPER + SHIFT + Q", hl.dsp.window.kill()) -- Kill active window
 hl.bind("SUPER + ALT + Space", hl.dsp.window.float({ action = "toggle" })) -- Toggle floating
 hl.bind("SUPER + F", hl.dsp.window.fullscreen({ action = "toggle" })) -- Toggle fullscreen
 
