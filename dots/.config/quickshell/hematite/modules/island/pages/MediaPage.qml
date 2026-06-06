@@ -25,7 +25,7 @@ Item {
     property Component collapsedComponent: Component {
         Item {
             id: rootItem
-            implicitWidth: content.implicitWidth + 35
+            implicitWidth: content.implicitWidth + 32
             implicitHeight: content.implicitHeight
 
             RowLayout {
@@ -33,9 +33,10 @@ Item {
                 anchors {
                     top: parent.top
                     bottom: parent.bottom
-                    horizontalCenter: parent.verticalCenter
-                    topMargin: 5
-                    bottomMargin: 5
+                    horizontalCenter: parent.horizontalCenter
+                    horizontalCenterOffset: -5 // 1
+                    topMargin: 6
+                    bottomMargin: 6
                 }
                 spacing: 5
 

@@ -9,7 +9,7 @@ Item {
 
     property string pageId: "clock"
     property string title: "Clock"
-    property int priority: 999
+    property int priority: 20
     property bool hasCollapsedContent: true
     property bool isActive: true
     property int collapsedWidth: 0

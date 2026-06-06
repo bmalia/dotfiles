@@ -10,7 +10,7 @@ QtObject {
 
     property string pageId: "privacy"
     property string title: "Privacy"
-    property int priority: 20
+    property int priority: 30
     property bool hasCollapsedContent: true
     property bool isActive: Privacy.screenSharing || Privacy.micActive
     property int collapsedWidth: 0
@@ -131,7 +131,7 @@ QtObject {
                         text: "mic"
                         color: Appearance.colors.on_tertiary
                         filled: true
-                        font.pixelSize: 20
+                        font.pixelSize: 19
                     }
 
                     Behavior on implicitWidth {
@@ -157,7 +157,7 @@ QtObject {
                         text: "screen_share"
                         color: Appearance.colors.on_error_container
                         filled: false
-                        font.pixelSize: 19
+                        font.pixelSize: 18
                     }
 
                     Behavior on implicitWidth {
