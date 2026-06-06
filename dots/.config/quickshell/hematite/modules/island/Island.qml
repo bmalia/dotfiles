@@ -131,7 +131,7 @@ Variants {
                     return;
                 }
 
-                fadeOutThenIn.start();
+                fadeOutThenIn.restart();
                 expandDelayTimer.start();
             }
             
@@ -248,7 +248,8 @@ Variants {
                     opacity: root.contentOpacity
 
                     RowLayout {
-                        Layout.fillWidth: true
+                        id: tabRow
+                        Layout.alignment: Qt.AlignHCenter
                         spacing: 8
 
                         Repeater {
@@ -371,15 +372,6 @@ Variants {
                             anchors.leftMargin: 8
                             anchors.rightMargin: 8
                             sourceComponent: sidePill.modelData.sidePillComponent
-                        }
-
-                        MouseArea {
-                            anchors.fill: parent
-                            enabled: sidePill.isSidePage
-                            onClicked: {
-                                root.activePageId = sidePill.modelData.pageId;
-                                root.expanded = true;
-                            }
                         }
                     }
                 }
