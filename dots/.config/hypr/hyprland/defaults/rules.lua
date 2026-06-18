@@ -71,6 +71,7 @@ hl.window_rule({
         workspace = "special:scratchpad"
     }
 })
+
 hl.layer_rule({
     name = "vicinae-blur",
     blur = true,
@@ -78,6 +79,14 @@ hl.layer_rule({
     match = {
         namespace = "vicinae",
     }
+})
+
+hl.layer_rule({
+    name = "no-anims-on-overlays",
+    match = {
+        namespace = "(selection|hyprpicker)"
+    },
+    no_anim = true,
 })
 
 hl.workspace_rule({
