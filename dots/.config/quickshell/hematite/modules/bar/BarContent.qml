@@ -142,6 +142,14 @@ Rectangle {
                         sourceComponent: SysTray {}
                     }
 
+                    Rectangle {
+                        radius: 10
+                        implicitWidth: 5
+                        implicitHeight: width
+                        color: Qt.alpha(Appearance.colors.on_surface, 0.2)
+                        visible: SystemTray.items.values.length > 0
+                    }
+
                     Loader {
                         sourceComponent: System {}
                         Layout.fillHeight: true
