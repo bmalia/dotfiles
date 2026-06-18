@@ -6,6 +6,7 @@ QtObject {
 
     property string pageId: "notifications"
     property string title: "Notifications"
+    property string materialIcon: "notifications"
     property int priority: 30
     property bool hasCollapsedContent: true
     property bool isActive: false
@@ -100,35 +101,13 @@ QtObject {
 
     property Component expandedComponent: Component {
         Item {
-            Column {
-                anchors.fill: parent
-                anchors.margins: 24
-                spacing: 8
-
-                Text {
-                    text: "Notifications"
-                    color: Qt.alpha(Appearance.colors.on_surface, 0.7)
-                    font.family: Config.options.fontFamily
-                    font.pixelSize: 12
-                    font.capitalization: Font.AllUppercase
-                }
-
-                Text {
-                    text: "Notification center hook is ready."
-                    color: Appearance.colors.on_surface
-                    font.family: Config.options.fontFamily
-                    font.pixelSize: 24
-                    font.bold: true
-                    wrapMode: Text.Wrap
-                }
-
-                Text {
-                    text: "Wire aggregate notification state here when service shape is finalized."
-                    color: Qt.alpha(Appearance.colors.on_surface, 0.72)
-                    font.family: Config.options.fontFamily
-                    font.pixelSize: 14
-                    wrapMode: Text.Wrap
-                }
+            Text {
+                anchors.centerIn: parent
+                text: "WIP"
+                color: Qt.alpha(Appearance.colors.on_surface, 0.4)
+                font.family: Config.options.fontFamily
+                font.pixelSize: 50
+                font.bold: true
             }
         }
     }

@@ -10,6 +10,7 @@ QtObject {
 
     property string pageId: "privacy"
     property string title: "Privacy"
+    property string materialIcon: "privacy_tip"
     property int priority: 30
     property bool hasCollapsedContent: true
     property bool isActive: Privacy.screenSharing || Privacy.micActive
@@ -98,7 +99,7 @@ QtObject {
     property Component sidePillComponent: Component {
         Item {
             id: rootItem
-            implicitWidth: content.implicitWidth + 12
+            implicitWidth: content.implicitWidth + (Privacy.screenSharing && Privacy.micActive ? 10 : 0)
             implicitHeight: content.implicitHeight
 
             RowLayout {
@@ -107,8 +108,8 @@ QtObject {
                     top: parent.top
                     bottom: parent.bottom
                     horizontalCenter: parent.horizontalCenter
-                    topMargin: 6
-                    bottomMargin: 6
+                    topMargin: Privacy.screenSharing && Privacy.micActive ? 5 : 0
+                    bottomMargin: Privacy.screenSharing && Privacy.micActive ? 5 : 0
                 }
                 spacing: 5
 
@@ -122,8 +123,9 @@ QtObject {
                     SequentialAnimation on opacity {
                         running: parent.visible
                         loops: Animation.Infinite
-                        NumberAnimation { to: 0.5; duration: 2000; easing.type: Easing.InOutSine }
-                        NumberAnimation { to: 1.0; duration: 2000; easing.type: Easing.InOutSine }
+                        NumberAnimation { to: 0.85; duration: 2000; easing.type: Easing.InOutSine }
+                        PauseAnimation { duration: 300 }
+                        NumberAnimation { to: 1.0; duration: 500; easing.type: Easing.BezierSpline; easing.bezierCurve: Appearance.easings.expressiveSlowEffects }
                     }
                     
                     MaterialIcon {
@@ -148,8 +150,9 @@ QtObject {
                     SequentialAnimation on opacity {
                         running: parent.visible
                         loops: Animation.Infinite
-                        NumberAnimation { to: 0.5; duration: 2000; easing.type: Easing.InOutSine }
-                        NumberAnimation { to: 1.0; duration: 2000; easing.type: Easing.InOutSine }
+                        NumberAnimation { to: 0.85; duration: 2000; easing.type: Easing.InOutSine }
+                        PauseAnimation { duration: 300 }
+                        NumberAnimation { to: 1.0; duration: 500; easing.type: Easing.BezierSpline; easing.bezierCurve: Appearance.easings.expressiveSlowEffects }
                     }
 
                     MaterialIcon {
@@ -170,27 +173,13 @@ QtObject {
 
     property Component expandedComponent: Component {
         Item {
-            Column {
-                anchors.fill: parent
-                anchors.margins: 24
-                spacing: 8
-
-                Text {
-                    text: "Privacy Indicators"
-                    color: Qt.alpha(Appearance.colors.on_surface, 0.7)
-                    font.family: Config.options.fontFamily
-                    font.pixelSize: 12
-                    font.capitalization: Font.AllUppercase
-                }
-
-                Text {
-                    text: root.statusLabel
-                    color: Appearance.colors.on_surface
-                    font.family: Config.options.fontFamily
-                    font.pixelSize: 24
-                    font.bold: true
-                    wrapMode: Text.Wrap
-                }
+            Text {
+                anchors.centerIn: parent
+                text: "WIP"
+                color: Qt.alpha(Appearance.colors.on_surface, 0.4)
+                font.family: Config.options.fontFamily
+                font.pixelSize: 50
+                font.bold: true
             }
         }
     }

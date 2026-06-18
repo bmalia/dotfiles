@@ -1,12 +1,8 @@
 import QtQuick
 import QtQuick.Layouts
-import Quickshell.Widgets
 import Quickshell.Services.UPower
 import qs.modules.common
-import qs.modules.widgets.shapes
-import qs.modules.widgets
 import qs.services
-import "../../widgets/shapes/material-shapes.js" as MaterialShapes
 
 Rectangle {
     id: root
@@ -19,7 +15,7 @@ Rectangle {
             left: parent.left
             top: parent.top
             bottom: parent.bottom
-            leftMargin: 8
+            leftMargin: 5
             rightMargin: 8
         }
         spacing: 5
@@ -35,7 +31,7 @@ Rectangle {
 
             MouseArea {
                 anchors.fill: parent
-                onClicked: batteryPopup.open() // WIP
+                // onClicked: batteryPopup.open() // WIP
             }
         }
 
