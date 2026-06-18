@@ -3,6 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Layouts
 import Quickshell.Widgets
+import Quickshell.Io
 import Quickshell.Services.Mpris
 import qs.modules.common
 import qs.modules.widgets
@@ -13,12 +14,15 @@ Item {
 
     property string pageId: "media"
     property string title: "Media"
+    property string materialIcon: "music_note"
     property int priority: 10
     property bool hasCollapsedContent: true
     property bool isActive: MprisController.activePlayer !== null
     property MprisPlayer activePlayer: MprisController.activePlayer
     property int collapsedWidth: 0
     property int sidePillWidth: 0
+
+    property list<real> cavaData: [0, 0, 0, 0]
 
     property real progress: activePlayer ? activePlayer.position / activePlayer.length : 0
 
@@ -38,7 +42,7 @@ Item {
                     topMargin: 6
                     bottomMargin: 6
                 }
-                spacing: 5
+                spacing: 6
 
                 Item {
                     Layout.fillHeight: true
@@ -70,7 +74,7 @@ Item {
                     Component {
                         id: artComponent
                         ClippingWrapperRectangle {
-                            implicitWidth: artProgress.width - 2 * 2
+                            implicitWidth: artProgress.width - 4 * 2
                             implicitHeight: implicitWidth
                             radius: 99
 
@@ -85,33 +89,34 @@ Item {
                     Component {
                         id: iconComponent
                         Rectangle {
-                            implicitWidth: artProgress.width - 2 * 2
+                            implicitWidth: artProgress.width * 2
                             implicitHeight: implicitWidth
-                            radius: 99
-                            color: Appearance.colors.surface_container
+                            color: "transparent"
 
                             MaterialIcon {
                                 anchors.centerIn: parent
+
                                 text: "music_note"
                                 filled: true
-                                font.pixelSize: Math.max(12, parent.height * 0.55)
-                                color: Appearance.colors.on_surface
+                                font.pixelSize: Math.max(12, parent.height * 0.3)
+                                color: Appearance.colors.primary
                             }
                         }
                     }
                 }
 
                 ColumnLayout {
-                    Layout.maximumWidth: 250
+                    Layout.maximumWidth: 200
                     spacing: 0
                     Text {
-                        text: root.activePlayer.trackTitle || "Nothing playing"
+                        text: root.activePlayer.trackTitle || "Unknown Title"
                         color: Appearance.colors.on_surface
                         font.family: Config.options.fontFamily
                         font.pixelSize: 14
                         font.bold: true
                         elide: Text.ElideRight
-                        Layout.fillWidth: true
+                        Layout.alignment: Qt.AlignHCenter
+                        Layout.maximumWidth: parent.Layout.maximumWidth
                     }
 
                     Text {
@@ -121,9 +126,41 @@ Item {
                         font.family: Config.options.fontFamily
                         font.pixelSize: 9
                         elide: Text.ElideRight
-                        Layout.fillWidth: true
+                        Layout.alignment: Qt.AlignHCenter
+                        Layout.maximumWidth: parent.Layout.maximumWidth
                     }
                 }
+
+                Rectangle {
+                    Layout.fillHeight: true
+                    Layout.leftMargin: 5
+                    Layout.topMargin: 9
+                    Layout.bottomMargin: 9
+                    implicitWidth: visualizer.implicitWidth
+                    color: "transparent"
+
+                    RowLayout {
+                        id: visualizer
+                        anchors {
+                            top: parent.top
+                            bottom: parent.bottom
+                            left: parent.left
+                        }
+                        spacing: 2
+
+                        Repeater {
+                            model: root.cavaData
+                            delegate: Rectangle {
+                                required property var modelData
+                                implicitWidth: 2
+                                implicitHeight: Math.max(implicitWidth, visualizer.height * modelData)
+                                color: Appearance.colors.primary
+                                radius: 5
+                            }
+                        }
+                    }
+                }
+
             }
         }
     }
@@ -131,41 +168,82 @@ Item {
     property Component sidePillComponent: Component {
         Item {
             id: rootItem
-            implicitWidth: content.implicitWidth
+            implicitWidth: content.implicitWidth + 40
             implicitHeight: content.implicitHeight
 
-            Row {
+            RowLayout {
                 id: content
-                anchors.fill: parent
-                anchors.leftMargin: 12
-                anchors.rightMargin: 12
-                spacing: 6
+                anchors {
+                    top: parent.top
+                    bottom: parent.bottom
+                    horizontalCenter: parent.horizontalCenter
+                    margins: 7
+                }
+                spacing: 8
 
-                Rectangle {
-                    anchors.verticalCenter: parent.verticalCenter
-                    width: 18
-                    height: 18
-                    radius: 9
-                    color: Qt.alpha(Appearance.colors.primary, 0.25)
+                Loader {
+                    id: artLoader
+                    Layout.fillHeight: true
+                    sourceComponent: root.activePlayer.trackArtUrl ? artComponent : icon
 
-                    Text {
-                        anchors.centerIn: parent
-                        text: "music_note"
-                        color: Appearance.colors.primary
-                        font.family: "Material Symbols Rounded"
-                        font.pixelSize: 12
+                    Component {
+                        id: artComponent
+                        ClippingWrapperRectangle {
+                            implicitWidth: content.height
+                            implicitHeight: implicitWidth
+                            radius: 15
+
+                            Image {
+                                anchors.fill: parent
+                                source: root.activePlayer.trackArtUrl
+                                fillMode: Image.PreserveAspectCrop
+                            }
+                        }
+                    }
+
+                    Component {
+                        id: icon
+                        Rectangle {
+                            implicitWidth: content.height
+                            implicitHeight: implicitWidth
+                            color: "transparent"
+                        MaterialIcon {
+                            anchors.centerIn: parent
+                            text: "music_note"
+                            filled: true
+                            font.pixelSize: 20
+                            color: Appearance.colors.tertiary
+                        }
+                        }
                     }
                 }
 
-                Text {
-                    anchors.verticalCenter: parent.verticalCenter
-                    width: Math.max(20, parent.width - 30)
-                    text: "Media"
-                    color: Appearance.colors.on_surface
-                    font.family: Config.options.fontFamily
-                    font.pixelSize: 12
-                    font.bold: true
-                    elide: Text.ElideRight
+                Rectangle {
+                    Layout.fillHeight: true
+                    Layout.rightMargin: 5
+                    implicitWidth: visualizer.implicitWidth
+                    color: "transparent"
+
+                    RowLayout {
+                        id: visualizer
+                        anchors {
+                            top: parent.top
+                            bottom: parent.bottom
+                            left: parent.left
+                        }
+                        spacing: 2
+
+                        Repeater {
+                            model: root.cavaData
+                            delegate: Rectangle {
+                                required property var modelData
+                                implicitWidth: 2
+                                implicitHeight: Math.max(implicitWidth, (visualizer.height * 0.7) * modelData)
+                                color: Appearance.colors.primary
+                                radius: 5
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -173,35 +251,39 @@ Item {
 
     property Component expandedComponent: Component {
         Item {
-            Column {
+            id: rootItem
+            ColumnLayout {
                 anchors.fill: parent
                 anchors.margins: 24
                 spacing: 8
 
-                Text {
-                    text: "Now Playing"
-                    color: Qt.alpha(Appearance.colors.on_surface, 0.7)
-                    font.family: Config.options.fontFamily
-                    font.pixelSize: 12
-                    font.capitalization: Font.AllUppercase
-                }
+                RowLayout {
+                    spacing: 0
+                    Layout.maximumWidth: rootItem.width
+                    ClippingWrapperRectangle {
+                        Layout.fillHeight: true
+                        implicitWidth: height
+                        radius: 45
+                        Layout.margins: 50
 
-                Text {
-                    text: MprisController.activeTrack?.title || "Nothing playing"
-                    color: Appearance.colors.on_surface
-                    font.family: Config.options.fontFamily
-                    font.pixelSize: 26
-                    font.bold: true
-                    elide: Text.ElideRight
-                }
+                        Image {
+                            anchors.fill: parent
+                            source: root.activePlayer.trackArtUrl
+                            fillMode: Image.PreserveAspectCrop
+                        }
+                    }
 
-                Text {
-                    text: MprisController.activeTrack?.artist || ""
-                    visible: text.length > 0
-                    color: Qt.alpha(Appearance.colors.on_surface, 0.72)
-                    font.family: Config.options.fontFamily
-                    font.pixelSize: 16
-                    elide: Text.ElideRight
+                    ColumnLayout {
+                        Layout.fillHeight: true
+                        Layout.fillWidth: true
+
+                        Text {
+                            text: root.activePlayer.trackTitle || "Nothing Playing"
+                            font.pixelSize: 16
+                            font.bold: true
+                            Layout.alignment: Qt.AlignLeft
+                        }
+                    }
                 }
             }
         }
@@ -215,6 +297,28 @@ Item {
 
         onTriggered: {
             root.progress = root.activePlayer.position / root.activePlayer.length;
+        }
+    }
+
+    Process { // Cava visualizer process - Inspired by Devvvmn's implementation in their shell
+        id: cava
+        command: ["bash", "-c", "cava -p ~/.config/cava/hematite.cfg 2>/dev/null"]
+        running: root.activePlayer
+        stdout: SplitParser {
+            splitMarker: "\n"
+            onRead: (line) => {
+                let parts = line.trim().split(" ");
+                if (parts.length < 4)
+                    return;
+                function normalise(v) {
+                    let value = parseInt(v);
+                    return isNaN(value) ? 0.05 : Math.max(0.05, Math.min(1.0, value / 600.0));
+                }
+
+                for (let i = 0; i < parts.length; i++) { // Bar count-agnostic list
+                    root.cavaData[i] = normalise(parts[i]);
+                }
+            }
         }
     }
 }

@@ -1,3 +1,4 @@
+import qs.modules.common
 import QtQuick
 import QtQuick.Shapes
 
@@ -8,7 +9,7 @@ Item {
     property var corner: RoundCorner.CornerEnum.TopLeft // Default to TopLeft
 
     property int implicitSize: 25
-    property color color: Colors.background
+    property color color: Appearance.colors.background
 
     implicitWidth: implicitSize
     implicitHeight: implicitSize
@@ -56,10 +57,6 @@ Item {
                 y: shapePath.startY
             }
         }
-    }
-
-    Behavior on implicitSize {
-        animation: Appearance?.animation.elementMoveFast.numberAnimation.createObject(this)
     }
 
 }

@@ -91,9 +91,7 @@ Variants {
 
                 if (root.expanded) {
                     const hasRemembered = root.sortedPages.some(page => page.pageId === root.rememberedExpandedPageId);
-                    root.activePageId = hasRemembered
-                        ? root.rememberedExpandedPageId
-                        : (root.centerPage ? root.centerPage.pageId : "");
+                    root.activePageId = hasRemembered ? root.rememberedExpandedPageId : (root.centerPage ? root.centerPage.pageId : "");
                     return;
                 }
 
@@ -134,7 +132,7 @@ Variants {
                 fadeOutThenIn.restart();
                 expandDelayTimer.start();
             }
-            
+
             Timer {
                 id: expandDelayTimer
                 interval: 200
@@ -168,7 +166,7 @@ Variants {
                     to: 1
                     duration: 200
                     easing.type: Easing.BezierSpline
-                    easing.bezierCurve: Appearance.easings.standardFastEffects
+                    easing.bezierCurve: Appearance.easings.standardDefaultEffects
                 }
             }
 
@@ -201,11 +199,11 @@ Variants {
 
                 property real popWidth: 0
 
-                implicitWidth: root.expanded ? root.screen.width / 3 + popWidth : (root.centerPage?.collapsedWidth || 0) + popWidth
+                implicitWidth: root.expanded ? root.screen.width * 0.46 + popWidth : (root.centerPage?.collapsedWidth || 0) + popWidth
                 implicitHeight: root.expanded ? root.screen.height / 3 + popWidth : 48 + popWidth
                 color: Appearance.colors.background
-                bottomLeftRadius: 45
-                bottomRightRadius: 45
+                bottomLeftRadius: 20
+                bottomRightRadius: 20
 
                 MouseArea {
                     hoverEnabled: true
@@ -243,14 +241,16 @@ Variants {
                 ColumnLayout {
                     anchors.fill: parent
                     anchors.margins: 12
-                    spacing: 10
+                    anchors.topMargin: 20
+                    spacing: 13
                     visible: root.expanded
                     opacity: root.contentOpacity
 
                     RowLayout {
                         id: tabRow
-                        Layout.alignment: Qt.AlignHCenter
-                        spacing: 8
+                        Layout.fillWidth: true
+                        Layout.leftMargin: 40
+                        Layout.rightMargin: 40
 
                         Repeater {
                             model: root.sortedPages
@@ -260,23 +260,70 @@ Variants {
                                 required property var modelData
 
                                 radius: 99
-                                implicitHeight: 28
-                                implicitWidth: tabLabel.implicitWidth + 16
-                                color: root.activePageId === tabButton.modelData.pageId ? Qt.alpha(Appearance.colors.on_surface, 0.14) : "transparent"
+                                implicitHeight: tabButtonContent.implicitHeight
+                                Layout.fillWidth: true
+                                color: "transparent"
 
-                                Text {
-                                    id: tabLabel
-                                    anchors.centerIn: parent
-                                    text: tabButton.modelData.title
-                                    color: Appearance.colors.on_surface
-                                    font.family: Config.options.fontFamily
-                                    font.pixelSize: 12
-                                    font.bold: root.activePageId === tabButton.modelData.pageId
+                                Column {
+                                    anchors.fill: parent
+                                    id: tabButtonContent
+                                    spacing: 5
+                                    MaterialIcon {
+                                        anchors.horizontalCenter: parent.horizontalCenter
+                                        text: tabButton.modelData.materialIcon || "help_outline"
+                                        font.pixelSize: 18
+                                        color: root.activePageId === tabButton.modelData.pageId ? Appearance.colors.primary : Appearance.colors.on_surface
+                                    }
+
+                                    Text {
+                                        anchors.horizontalCenter: parent.horizontalCenter
+                                        text: tabButton.modelData.title
+                                        color: root.activePageId === tabButton.modelData.pageId ? Appearance.colors.primary : Appearance.colors.on_surface
+                                        font.family: Config.options.fontFamily
+                                        font.pixelSize: 16
+                                        font.bold: root.activePageId === tabButton.modelData.pageId
+                                    }
                                 }
 
                                 MouseArea {
                                     anchors.fill: parent
                                     onClicked: root.activePageId = tabButton.modelData.pageId
+                                }
+                            }
+                        }
+                    }
+
+                    Rectangle {
+                        implicitWidth: tabRow.implicitWidth
+                        implicitHeight: 1
+                        Layout.fillWidth: true
+                        Layout.leftMargin: 40
+                        Layout.rightMargin: 40
+                        color: Appearance.colors.outline_variant
+
+                        Rectangle {
+                            id: slideIndicator
+                            color: Appearance.colors.primary
+                            width: 100
+                            x: parent.width * root.activeIndex / root.sortedPages.length + 78
+                            height: 3
+                            implicitWidth: 100
+                            implicitHeight: 3
+                            topLeftRadius: 20
+                            topRightRadius: 20
+                            anchors {
+                                bottom: parent.top
+                            }
+
+                            Component.onCompleted: {
+                                console.log("Width:", slideIndicator.width, "X:", slideIndicator.x);
+                            }
+
+                            Behavior on x {
+                                NumberAnimation {
+                                    duration: 300
+                                    easing.type: Easing.BezierSpline
+                                    easing.bezierCurve: Appearance.easings.expressiveDefaultSpatial
                                 }
                             }
                         }
@@ -309,9 +356,7 @@ Variants {
                 id: sidePillLayer
                 anchors.horizontalCenter: island.horizontalCenter
                 anchors.verticalCenter: island.verticalCenter
-                width: (root.sidePages.length > 0)
-                    ? island.implicitWidth + root.sidePages.reduce((total, page) => total + page.sidePillWidth + 10, 40)
-                    : 0
+                width: (root.sidePages.length > 0) ? island.implicitWidth + root.sidePages.reduce((total, page) => total + page.sidePillWidth + 10, 40) : 0
                 height: (root.sidePages.length > 0) ? Math.max(50, island.implicitHeight) : 0
 
                 Repeater {
@@ -360,11 +405,9 @@ Variants {
                             id: emergeAnimation
                             target: sidePill
                             property: "emerge"
-                            duration: (root.expanded ? 200 : 1000) + sidePill.safeIndex * 50
+                            duration: (root.expanded ? 500 : 1000) + sidePill.safeIndex * 50
                             easing.type: Easing.BezierSpline
-                            easing.bezierCurve: root.expanded
-                                ? Appearance.easings.expressiveFastSpatial
-                                : Appearance.easings.expressiveDefaultSpatial
+                            easing.bezierCurve: root.expanded ? Appearance.easings.expressiveFastSpatial : Appearance.easings.expressiveDefaultSpatial
                         }
 
                         Loader {
