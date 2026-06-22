@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 import Quickshell
 import QtQuick
 import QtQuick.Layouts
@@ -12,6 +13,10 @@ Item {
     property list<string> buttonLabels: ["Button 1", "Button 2"]
     property list<string> buttonIcons: ["", ""]
 
+    signal indexChanged(int index)
+
+    
+
     RowLayout {
         id: buttonRow
         spacing: 2
@@ -22,7 +27,7 @@ Item {
                 required property int index
                 width: buttonContent.width + 25
                 height: 40
-                color: index === root.selectedIndex ? Colors.secondary : Colors.secondary_container
+                color: index === root.selectedIndex ? Appearance.colors.secondary : Appearance.colors.secondary_container
                 topLeftRadius: index === root.selectedIndex ? 999 : index === 0 ? 999 : 5
                 bottomLeftRadius: index === root.selectedIndex ? 999 : index === 0 ? 999 : 5
                 topRightRadius: index === root.selectedIndex ? 999 : index === root.buttonAmount - 1 ? 999 : 5
@@ -40,7 +45,7 @@ Item {
                     anchors.margins: 8
                     MaterialIcon {
                         text: root.buttonIcons[buttonContainer.index]
-                        color: buttonContainer.index === root.selectedIndex ? Colors.on_secondary : Colors.on_secondary_container
+                        color: buttonContainer.index === root.selectedIndex ? Appearance.colors.on_secondary : Appearance.colors.on_secondary_container
                         iconSize: 20
                         Layout.alignment: Qt.AlignVCenter
                         filled: false
@@ -54,7 +59,7 @@ Item {
 
                     Text {
                         text: root.buttonLabels[buttonContainer.index]
-                        color: buttonContainer.index === root.selectedIndex ? Colors.on_secondary : Colors.on_secondary_container
+                        color: buttonContainer.index === root.selectedIndex ? Appearance.colors.on_secondary : Appearance.colors.on_secondary_container
                         font.pixelSize: 14
                         Layout.alignment: Qt.AlignVCenter
                         font.family: Config.options.fontFamily
@@ -70,7 +75,8 @@ Item {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        root.selectedIndex = index;
+                        root.selectedIndex = parent.index;
+                        root.indexChanged(root.selectedIndex);
                     }
                 }
             }

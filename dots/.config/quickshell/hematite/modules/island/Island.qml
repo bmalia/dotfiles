@@ -199,11 +199,11 @@ Variants {
 
                 property real popWidth: 0
 
-                implicitWidth: root.expanded ? root.screen.width * 0.46 + popWidth : (root.centerPage?.collapsedWidth || 0) + popWidth
-                implicitHeight: root.expanded ? root.screen.height / 3 + popWidth : 48 + popWidth
+                implicitWidth: root.expanded ? Math.max(1000, root.screen.width * 0.46) + popWidth : (root.centerPage?.collapsedWidth || 0) + popWidth
+                implicitHeight: root.expanded ? Math.max(450, root.screen.height * 0.35) + popWidth : 48 + popWidth
                 color: Appearance.colors.background
-                bottomLeftRadius: 20
-                bottomRightRadius: 20
+                bottomLeftRadius: 30
+                bottomRightRadius: 30
 
                 MouseArea {
                     hoverEnabled: true
@@ -241,91 +241,36 @@ Variants {
                 ColumnLayout {
                     anchors.fill: parent
                     anchors.margins: 12
-                    anchors.topMargin: 20
+                    anchors.topMargin: 30
                     spacing: 13
                     visible: root.expanded
                     opacity: root.contentOpacity
 
-                    RowLayout {
-                        id: tabRow
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 40
-                        Layout.rightMargin: 40
+                    ConnectedButtonGroup {
+                        Layout.alignment: Qt.AlignCenter
+                        buttonAmount: root.sortedPages.length
+                        buttonIcons: root.sortedPages.map(page => page.materialIcon || "help_outline")
+                        buttonLabels: root.sortedPages.map(page => page.title)
+                        selectedIndex: root.activeIndex
 
-                        Repeater {
-                            model: root.sortedPages
-
-                            delegate: Rectangle {
-                                id: tabButton
-                                required property var modelData
-
-                                radius: 99
-                                implicitHeight: tabButtonContent.implicitHeight
-                                Layout.fillWidth: true
-                                color: "transparent"
-
-                                Column {
-                                    anchors.fill: parent
-                                    id: tabButtonContent
-                                    spacing: 5
-                                    MaterialIcon {
-                                        anchors.horizontalCenter: parent.horizontalCenter
-                                        text: tabButton.modelData.materialIcon || "help_outline"
-                                        font.pixelSize: 18
-                                        color: root.activePageId === tabButton.modelData.pageId ? Appearance.colors.primary : Appearance.colors.on_surface
-                                    }
-
-                                    Text {
-                                        anchors.horizontalCenter: parent.horizontalCenter
-                                        text: tabButton.modelData.title
-                                        color: root.activePageId === tabButton.modelData.pageId ? Appearance.colors.primary : Appearance.colors.on_surface
-                                        font.family: Config.options.fontFamily
-                                        font.pixelSize: 16
-                                        font.bold: root.activePageId === tabButton.modelData.pageId
-                                    }
-                                }
-
-                                MouseArea {
-                                    anchors.fill: parent
-                                    onClicked: root.activePageId = tabButton.modelData.pageId
-                                }
+                        onIndexChanged: {
+                            const page = root.sortedPages[selectedIndex];
+                            if (page) {
+                                root.activePageId = page.pageId;
                             }
                         }
-                    }
-
-                    Rectangle {
-                        implicitWidth: tabRow.implicitWidth
-                        implicitHeight: 1
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 40
-                        Layout.rightMargin: 40
-                        color: Appearance.colors.outline_variant
 
                         Rectangle {
-                            id: slideIndicator
-                            color: Appearance.colors.primary
-                            width: 100
-                            x: parent.width * root.activeIndex / root.sortedPages.length + 78
-                            height: 3
-                            implicitWidth: 100
-                            implicitHeight: 3
-                            topLeftRadius: 20
-                            topRightRadius: 20
                             anchors {
-                                bottom: parent.top
+                                top: parent.top
+                                bottom: parent.bottom
+                                right: parent.left
+                                rightMargin: 10
                             }
+                            implicitWidth: height
 
-                            Component.onCompleted: {
-                                console.log("Width:", slideIndicator.width, "X:", slideIndicator.x);
-                            }
-
-                            Behavior on x {
-                                NumberAnimation {
-                                    duration: 300
-                                    easing.type: Easing.BezierSpline
-                                    easing.bezierCurve: Appearance.easings.expressiveDefaultSpatial
-                                }
-                            }
+                            radius: 99
+                            color: Appearance.colors.primary_container
                         }
                     }
 
@@ -377,7 +322,7 @@ Variants {
                         readonly property real targetEmerge: (!root.expanded && isSidePage) ? 1 : 0
                         property real emerge: 0
                         property real startDistance: Math.max(8, island.implicitWidth * 0.5 - width * 0.5 - 8)
-                        property real endDistance: island.implicitWidth * 0.4 + lane * (width + 5)
+                        property real endDistance: island.implicitWidth * 0.5 + lane * (width)
                         property real distance: startDistance + (endDistance - startDistance) * emerge
 
                         y: (parent.height - height) / 2

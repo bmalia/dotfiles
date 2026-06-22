@@ -160,7 +160,6 @@ Item {
                         }
                     }
                 }
-
             }
         }
     }
@@ -207,13 +206,13 @@ Item {
                             implicitWidth: content.height
                             implicitHeight: implicitWidth
                             color: "transparent"
-                        MaterialIcon {
-                            anchors.centerIn: parent
-                            text: "music_note"
-                            filled: true
-                            font.pixelSize: 20
-                            color: Appearance.colors.tertiary
-                        }
+                            MaterialIcon {
+                                anchors.centerIn: parent
+                                text: "music_note"
+                                filled: true
+                                font.pixelSize: 20
+                                color: Appearance.colors.tertiary
+                            }
                         }
                     }
                 }
@@ -254,8 +253,8 @@ Item {
             id: rootItem
             ColumnLayout {
                 anchors.fill: parent
-                anchors.margins: 24
-                spacing: 8
+                anchors.margins: 10
+                spacing: 20
 
                 RowLayout {
                     spacing: 0
@@ -263,8 +262,8 @@ Item {
                     ClippingWrapperRectangle {
                         Layout.fillHeight: true
                         implicitWidth: height
-                        radius: 45
-                        Layout.margins: 50
+                        radius: 30
+                        Layout.margins: 40
 
                         Image {
                             anchors.fill: parent
@@ -276,13 +275,183 @@ Item {
                     ColumnLayout {
                         Layout.fillHeight: true
                         Layout.fillWidth: true
+                        Layout.maximumWidth: rootItem.width * 0.35
+                        spacing: 10
 
                         Text {
                             text: root.activePlayer.trackTitle || "Nothing Playing"
-                            font.pixelSize: 16
+                            font.pixelSize: 24
                             font.bold: true
+                            font.family: Config.options.fontFamily
+                            color: Appearance.colors.on_surface
                             Layout.alignment: Qt.AlignLeft
+                            Layout.maximumWidth: parent.Layout.maximumWidth
+                            elide: Text.ElideRight
                         }
+
+                        Text {
+                            text: root.activePlayer.trackArtist || "-"
+                            font.pixelSize: 16
+                            font.bold: false
+                            font.family: Config.options.fontFamily
+                            color: Appearance.colors.on_surface_variant
+                            Layout.alignment: Qt.AlignLeft
+                            Layout.maximumWidth: parent.Layout.maximumWidth
+                            elide: Text.ElideRight
+                        }
+
+                        Text {
+                            text: root.activePlayer.trackAlbum || "-"
+                            font.pixelSize: 16
+                            font.bold: false
+                            font.family: Config.options.fontFamily
+                            color: Appearance.colors.on_surface_variant
+                            Layout.alignment: Qt.AlignLeft
+                            Layout.maximumWidth: parent.Layout.maximumWidth
+                            elide: Text.ElideRight
+                        }
+
+                        Item {
+                            Layout.fillWidth: true
+                            implicitHeight: 20
+                        }
+
+                        RowLayout {
+                            Layout.fillWidth: true
+                            Layout.fillHeight: false
+                            spacing: 5
+                            Text {
+                                color: Appearance.colors.on_surface_variant
+                                font.family: Config.options.fontFamily
+                                font.pixelSize: 10
+                                font.variableAxes: {"wdth": 120, "wght": 500}
+                                text: new Date(root.activePlayer.position * 1000).toISOString().substr(14, 5)
+                                
+                            }
+
+                            ClippingRectangle {
+                                Layout.fillWidth: true
+                                implicitHeight: 10
+                                radius: 5
+                                color: Appearance.colors.tertiary_container
+                                Rectangle {
+                                    anchors.left: parent.left
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    implicitHeight: parent.height
+                                    width: parent.width * root.progress
+                                    color: Appearance.colors.tertiary
+
+                                    Behavior on width {
+                                        NumberAnimation {
+                                            duration: 1000
+                                            easing.type: Easing.Linear
+                                        }
+                                    }
+                                }
+                            }
+
+                            Text {
+                                color: Appearance.colors.on_surface_variant
+                                font.family: Config.options.fontFamily
+                                font.pixelSize: 10
+                                font.variableAxes: {"wdth": 120, "wght": 500}
+                                text: new Date(root.activePlayer.length * 1000).toISOString().substr(14, 5)
+
+                            }
+                        }
+
+                        RowLayout {
+                            Layout.fillWidth: true
+                            Layout.fillHeight: false
+                            spacing: 5
+                            Layout.topMargin: 5
+
+                            Rectangle {
+                                Layout.fillWidth: true
+                                Layout.fillHeight: true
+                                Layout.horizontalStretchFactor: 2
+                                radius: 25
+                                color: Appearance.colors.secondary_container
+
+                                MaterialIcon {
+                                    anchors.centerIn: parent
+                                    text: "skip_previous"
+                                    filled: true
+                                    font.pixelSize: 28
+                                    color: Appearance.colors.on_secondary_container
+                                }
+                            }
+
+                            Rectangle {
+                                id: playButton
+                                Layout.fillWidth: true
+                                Layout.horizontalStretchFactor: 3
+                                implicitHeight: 53
+                                radius: 10
+                                color: root.activePlayer.isPlaying ? Appearance.colors.primary : Appearance.colors.secondary_container
+
+                                MaterialIcon {
+                                    anchors.centerIn: parent
+                                    text: root.activePlayer.isPlaying ? "pause" : "play_arrow"
+                                    filled: true
+                                    font.pixelSize: 28
+                                    color: root.activePlayer.isPlaying ? Appearance.colors.on_primary : Appearance.colors.on_secondary_container
+                                }
+                            }
+
+                            Rectangle {
+                                Layout.fillWidth: true
+                                Layout.horizontalStretchFactor: 2
+                                Layout.fillHeight: true
+                                radius: 25
+                                color: Appearance.colors.secondary_container
+
+                                MaterialIcon {
+                                    anchors.centerIn: parent
+                                    text: "skip_next"
+                                    filled: true
+                                    font.pixelSize: 28
+                                    color: Appearance.colors.on_secondary_container
+                                }
+                            }
+
+                            Rectangle {
+                                Layout.fillWidth: true
+                                Layout.fillHeight: true
+                                implicitWidth: height * 0.85
+                                radius: 25
+                                color: Appearance.colors.secondary_container
+
+                                MaterialIcon {
+                                    anchors.centerIn: parent
+                                    text: "shuffle"
+                                    filled: true
+                                    font.pixelSize: 24
+                                    color: Appearance.colors.on_secondary_container
+                                }
+                            }
+
+                            Rectangle {
+                                Layout.fillWidth: true
+                                Layout.fillHeight: true
+                                implicitWidth: height * 0.85
+                                radius: 25
+                                color: Appearance.colors.secondary_container
+
+                                MaterialIcon {
+                                    anchors.centerIn: parent
+                                    text: "repeat"
+                                    filled: true
+                                    font.pixelSize: 24
+                                    color: Appearance.colors.on_secondary_container
+                                }
+                            }
+                        }
+                    }
+
+                    Item {
+                        Layout.fillWidth: true
+                        implicitHeight: 20
                     }
                 }
             }
@@ -306,7 +475,7 @@ Item {
         running: root.activePlayer
         stdout: SplitParser {
             splitMarker: "\n"
-            onRead: (line) => {
+            onRead: line => {
                 let parts = line.trim().split(" ");
                 if (parts.length < 4)
                     return;
