@@ -1,5 +1,8 @@
 import QtQuick
+import QtQuick.Layouts
 import qs.modules.common
+import qs.modules.widgets
+import qs.services
 
 QtObject {
     id: root
@@ -7,9 +10,9 @@ QtObject {
     property string pageId: "notifications"
     property string title: "Notifications"
     property string materialIcon: "notifications"
-    property int priority: 30
+    property int priority: 60
     property bool hasCollapsedContent: true
-    property bool isActive: false
+    property bool isActive: Notifications.numNotifications > 0
     property int collapsedWidth: 0
     property int sidePillWidth: 0
 
@@ -59,41 +62,42 @@ QtObject {
     property Component sidePillComponent: Component {
         Item {
             id: rootItem
-            implicitWidth: content.implicitWidth
+            implicitWidth: content.implicitWidth + 16
             implicitHeight: content.implicitHeight
 
-            Row {
+            RowLayout {
                 id: content
-                anchors.fill: parent
-                anchors.leftMargin: 12
-                anchors.rightMargin: 12
-                spacing: 6
+                anchors {
+                    top: parent.top
+                    bottom: parent.bottom
+                    horizontalCenter: parent.horizontalCenter
+                    margins: 7
+                }
+                spacing: 2
 
-                Rectangle {
-                    anchors.verticalCenter: parent.verticalCenter
-                    width: 18
-                    height: 18
-                    radius: 9
-                    color: Qt.alpha(Appearance.colors.tertiary, 0.2)
+                MaterialIcon {
+                    text: "notifications"
+                    color: Appearance.colors.on_surface
+                    font.pixelSize: 20
+                }
+
+                MaterialShape {
+                    Layout.fillHeight: true
+                    Layout.topMargin: 1
+                    Layout.bottomMargin: 1
+                    implicitWidth: height
+                    shape: MaterialShape.Cookie9Sided
+                    color: Appearance.colors.primary
 
                     Text {
                         anchors.centerIn: parent
-                        text: "notifications"
-                        color: Appearance.colors.tertiary
-                        font.family: "Material Symbols Rounded"
+                        anchors.verticalCenterOffset: 1 // Canvas is a great type with no issues whatsoever
+                        text: Notifications.numNotifications
+                        color: Appearance.colors.on_primary
+                        font.family: Config.options.fontFamily
                         font.pixelSize: 12
+                        font.bold: true
                     }
-                }
-
-                Text {
-                    anchors.verticalCenter: parent.verticalCenter
-                    width: Math.max(20, parent.width - 30)
-                    text: "Alerts"
-                    color: Appearance.colors.on_surface
-                    font.family: Config.options.fontFamily
-                    font.pixelSize: 12
-                    font.bold: true
-                    elide: Text.ElideRight
                 }
             }
         }
@@ -101,13 +105,63 @@ QtObject {
 
     property Component expandedComponent: Component {
         Item {
-            Text {
-                anchors.centerIn: parent
-                text: "WIP"
-                color: Qt.alpha(Appearance.colors.on_surface, 0.4)
-                font.family: Config.options.fontFamily
-                font.pixelSize: 50
-                font.bold: true
+            Flickable {
+                visible: Notifications.numNotifications > 0
+                anchors {
+                    fill: parent
+                    margins: 10
+                    leftMargin: 100
+                    rightMargin: 100
+                }
+                clip: true
+
+                contentWidth: content.width
+                contentHeight: content.height
+                ColumnLayout {
+                    id: content
+                    anchors {
+                        top: parent.top
+                        left: parent.left
+                        right: parent.right
+                        margins: 1
+                    }
+                    spacing: 10
+
+                    Repeater {
+                        model: Notifications.server.trackedNotifications.values
+                        Layout.fillWidth: true
+                        delegate: Notification {
+                            required property var modelData
+                            notification: modelData
+                            implicitWidth: parent.width
+                        }
+                    }
+                }
+            }
+
+            Item {
+                visible: Notifications.numNotifications === 0
+                anchors.fill: parent
+
+                Column {
+                    spacing: 10
+                    anchors.centerIn: parent
+                    MaterialIcon {
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        text: "notifications"
+                        color: Appearance.colors.on_surface_variant
+                        font.pixelSize: 48
+                        filled: true
+                    }
+
+                    Text {
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        text: "No notifications"
+                        color: Appearance.colors.on_surface
+                        font.family: Config.options.fontFamily
+                        font.pixelSize: 16
+                    }
+                }
             }
         }
     }

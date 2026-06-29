@@ -199,8 +199,8 @@ Variants {
 
                 property real popWidth: 0
 
-                implicitWidth: root.expanded ? Math.max(1000, root.screen.width * 0.46) + popWidth : (root.centerPage?.collapsedWidth || 0) + popWidth
-                implicitHeight: root.expanded ? Math.max(450, root.screen.height * 0.35) + popWidth : 48 + popWidth
+                implicitWidth: root.expanded ? Math.max(1000, root.screen.width * 0.46) : (root.centerPage?.collapsedWidth || 0) + popWidth
+                implicitHeight: root.expanded ? Math.max(450, root.screen.height * 0.35) : 48 + popWidth
                 color: Appearance.colors.background
                 bottomLeftRadius: 30
                 bottomRightRadius: 30
@@ -322,7 +322,7 @@ Variants {
                         readonly property real targetEmerge: (!root.expanded && isSidePage) ? 1 : 0
                         property real emerge: 0
                         property real startDistance: Math.max(8, island.implicitWidth * 0.5 - width * 0.5 - 8)
-                        property real endDistance: island.implicitWidth * 0.5 + lane * (width)
+                        property real endDistance: island.implicitWidth * 0.35 + lane * (width + 30)
                         property real distance: startDistance + (endDistance - startDistance) * emerge
 
                         y: (parent.height - height) / 2
