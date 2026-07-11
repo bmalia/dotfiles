@@ -84,7 +84,7 @@ hl.layer_rule({
 hl.layer_rule({
     name = "no-anims-on-overlays",
     match = {
-        namespace = "(selection|hyprpicker)"
+        namespace = "(selection|hyprpicker|quickshell:polkit)"
     },
     no_anim = true,
 })

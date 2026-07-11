@@ -6,6 +6,7 @@ import Quickshell
 import qs.modules.bar
 import qs.modules.island
 import qs.modules.common
+import qs.modules.polkit
 
 ShellRoot {
     Loader {
@@ -17,6 +18,11 @@ ShellRoot {
         id: islandLoader
         active: Config.ready
         sourceComponent: Island {}
+    }
+    Loader {
+        id: polkitLoader
+        active: Config.ready
+        sourceComponent: Polkit {}
     }
     Component.onCompleted: {
         console.log("Shell started. Waiting for config load...");

@@ -4,9 +4,6 @@ import QtQuick
 import Quickshell
 import Quickshell.Wayland
 
-/**
- * A nice wrapper for date and time strings.
- */
 Singleton {
     id: root
 
