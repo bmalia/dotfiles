@@ -21,7 +21,7 @@ Variants {
                 bottom: Config.options.bar.bottom
             }
             color: "transparent"
-            implicitHeight: Config.options.bar.floating ? 50 : 45
+            implicitHeight: 55
             mask: contentLoader.item ? barContentItem.barMask : null
 
             Loader {

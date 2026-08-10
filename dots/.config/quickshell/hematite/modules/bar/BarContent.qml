@@ -10,7 +10,6 @@ import Quickshell.Services.SystemTray
 Rectangle {
     id: root
     width: 50
-    height: 70
     color: "transparent"
     clip: true
     readonly property HyprlandMonitor monitor: Hyprland.monitorFor(root.QsWindow.window?.screen)
@@ -40,14 +39,16 @@ Rectangle {
             Rectangle {
                 id: leftBg
                 property bool hovered: false
-                bottomRightRadius: Config.options.bar.bottom ? 0 : 99
-                topRightRadius: !Config.options.bar.bottom ? 0 : 99
+                radius: 99
                 implicitWidth: leftContent.implicitWidth + 10
                 color: Appearance.colors.background
                 anchors {
                     top: parent.top
                     bottom: parent.bottom
                     left: parent.left
+                    leftMargin: 8
+                    topMargin: !Config.options.bar.bottom ? 8 : 0
+                    bottomMargin: Config.options.bar.bottom ? 8 : 0
                 }
 
                 Behavior on implicitWidth {
@@ -65,7 +66,7 @@ Rectangle {
                         top: parent.top
                         bottom: parent.bottom
                     }
-                    anchors.leftMargin: 0
+                    anchors.leftMargin: 5
                     anchors.topMargin: 5
                     anchors.bottomMargin: 5
                     spacing: 0
@@ -81,18 +82,6 @@ Rectangle {
                     }
                 }
             }
-
-            RoundCorner {
-                id: leftRound
-                anchors {
-                    top: !Config.options.bar.bottom ? parent.top : undefined
-                    left: leftBg.right
-                    bottom: Config.options.bar.bottom ? parent.bottom : undefined
-                }
-                color: Appearance.colors.background
-                corner: Config.options.bar.bottom ? RoundCorner.CornerEnum.BottomLeft : RoundCorner.CornerEnum.TopLeft
-                implicitSize: 15
-            }
         }
 
         Item {
@@ -107,14 +96,16 @@ Rectangle {
             Rectangle {
                 id: rightBg
                 property bool hovered: false
-                bottomLeftRadius: Config.options.bar.bottom ? 0 : 99
-                topLeftRadius: !Config.options.bar.bottom ? 0 : 99
+                radius: 99
                 implicitWidth: rightContent.implicitWidth + 15
                 color: Appearance.colors.background
                 anchors {
                     top: parent.top
                     bottom: parent.bottom
                     right: parent.right
+                    rightMargin: 8
+                    topMargin: !Config.options.bar.bottom ? 8 : 0
+                    bottomMargin: Config.options.bar.bottom ? 8 : 0
                 }
 
                 Behavior on implicitWidth {
@@ -155,17 +146,6 @@ Rectangle {
                         Layout.fillHeight: true
                     }
                 }
-            }
-
-            RoundCorner {
-                anchors {
-                    top: !Config.options.bar.bottom ? parent.top : undefined
-                    bottom: Config.options.bar.bottom ? parent.bottom : undefined
-                    right: rightBg.left
-                }
-                color: Appearance.colors.background
-                implicitSize: 15
-                corner: Config.options.bar.bottom ? RoundCorner.CornerEnum.BottomRight : RoundCorner.CornerEnum.TopRight
             }
         }
     }

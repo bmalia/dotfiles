@@ -9,7 +9,7 @@ import "../../widgets/shapes/material-shapes.js" as MaterialShapes
 
 Rectangle {
     id: root
-    implicitWidth: Config.options.bar.workspaces.count * 27
+    implicitWidth: Config.options.bar.workspaces.count * 30
     color: "transparent"
     
     property list<bool> occupied: []
@@ -115,7 +115,7 @@ Rectangle {
             height: 24
             radius: 99
             anchors.verticalCenter: bgRow.verticalCenter
-            x: 4 + (root.effectiveActiveWorkspaceId - 1 - root.workspaceGroup * Config.options.bar.workspaces.count) * 27
+            x: 4 + (root.effectiveActiveWorkspaceId - 1 - root.workspaceGroup * Config.options.bar.workspaces.count) * 29.5
 
             Behavior on x {
                 NumberAnimation {

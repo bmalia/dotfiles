@@ -29,6 +29,7 @@ Variants {
             property bool expanded: false
             property bool targetExpanded: expanded
             property string activePageId: centerPage ? centerPage.pageId : ""
+               property string targetActivePageId: activePageId
             property string rememberedExpandedPageId: ""
             property real contentOpacity: 1
             property var previousCenterPageId: null
@@ -92,6 +93,7 @@ Variants {
                 if (root.expanded) {
                     const hasRemembered = root.sortedPages.some(page => page.pageId === root.rememberedExpandedPageId);
                     root.activePageId = hasRemembered ? root.rememberedExpandedPageId : (root.centerPage ? root.centerPage.pageId : "");
+                       root.targetActivePageId = root.activePageId;
                     return;
                 }
 
@@ -111,6 +113,20 @@ Variants {
                     root.rememberedExpandedPageId = root.activePageId;
                 }
             }
+
+               onTargetActivePageIdChanged: {
+                   if (root.expanded) {
+                       root.activePageId = root.targetActivePageId;
+                       return;
+                   }
+
+                   if (root.targetActivePageId === root.activePageId) {
+                       return;
+                   }
+
+                   fadeOutThenIn.restart();
+                   activePageDelayTimer.restart();
+               }
 
             onCenterPageChanged: {
                 if (root.expanded) {
@@ -142,6 +158,16 @@ Variants {
                     root.expanded = root.targetExpanded;
                 }
             }
+
+               Timer {
+                   id: activePageDelayTimer
+                   interval: 250
+                   repeat: false
+
+                   onTriggered: {
+                       root.activePageId = root.targetActivePageId;
+                   }
+               }
 
             SequentialAnimation {
                 id: fadeOutThenIn
@@ -178,14 +204,6 @@ Variants {
                 item: island
 
                 Region {
-                    item: leftRound
-                }
-
-                Region {
-                    item: rightRound
-                }
-
-                Region {
                     item: sidePillLayer
                 }
             }
@@ -194,22 +212,45 @@ Variants {
                 id: island
                 anchors {
                     top: parent.top
+                    topMargin: root.expanded ? 30 : 8
                     horizontalCenter: parent.horizontalCenter
+                }
+
+                Behavior on anchors.topMargin {
+                    NumberAnimation {
+                        duration: 500
+                        easing.type: Easing.BezierSpline
+                        easing.bezierCurve: Appearance.easings.expressiveDefaultSpatial
+                    }
                 }
 
                 property real popWidth: 0
 
                 implicitWidth: root.expanded ? Math.max(1000, root.screen.width * 0.46) : (root.centerPage?.collapsedWidth || 0) + popWidth
-                implicitHeight: root.expanded ? Math.max(450, root.screen.height * 0.35) : 48 + popWidth
+                implicitHeight: root.expanded ? Math.max(450, root.screen.height * 0.35) : 48 + popWidth / 4
                 color: Appearance.colors.background
-                bottomLeftRadius: 30
-                bottomRightRadius: 30
+                radius: 50
 
                 MouseArea {
                     hoverEnabled: true
                     anchors.fill: parent
-                    onClicked: root.targetExpanded = !root.targetExpanded
-                    onEntered: island.popWidth = 10
+                    onClicked: {
+                        if (root.expanded) {
+                            root.targetExpanded = false;
+                        }
+                        return;
+                    }
+                    onPressed: {
+                        island.popWidth = -10;
+                    }
+                    pressAndHoldInterval: 200
+
+                    onPressAndHold: {
+                        root.targetExpanded = !root.targetExpanded;
+                        island.popWidth = 0;
+                    }
+
+                    onEntered: island.popWidth = 15
                     onExited: island.popWidth = 0
                 }
 
@@ -241,37 +282,52 @@ Variants {
                 ColumnLayout {
                     anchors.fill: parent
                     anchors.margins: 12
-                    anchors.topMargin: 30
-                    spacing: 13
+                    spacing: 5
                     visible: root.expanded
                     opacity: root.contentOpacity
 
-                    ConnectedButtonGroup {
+                    RowLayout {
                         Layout.alignment: Qt.AlignCenter
-                        buttonAmount: root.sortedPages.length
-                        buttonIcons: root.sortedPages.map(page => page.materialIcon || "help_outline")
-                        buttonLabels: root.sortedPages.map(page => page.title)
-                        selectedIndex: root.activeIndex
+                        spacing: 10
 
-                        onIndexChanged: {
-                            const page = root.sortedPages[selectedIndex];
-                            if (page) {
-                                root.activePageId = page.pageId;
+                        Repeater {
+                            model: root.sortedPages
+
+                            delegate: Rectangle {
+                                id: pageButton
+                                required property var modelData
+                                required property int index
+
+                                width: 30
+                                height: 30
+                                radius: 10
+                                color: root.activeIndex === pageButton.index ? Appearance.colors.primary_container : "transparent"
+
+                                MaterialIcon {
+                                    anchors.centerIn: parent
+                                    text: pageButton.modelData.materialIcon || "help_outline"
+                                    iconSize: 20
+                                    filled: root.activeIndex === pageButton.index
+                                    color: root.activeIndex === pageButton.index ? Appearance.colors.on_primary_container : Appearance.colors.on_surface_variant
+                                }
+
+                                MouseArea {
+                                    anchors.fill: parent
+                                    onClicked: {
+                                        root.activePageId = pageButton.modelData.pageId;
+                                    }
+                                }
                             }
                         }
+                    }
 
-                        Rectangle {
-                            anchors {
-                                top: parent.top
-                                bottom: parent.bottom
-                                right: parent.left
-                                rightMargin: 10
-                            }
-                            implicitWidth: height
-
-                            radius: 99
-                            color: Appearance.colors.primary_container
-                        }
+                    Text {
+                        Layout.alignment: Qt.AlignCenter
+                        text: root.sortedPages[root.activeIndex]?.title || ""
+                        font.pixelSize: 14
+                        font.family: Config.options.fontFamily
+                        font.bold: true
+                        color: Appearance.colors.on_surface_variant
                     }
 
                     StackLayout {
@@ -322,7 +378,7 @@ Variants {
                         readonly property real targetEmerge: (!root.expanded && isSidePage) ? 1 : 0
                         property real emerge: 0
                         property real startDistance: Math.max(8, island.implicitWidth * 0.5 - width * 0.5 - 8)
-                        property real endDistance: island.implicitWidth * 0.35 + lane * (width + 30)
+                        property real endDistance: island.implicitWidth * 0.35 + lane * (width + 23)
                         property real distance: startDistance + (endDistance - startDistance) * emerge
 
                         y: (parent.height - height) / 2
@@ -361,30 +417,19 @@ Variants {
                             anchors.rightMargin: 8
                             sourceComponent: sidePill.modelData.sidePillComponent
                         }
+
+                           MouseArea {
+                               anchors.fill: parent
+                               enabled: !root.expanded && sidePill.isSidePage
+                               acceptedButtons: Qt.LeftButton
+
+                               onClicked: {
+                                root.targetExpanded = true;
+                                root.ActivePageId = sidePill.modelData.pageId;
+                               }
+                           }
                     }
                 }
-            }
-
-            RoundCorner {
-                id: leftRound
-                anchors {
-                    top: parent.top
-                    right: island.left
-                }
-                corner: RoundCorner.CornerEnum.TopRight
-                implicitSize: Math.min(island.implicitHeight * 0.5, 40)
-                color: Appearance.colors.background
-            }
-
-            RoundCorner {
-                id: rightRound
-                anchors {
-                    top: parent.top
-                    left: island.right
-                }
-                corner: RoundCorner.CornerEnum.TopLeft
-                implicitSize: Math.min(island.implicitHeight * 0.5, 40)
-                color: Appearance.colors.background
             }
         }
     }

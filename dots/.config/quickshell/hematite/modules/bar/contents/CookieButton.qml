@@ -7,7 +7,7 @@ import qs.modules.widgets.shapes
 import "../../widgets/shapes/material-shapes.js" as MaterialShapes
 
 Item {
-    width: 44
+    width: 40
 
     Rectangle {
         id: button
