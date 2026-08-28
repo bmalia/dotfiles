@@ -29,7 +29,7 @@ Variants {
             property bool expanded: false
             property bool targetExpanded: expanded
             property string activePageId: centerPage ? centerPage.pageId : ""
-               property string targetActivePageId: activePageId
+            property string targetActivePageId: activePageId
             property string rememberedExpandedPageId: ""
             property real contentOpacity: 1
             property var previousCenterPageId: null
@@ -93,7 +93,7 @@ Variants {
                 if (root.expanded) {
                     const hasRemembered = root.sortedPages.some(page => page.pageId === root.rememberedExpandedPageId);
                     root.activePageId = hasRemembered ? root.rememberedExpandedPageId : (root.centerPage ? root.centerPage.pageId : "");
-                       root.targetActivePageId = root.activePageId;
+                    root.targetActivePageId = root.activePageId;
                     return;
                 }
 
@@ -114,19 +114,19 @@ Variants {
                 }
             }
 
-               onTargetActivePageIdChanged: {
-                   if (root.expanded) {
-                       root.activePageId = root.targetActivePageId;
-                       return;
-                   }
+            onTargetActivePageIdChanged: {
+                if (root.expanded) {
+                    root.activePageId = root.targetActivePageId;
+                    return;
+                }
 
-                   if (root.targetActivePageId === root.activePageId) {
-                       return;
-                   }
+                if (root.targetActivePageId === root.activePageId) {
+                    return;
+                }
 
-                   fadeOutThenIn.restart();
-                   activePageDelayTimer.restart();
-               }
+                fadeOutThenIn.restart();
+                activePageDelayTimer.restart();
+            }
 
             onCenterPageChanged: {
                 if (root.expanded) {
@@ -159,15 +159,15 @@ Variants {
                 }
             }
 
-               Timer {
-                   id: activePageDelayTimer
-                   interval: 250
-                   repeat: false
+            Timer {
+                id: activePageDelayTimer
+                interval: 250
+                repeat: false
 
-                   onTriggered: {
-                       root.activePageId = root.targetActivePageId;
-                   }
-               }
+                onTriggered: {
+                    root.activePageId = root.targetActivePageId;
+                }
+            }
 
             SequentialAnimation {
                 id: fadeOutThenIn
@@ -209,10 +209,74 @@ Variants {
             }
 
             Rectangle {
-                id: island
+                id: controlsRow
+                z: 1
+                opacity: root.expanded ? 1 : 0
+                visible: opacity > 0.001
+                color: "transparent"
                 anchors {
                     top: parent.top
-                    topMargin: root.expanded ? 30 : 8
+                    topMargin: root.expanded ? 10 : 15
+                    horizontalCenter: parent.horizontalCenter
+                }
+                implicitWidth: island.implicitWidth / 2
+                implicitHeight: 40
+
+                Behavior on anchors.topMargin {
+                    NumberAnimation {
+                        duration: 500
+                        easing.type: Easing.BezierSpline
+                        easing.bezierCurve: Appearance.easings.expressiveDefaultSpatial
+                    }
+                }
+
+                Behavior on opacity {
+                    NumberAnimation {
+                        duration: 500
+                        easing.type: Easing.BezierSpline
+                        easing.bezierCurve: Appearance.easings.expressiveDefaultEffects
+                    }
+                }
+
+                RowLayout {
+                    z: 3
+                    anchors {
+                        top: parent.top
+                        bottom: parent.bottom
+                        horizontalCenter: parent.horizontalCenter
+                    }
+                    spacing: 10
+
+                    Rectangle {
+                        Layout.fillHeight: true
+                        implicitWidth: 60
+                        radius: 20
+                        color: Appearance.colors.error
+
+                        MaterialIcon {
+                            anchors.centerIn: parent
+                            text: "close"
+                            iconSize: 25
+                            filled: true
+                            color: Appearance.colors.on_error
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: {
+                                root.targetExpanded = false;
+                            }
+                        }
+                    }
+                }
+            }
+
+            Rectangle {
+                id: island
+                z: 2
+                anchors {
+                    top: parent.top
+                    topMargin: root.expanded ? 60 : 8
                     horizontalCenter: parent.horizontalCenter
                 }
 
@@ -418,16 +482,16 @@ Variants {
                             sourceComponent: sidePill.modelData.sidePillComponent
                         }
 
-                           MouseArea {
-                               anchors.fill: parent
-                               enabled: !root.expanded && sidePill.isSidePage
-                               acceptedButtons: Qt.LeftButton
+                        MouseArea {
+                            anchors.fill: parent
+                            enabled: !root.expanded && sidePill.isSidePage
+                            acceptedButtons: Qt.LeftButton
 
-                               onClicked: {
+                            onClicked: {
                                 root.targetExpanded = true;
                                 root.ActivePageId = sidePill.modelData.pageId;
-                               }
-                           }
+                            }
+                        }
                     }
                 }
             }
