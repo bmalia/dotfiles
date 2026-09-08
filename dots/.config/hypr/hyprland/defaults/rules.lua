@@ -82,6 +82,15 @@ hl.layer_rule({
 })
 
 hl.layer_rule({
+    name = "quickshell-blur",
+    blur = true,
+    ignore_alpha = false,
+    match = {
+        namespace = "quickshell",
+    }
+})
+
+hl.layer_rule({
     name = "no-anims-on-overlays",
     match = {
         namespace = "(selection|hyprpicker|quickshell:polkit)"

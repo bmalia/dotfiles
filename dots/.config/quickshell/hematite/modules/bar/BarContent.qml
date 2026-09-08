@@ -41,7 +41,7 @@ Rectangle {
                 property bool hovered: false
                 radius: 99
                 implicitWidth: leftContent.implicitWidth + 10
-                color: Appearance.colors.background
+                color: Qt.alpha(Appearance.colors.background, Appearance.surfaceOpacity1)
                 anchors {
                     top: parent.top
                     bottom: parent.bottom
@@ -98,7 +98,7 @@ Rectangle {
                 property bool hovered: false
                 radius: 99
                 implicitWidth: rightContent.implicitWidth + 15
-                color: Appearance.colors.background
+                color: Qt.alpha(Appearance.colors.background, Appearance.surfaceOpacity1)
                 anchors {
                     top: parent.top
                     bottom: parent.bottom

@@ -16,6 +16,8 @@ QtObject {
     property bool isActive: Privacy.screenSharing || Privacy.micActive
     property int collapsedWidth: 0
     property int sidePillWidth: 0
+    property int expandedWidth: 760
+    property int expandedHeight: 360
 
     property string statusLabel: {
         if (Privacy.screenSharing && Privacy.micActive) return "Screen + Mic active"

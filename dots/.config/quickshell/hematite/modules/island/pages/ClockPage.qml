@@ -15,6 +15,8 @@ Item {
     property bool isActive: true
     property int collapsedWidth: 0
     property int sidePillWidth: 0
+    property int expandedWidth: 680
+    property int expandedHeight: 300
 
     property Component collapsedComponent: Component {
         Item {

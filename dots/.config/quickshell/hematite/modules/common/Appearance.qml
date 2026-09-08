@@ -2,6 +2,7 @@ pragma Singleton
 import QtQuick
 import Quickshell
 import Quickshell.Io
+import Quickshell.Services.UPower
 import QtCore
 
 Singleton {
@@ -9,6 +10,8 @@ Singleton {
     readonly property string filePath: StandardPaths.standardLocations(StandardPaths.StateLocation)[0] + "/ferros/generated/colors.json"
     property alias colors: colorsJson
     property bool ready: false
+
+    property real surfaceOpacity1: PowerProfiles.profile === PowerProfile.PowerSaver ? 1.0 : 0.8
 
     // Colors
     FileView {

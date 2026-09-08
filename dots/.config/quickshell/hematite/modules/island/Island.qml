@@ -23,7 +23,7 @@ Variants {
             }
             screen: modelData
             exclusionMode: ExclusionMode.Ignore
-            implicitHeight: 700
+            implicitHeight: 1000
             color: "transparent"
 
             property bool expanded: false
@@ -33,6 +33,9 @@ Variants {
             property string rememberedExpandedPageId: ""
             property real contentOpacity: 1
             property var previousCenterPageId: null
+            readonly property var activePage: root.sortedPages.find(page => page.pageId === root.activePageId) || root.centerPage
+            readonly property int activeExpandedWidth: (root.activePage && root.activePage.expandedWidth > 0) ? root.activePage.expandedWidth : Math.max(1000, root.screen.width * 0.46)
+            readonly property int activeExpandedHeight: (root.activePage && root.activePage.expandedHeight > 0) ? root.activePage.expandedHeight : Math.max(450, root.screen.height * 0.35)
 
             readonly property var sortedPages: {
                 const pages = pageRegistry.pages.slice();
@@ -206,6 +209,10 @@ Variants {
                 Region {
                     item: sidePillLayer
                 }
+                
+                Region {
+                    item: controlsRow
+                }
             }
 
             Rectangle {
@@ -234,7 +241,7 @@ Variants {
                     NumberAnimation {
                         duration: 500
                         easing.type: Easing.BezierSpline
-                        easing.bezierCurve: Appearance.easings.expressiveDefaultEffects
+                        easing.bezierCurve: Appearance.easings.expressiveDefaultSpatial
                     }
                 }
 
@@ -249,14 +256,16 @@ Variants {
 
                     Rectangle {
                         Layout.fillHeight: true
-                        implicitWidth: 60
+                        Layout.topMargin: 2
+                        Layout.bottomMargin: 2
+                        implicitWidth: 50 * controlsRow.opacity
                         radius: 20
                         color: Appearance.colors.error
 
                         MaterialIcon {
                             anchors.centerIn: parent
                             text: "close"
-                            iconSize: 25
+                            iconSize: 20
                             filled: true
                             color: Appearance.colors.on_error
                         }
@@ -265,6 +274,51 @@ Variants {
                             anchors.fill: parent
                             onClicked: {
                                 root.targetExpanded = false;
+                            }
+                        }
+                    }
+
+                    Rectangle {
+                        Layout.fillHeight: true
+                        implicitWidth: pageButtonsRow.implicitWidth + 10
+                        color: Qt.alpha(Appearance.colors.surface, Appearance.surfaceOpacity1)
+                        radius: 15
+
+                        RowLayout {
+                            id: pageButtonsRow
+                            anchors.fill: parent
+                            anchors.leftMargin: 5
+                            anchors.rightMargin: 5
+                            spacing: 2
+
+                            Repeater {
+                                model: root.sortedPages
+
+                                delegate: Rectangle {
+                                    id: pageButton
+                                    required property var modelData
+                                    required property int index
+
+                                    implicitWidth: 50 * controlsRow.opacity
+                                    height: 30
+                                    radius: pageButton.index === root.activeIndex ? 20 : 10
+                                    color: root.activeIndex === pageButton.index ? Appearance.colors.primary : Appearance.colors.surface_container
+
+                                    MaterialIcon {
+                                        anchors.centerIn: parent
+                                        text: pageButton.modelData.materialIcon || "help_outline"
+                                        iconSize: 20
+                                        filled: root.activeIndex === pageButton.index
+                                        color: root.activeIndex === pageButton.index ? Appearance.colors.on_primary : Appearance.colors.on_surface_variant
+                                    }
+
+                                    MouseArea {
+                                        anchors.fill: parent
+                                        onClicked: {
+                                            root.activePageId = pageButton.modelData.pageId;
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -290,9 +344,9 @@ Variants {
 
                 property real popWidth: 0
 
-                implicitWidth: root.expanded ? Math.max(1000, root.screen.width * 0.46) : (root.centerPage?.collapsedWidth || 0) + popWidth
-                implicitHeight: root.expanded ? Math.max(450, root.screen.height * 0.35) : 48 + popWidth / 4
-                color: Appearance.colors.background
+                implicitWidth: root.expanded ? root.activeExpandedWidth : (root.centerPage?.collapsedWidth || 0) + popWidth
+                implicitHeight: root.expanded ? root.activeExpandedHeight : 48 + popWidth / 4
+                color: Qt.alpha(Appearance.colors.background, Appearance.surfaceOpacity1)
                 radius: 50
 
                 MouseArea {
@@ -349,41 +403,6 @@ Variants {
                     spacing: 5
                     visible: root.expanded
                     opacity: root.contentOpacity
-
-                    RowLayout {
-                        Layout.alignment: Qt.AlignCenter
-                        spacing: 10
-
-                        Repeater {
-                            model: root.sortedPages
-
-                            delegate: Rectangle {
-                                id: pageButton
-                                required property var modelData
-                                required property int index
-
-                                width: 30
-                                height: 30
-                                radius: 10
-                                color: root.activeIndex === pageButton.index ? Appearance.colors.primary_container : "transparent"
-
-                                MaterialIcon {
-                                    anchors.centerIn: parent
-                                    text: pageButton.modelData.materialIcon || "help_outline"
-                                    iconSize: 20
-                                    filled: root.activeIndex === pageButton.index
-                                    color: root.activeIndex === pageButton.index ? Appearance.colors.on_primary_container : Appearance.colors.on_surface_variant
-                                }
-
-                                MouseArea {
-                                    anchors.fill: parent
-                                    onClicked: {
-                                        root.activePageId = pageButton.modelData.pageId;
-                                    }
-                                }
-                            }
-                        }
-                    }
 
                     Text {
                         Layout.alignment: Qt.AlignCenter
@@ -451,7 +470,7 @@ Variants {
                         implicitWidth: sidePill.modelData.sidePillWidth
                         implicitHeight: 40
                         radius: 22
-                        color: Appearance.colors.background
+                        color: Qt.alpha(Appearance.colors.background, Appearance.surfaceOpacity1)
                         opacity: emerge
                         scale: 0.2 + 0.8 * emerge
                         visible: sidePill.emerge > 0.001

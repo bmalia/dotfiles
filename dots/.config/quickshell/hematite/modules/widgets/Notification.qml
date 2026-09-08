@@ -5,15 +5,20 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import qs.modules.common
+import qs.services
 
 Rectangle {
     id: root
     width: 100
     height: content.implicitHeight + 20
     color: Appearance.colors.surface_container
-    radius: 20
+    topLeftRadius: position === 0 ? 30 : 10
+    topRightRadius: position === 0 ? 30 : 10
+    bottomLeftRadius: position === Notifications.numNotifications - 1 ? 30 : 10
+    bottomRightRadius: position === Notifications.numNotifications - 1 ? 30 : 10
 
     property Notification notification: null
+    property int position: 1
 
 
     MouseArea {
@@ -39,19 +44,19 @@ Rectangle {
 
         Item {
             Layout.alignment: Qt.AlignTop
-            visible: root.notification.image
+            visible: root.notification.image || root.notification.appIcon
             Layout.preferredHeight: 55
             implicitWidth: height
 
             ClippingWrapperRectangle {
                 anchors.fill: parent
                 anchors.margins: 5
-                radius: 15
+                radius: 99
                 color: "transparent"
 
                 Image {
                     anchors.fill: parent
-                    source: root.notification.image
+                    source: root.notification.image ? root.notification.image : Quickshell.iconPath(root.notification.appIcon)
                 }
             }
 

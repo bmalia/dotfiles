@@ -21,6 +21,8 @@ Item {
     property MprisPlayer activePlayer: MprisController.activePlayer
     property int collapsedWidth: 0
     property int sidePillWidth: 0
+    property int expandedWidth: 900
+    property int expandedHeight: 420
 
     property list<real> cavaData: [0, 0, 0, 0]
 

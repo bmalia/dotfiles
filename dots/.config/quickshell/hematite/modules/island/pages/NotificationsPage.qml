@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Layouts
 import qs.modules.common
@@ -15,6 +16,8 @@ QtObject {
     property bool isActive: Notifications.numNotifications > 0
     property int collapsedWidth: 0
     property int sidePillWidth: 0
+    property int expandedWidth: 500
+    property int expandedHeight: 800
 
     property Component collapsedComponent: Component {
         Item {
@@ -105,38 +108,34 @@ QtObject {
 
     property Component expandedComponent: Component {
         Item {
-            Flickable {
+            ListView {
+                id: notificationList
                 visible: Notifications.numNotifications > 0
-                anchors {
-                    fill: parent
-                    margins: 10
-                    leftMargin: 100
-                    rightMargin: 100
-                }
+                model: Notifications.server.trackedNotifications.values
+                spacing: 5
                 clip: true
-
-                contentWidth: content.width
-                contentHeight: content.height
-                ColumnLayout {
-                    id: content
-                    anchors {
-                        top: parent.top
-                        left: parent.left
-                        right: parent.right
-                        margins: 1
-                    }
-                    spacing: 10
-
-                    Repeater {
-                        model: Notifications.server.trackedNotifications.values
-                        Layout.fillWidth: true
-                        delegate: Notification {
-                            required property var modelData
-                            notification: modelData
-                            implicitWidth: parent.width
-                        }
+                populate: Transition {
+                    NumberAnimation {
+                        properties: "x,y"
+                        duration: 1000
                     }
                 }
+                displaced: Transition {
+                    NumberAnimation {
+                        properties: "x,y"
+                        duration: 1000
+                    }
+                }
+                
+                delegate: Notification {
+                    required property var modelData
+                    required property int index
+                    position: index
+                    width: notificationList.width
+                    notification: modelData
+                }
+                anchors.fill: parent
+                anchors.margins: 10
             }
 
             Item {

@@ -10,6 +10,7 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("swayosd-server") -- OSD for brightness, volume, etc.
     hl.exec_cmd("vicinae server") -- Launcher
     hl.exec_cmd("hyprpm reload") -- Load plugins
+    hl.exec_cmd("$HOME/.config/hypr/scripts/power-profile-monitor.sh") -- Monitor power profile changes and update blur dynamically
 end)
 
 hl.on("hyprland.shutdown", function ()
