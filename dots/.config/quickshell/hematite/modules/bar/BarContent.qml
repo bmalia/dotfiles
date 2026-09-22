@@ -17,7 +17,7 @@ Rectangle {
 
     Region {
         id: barMaskRegion
-        item: leftBg
+        item: leftContainer
 
         Region {
             item: rightBg
@@ -34,21 +34,20 @@ Rectangle {
         Item {
             id: leftSection
             Layout.fillHeight: true
-            implicitWidth: leftBg.implicitWidth + leftRound.implicitWidth
+            implicitWidth: leftContainer.implicitWidth
 
             Rectangle {
-                id: leftBg
+                id: leftContainer
                 property bool hovered: false
-                radius: 99
                 implicitWidth: leftContent.implicitWidth + 10
-                color: Qt.alpha(Appearance.colors.background, Appearance.surfaceOpacity1)
+                color: "transparent"
                 anchors {
                     top: parent.top
                     bottom: parent.bottom
                     left: parent.left
                     leftMargin: 8
-                    topMargin: !Config.options.bar.bottom ? 8 : 0
-                    bottomMargin: Config.options.bar.bottom ? 8 : 0
+                    topMargin: 4
+                    bottomMargin: 4
                 }
 
                 Behavior on implicitWidth {
@@ -70,11 +69,6 @@ Rectangle {
                     anchors.topMargin: 5
                     anchors.bottomMargin: 5
                     spacing: 0
-
-                    Loader {
-                        sourceComponent: CookieButton {}
-                        Layout.fillHeight: true
-                    }
 
                     Loader {
                         sourceComponent: Workspaces {}

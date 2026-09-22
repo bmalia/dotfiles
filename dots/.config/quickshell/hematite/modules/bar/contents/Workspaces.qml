@@ -20,13 +20,6 @@ Rectangle {
     readonly property int workspaceGroup: Math.floor((effectiveActiveWorkspaceId - 1) / Config.options.bar.workspaces.count)
 
     onEffectiveActiveWorkspaceIdChanged: {
-        if (effectiveActiveWorkspaceId != previousWorkspaceId) {
-            if (effectiveActiveWorkspaceId > previousWorkspaceId) {
-                CookieButtonState.setTransientShape(MaterialShapes.getArrow(), 90, 500);
-            } else if (effectiveActiveWorkspaceId < previousWorkspaceId) {
-                CookieButtonState.setTransientShape(MaterialShapes.getArrow(), -90, 500);
-            }
-        }
         previousWorkspaceId = effectiveActiveWorkspaceId;
     }
 

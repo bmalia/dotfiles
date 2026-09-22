@@ -3,8 +3,7 @@
 
 import QtQuick
 import Quickshell
-import qs.modules.bar
-import qs.modules.island
+import qs.modules.main
 import qs.modules.common
 import qs.modules.polkit
 
@@ -12,13 +11,9 @@ ShellRoot {
     Loader {
         id: root
         active: Config.ready
-        sourceComponent: Bar {}
+        sourceComponent: Main {}
     }
-    Loader {
-        id: islandLoader
-        active: Config.ready
-        sourceComponent: Island {}
-    }
+
     Loader {
         id: polkitLoader
         active: Config.ready
