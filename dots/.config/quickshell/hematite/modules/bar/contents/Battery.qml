@@ -6,7 +6,6 @@ import qs.modules.common
 import qs.modules.widgets.shapes
 import qs.modules.widgets
 import qs.services
-import "../../widgets/shapes/material-shapes.js" as MaterialShapes
 
 Item {
     id: root
@@ -82,12 +81,11 @@ Item {
         visible: statusIcon.visible
         anchors {
             centerIn: statusIcon
-            verticalCenterOffset: 1
-            horizontalCenterOffset: -0.8
         }
         color: Appearance.colors.background
         text: statusIcon.text
-        iconSize: 22
+        iconSize: 15
+        weight: 2000
         filled: true
     }
 }

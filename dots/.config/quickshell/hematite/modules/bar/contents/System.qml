@@ -18,7 +18,7 @@ Rectangle {
             leftMargin: 5
             rightMargin: 8
         }
-        spacing: 5
+        spacing: 10
         
         Loader {
             id: batteryLoader

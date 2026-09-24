@@ -54,11 +54,11 @@ Singleton {
         var values = [];
 
         for (const [key, value] of map) {
-            values.push(appEntryComp.createObject(null, {
+            values.push({
                 appId: key,
                 toplevels: value.toplevels,
                 pinned: value.pinned
-            }));
+            });
         }
 
         return values;

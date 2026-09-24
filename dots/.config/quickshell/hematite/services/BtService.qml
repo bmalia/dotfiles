@@ -7,7 +7,7 @@ import Quickshell.Bluetooth
 Singleton {
     id: bluetoothService
     
-    property string btStatus: connectedDevices.length > 0 ? "connected" : Bluetooth.defaultAdapter.enabled ? "on" : "off"
+    property string btStatus: connectedDevices.length > 0 ? "connected" : Bluetooth.defaultAdapter?.enabled ? "on" : "off"
     // Apparently Bluetooth.devices is actually a list of all devices the adapter can see, not just paired ones
     property var devices: Bluetooth.devices
     property var connectedDevices: Bluetooth.devices ? Bluetooth.devices.values.filter(d => d.state === BluetoothDeviceState.Connected || d.state === BluetoothDeviceState.Connecting) : []
@@ -16,7 +16,9 @@ Singleton {
     property bool scanning: false
 
     function toggleBluetooth() {
-        Bluetooth.defaultAdapter.enabled = !Bluetooth.defaultAdapter.enabled;
+        if (Bluetooth.defaultAdapter) {
+            Bluetooth.defaultAdapter.enabled = !Bluetooth.defaultAdapter.enabled;
+        }
     }
 
     function fetchDeviceIcon(deviceIcon) {
@@ -36,6 +38,7 @@ Singleton {
     }
 
     function toggleScanning() {
+        if (!Bluetooth.defaultAdapter) return;
         if (scanning) {
             Bluetooth.defaultAdapter.discovering = false;
             scanning = false;

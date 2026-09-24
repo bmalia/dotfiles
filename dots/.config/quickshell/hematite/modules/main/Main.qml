@@ -8,84 +8,103 @@ import qs.modules.bar
 Variants {
     model: Quickshell.screens
 
-    delegate: PanelWindow {
+    delegate: Scope {
         id: root
         required property var modelData
         property int cornerSize: 30
 
-        screen: modelData
+        PanelWindow {
+            id: barWindow
+            screen: root.modelData
 
-        anchors {
-            left: true
-            right: true
-            bottom: Config.options.bar.bottom
-            top: !Config.options.bar.bottom
-        }
-
-        implicitHeight: modelData.height
-        color: "transparent"
-        exclusiveZone: barBg.implicitHeight
-
-        mask: Region {
-            item: barBg
-        }
-
-        Rectangle {
-            id: barBg
             anchors {
-                left: parent.left
-                right: parent.right
-                top: Config.options.bar.bottom ? undefined : parent.top
-                bottom: Config.options.bar.bottom ? parent.bottom : undefined
+                left: true
+                right: true
+                bottom: Config.options.bar.bottom
+                top: !Config.options.bar.bottom
             }
-            implicitHeight: 55
-            color: Appearance.colors.background
 
-            Loader {
-                anchors.fill: parent
-                sourceComponent: BarContent {}
+            implicitHeight: barBg.implicitHeight + root.cornerSize
+            color: "transparent"
+            exclusiveZone: barBg.implicitHeight
+
+            mask: Region {
+                item: barBg
+            }
+
+            Rectangle {
+                id: barBg
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    top: Config.options.bar.bottom ? undefined : parent.top
+                    bottom: Config.options.bar.bottom ? parent.bottom : undefined
+                }
+                implicitHeight: 55
+                color: Appearance.colors.background
+
+                BarContent {
+                    anchors.fill: parent
+                }
+            }
+
+            RoundCorner {
+                anchors {
+                    top: Config.options.bar.bottom ? undefined : barBg.bottom
+                    bottom: Config.options.bar.bottom ? barBg.top : undefined
+                    left: parent.left
+                }
+                implicitSize: root.cornerSize
+                corner: Config.options.bar.bottom ? RoundCorner.CornerEnum.BottomLeft : RoundCorner.CornerEnum.TopLeft
+            }
+
+            RoundCorner {
+                anchors {
+                    top: Config.options.bar.bottom ? undefined : barBg.bottom
+                    bottom: Config.options.bar.bottom ? barBg.top : undefined
+                    right: parent.right
+                }
+                implicitSize: root.cornerSize
+                corner: Config.options.bar.bottom ? RoundCorner.CornerEnum.BottomRight : RoundCorner.CornerEnum.TopRight
             }
         }
 
-        RoundCorner {
-            anchors {
-                bottom: Config.options.bar.bottom ? barBg.top : parent.bottom
-                left: parent.left
-            }
-            implicitSize: root.cornerSize
+        PanelWindow {
+            id: cornerWindow
+            screen: root.modelData
 
-            corner: RoundCorner.CornerEnum.BottomLeft
-        }
-
-        RoundCorner {
             anchors {
-                bottom: Config.options.bar.bottom ? barBg.top : parent.bottom
-                right: parent.right
-            }
-            implicitSize: root.cornerSize
-            corner: RoundCorner.CornerEnum.BottomRight
-        }
-
-        RoundCorner {
-            anchors {
-                top: Config.options.bar.bottom ? parent.top : barBg.bottom
-                left: parent.left
+                left: true
+                right: true
+                bottom: !Config.options.bar.bottom
+                top: Config.options.bar.bottom
             }
 
-            implicitSize: root.cornerSize
+            implicitHeight: root.cornerSize
+            exclusionMode: ExclusionMode.Ignore
+            color: "transparent"
 
-            corner: RoundCorner.CornerEnum.TopLeft
-        }
+            mask: Region {}
 
-        RoundCorner {
-            anchors {
-                top: Config.options.bar.bottom ? parent.top : barBg.bottom
-                right: parent.right
+            RoundCorner {
+                anchors {
+                    bottom: Config.options.bar.bottom ? undefined : parent.bottom
+                    top: Config.options.bar.bottom ? parent.top : undefined
+                    left: parent.left
+                }
+                implicitSize: root.cornerSize
+                corner: Config.options.bar.bottom ? RoundCorner.CornerEnum.TopLeft : RoundCorner.CornerEnum.BottomLeft
             }
 
-            implicitSize: root.cornerSize
-
-            corner: RoundCorner.CornerEnum.TopRight
+            RoundCorner {
+                anchors {
+                    bottom: Config.options.bar.bottom ? undefined : parent.bottom
+                    top: Config.options.bar.bottom ? parent.top : undefined
+                    right: parent.right
+                }
+                implicitSize: root.cornerSize
+                corner: Config.options.bar.bottom ? RoundCorner.CornerEnum.TopRight : RoundCorner.CornerEnum.BottomRight
+            }
         }
     }
 }

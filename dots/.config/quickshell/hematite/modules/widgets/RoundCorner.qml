@@ -16,8 +16,6 @@ Item {
 
     Shape {
         anchors.fill: parent
-        layer.enabled: true
-        layer.smooth: true
         preferredRendererType: Shape.CurveRenderer
 
         ShapePath {

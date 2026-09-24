@@ -1,7 +1,6 @@
 import QtQuick
 import Quickshell
 import qs.modules.widgets
-import Quickshell.Hyprland
 import QtQuick.Layouts
 import qs.modules.bar.contents
 import qs.modules.common
@@ -12,7 +11,6 @@ Rectangle {
     width: 50
     color: "transparent"
     clip: true
-    readonly property HyprlandMonitor monitor: Hyprland.monitorFor(root.QsWindow.window?.screen)
     readonly property var barMask: barMaskRegion
 
     Region {
@@ -70,8 +68,7 @@ Rectangle {
                     anchors.bottomMargin: 5
                     spacing: 0
 
-                    Loader {
-                        sourceComponent: Workspaces {}
+                    Workspaces {
                         Layout.fillHeight: true
                     }
                 }
@@ -90,16 +87,15 @@ Rectangle {
             Rectangle {
                 id: rightBg
                 property bool hovered: false
-                radius: 99
                 implicitWidth: rightContent.implicitWidth + 15
-                color: Qt.alpha(Appearance.colors.background, Appearance.surfaceOpacity1)
+                color: "transparent"
                 anchors {
                     top: parent.top
                     bottom: parent.bottom
                     right: parent.right
                     rightMargin: 8
-                    topMargin: !Config.options.bar.bottom ? 8 : 0
-                    bottomMargin: Config.options.bar.bottom ? 8 : 0
+                    topMargin: 4
+                    bottomMargin: 4
                 }
 
                 Behavior on implicitWidth {
@@ -135,8 +131,7 @@ Rectangle {
                         visible: SystemTray.items.values.length > 0
                     }
 
-                    Loader {
-                        sourceComponent: System {}
+                    System {
                         Layout.fillHeight: true
                     }
                 }

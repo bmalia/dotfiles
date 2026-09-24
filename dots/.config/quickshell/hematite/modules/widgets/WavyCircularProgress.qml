@@ -19,10 +19,10 @@ Item {
 
     property Component centerItem
 
-    // Animate the wave phase
+    // Animate the wave phase only when visible and wave amplitude is active
     Timer {
         interval: 16 // ~60 FPS
-        running: true
+        running: root.visible && root.waveAmplitude > 0.001
         repeat: true
         onTriggered: {
             root.wavePhase += root.scrollSpeed;

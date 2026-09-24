@@ -5,7 +5,6 @@ import Quickshell.Wayland
 import QtQuick.Layouts
 import qs.modules.common
 import qs.services
-import "../../widgets/shapes/material-shapes.js" as MaterialShapes
 
 Rectangle {
     id: root
@@ -146,7 +145,7 @@ Rectangle {
                         text: actualIndex
                         color: root.effectiveActiveWorkspaceId === actualIndex ? Appearance.colors.on_primary : root.occupied[index] ? Appearance.colors.on_surface : Qt.alpha(Appearance.colors.on_surface_variant, 0.4)
 
-                        font.family: Appearance.fontFamily
+                        font.family: Config.options.fontFamily
                         font.bold: root.occupied[index]
                         font.pixelSize: 14
 

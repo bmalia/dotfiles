@@ -104,6 +104,7 @@ Item {
                 visible: PolkitService.flow?.iconName.length > 0
                 width: 64
                 height: 64
+                sourceSize: Qt.size(64, 64)
                 fillMode: Image.PreserveAspectCrop
                 Layout.alignment: Qt.AlignHCenter
                 source: Quickshell.iconPath(PolkitService.flow?.iconName)

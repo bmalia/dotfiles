@@ -1,4 +1,8 @@
 //@ pragma UseQApplication
+//@ pragma Env QSG_RHI_BACKEND=vulkan
+//@ pragma Env MALLOC_TRIM_THRESHOLD_=65536
+//@ pragma Env MALLOC_ARENA_MAX=2
+//@ pragma Env QT_QUICK_CONTROLS_STYLE=Basic
 //@ pragma Env QT_QUICK_FLICKABLE_WHEEL_DECELERATION=10000
 
 import QtQuick
