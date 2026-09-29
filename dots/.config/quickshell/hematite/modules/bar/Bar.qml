@@ -11,7 +11,7 @@ Variants {
         PanelWindow {
             id: root
             required property var modelData
-            readonly property var barContentItem: contentLoader.item
+            readonly property var barContentItem: content
 
             screen: modelData
             anchors {
@@ -22,13 +22,10 @@ Variants {
             }
             color: "transparent"
             implicitHeight: 55
-            mask: contentLoader.item ? barContentItem.barMask : null
+            mask: barContentItem ? barContentItem.barMask : null
 
-            Loader {
-                id: contentLoader
-                active: true
-                sourceComponent: BarContent {
-                }
+            BarContent {
+                id: content
                 anchors.fill: parent
             }
         }

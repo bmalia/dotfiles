@@ -76,8 +76,7 @@ Rectangle {
                         Layout.fillHeight: true
                     }
 
-                    Loader {
-                        sourceComponent: Workspaces {}
+                    Workspaces {
                         Layout.fillHeight: true
                     }
                 }
@@ -141,8 +140,7 @@ Rectangle {
                         visible: SystemTray.items.values.length > 0
                     }
 
-                    Loader {
-                        sourceComponent: System {}
+                    System {
                         Layout.fillHeight: true
                     }
                 }

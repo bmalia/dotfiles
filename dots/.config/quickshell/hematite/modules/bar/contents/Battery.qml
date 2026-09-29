@@ -6,7 +6,6 @@ import qs.modules.common
 import qs.modules.widgets.shapes
 import qs.modules.widgets
 import qs.services
-import "../../widgets/shapes/material-shapes.js" as MaterialShapes
 
 Item {
     id: root
