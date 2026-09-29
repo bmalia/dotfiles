@@ -7,7 +7,7 @@ import QtCore
 
 Singleton {
     id: root
-    readonly property string filePath: StandardPaths.standardLocations(StandardPaths.StateLocation)[0] + "/ferros/generated/colors.json"
+    readonly property string filePath: StandardPaths.standardLocations(StandardPaths.StateLocation)[0] + "/hematite/generated/colors.json"
     property alias colors: colorsJson
     property bool ready: false
 
