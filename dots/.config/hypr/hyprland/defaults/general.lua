@@ -61,6 +61,7 @@ hl.config({
     decoration = {
         rounding_power = 4,
         rounding = 18,
+        -- screen_shader = "~/.config/hypr/hyprland/shaders/e-ink.glsl",
 
         blur = {
             enabled = true,
@@ -193,4 +194,3 @@ hl.config({
         use_nearest_neighbor = true
     }
 })
-
