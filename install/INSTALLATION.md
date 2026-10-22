@@ -1,8 +1,8 @@
 # Installation
 
-## Automatic (WIP)
+## Automatic (Recommended)
 
-While there is an installation script that will set everything up, It is currently a work in progress and may not work for everyone. If you want to give it a try, follow the instructions here. Otherwise, you can follow the manual installation instructions in the next section.
+The installation script is designed to work on most Arch systems, but I can't guarantee anything. If you run into issues, proceed manually with the steps below.
 
 ### 1. Clone the git repo
 
@@ -15,10 +15,10 @@ git clone https://github.com/bmalia/dotfiles.git
 
 ```sh
 cd dotfiles
-./install.sh
+./install.sh install
 ```
 
-## Manual (Recommended)
+## Manual
 
 ### 1. Clone the git repo
 
@@ -31,17 +31,41 @@ git clone https://github.com/bmalia/dotfiles.git
 > You'll need an AUR helper for this step. This guide uses `yay`, but you can use whatever you like; just replace the syntax accordingly.
 
 ```sh
-source ./install/packages.conf && yay -S --needed "${base_packages[@]}" "${hematite_packages[@]}"
+source ./install/packages.conf # Get the list of packages to install
+pacman -Syu --needed "${pacman_packages[@]}"
+yay -Syu --needed "${aur_packages[@]}"
 ```
 
 ### 3. Install the dotfiles
 ```sh
 cd dotfiles
-make
+git pull # Make sure you have the latest version
+stow --verbose --target=$HOME --restow dots
 ```
-This will symlink all the config files to their appropriate locations. After updates to the dotfiles, its good practice to run `make` again to make sure any structure changes or new config files are properly linked.
+This will symlink all the config files to their appropriate locations. After updates to the dotfiles, its good practice to run `stow --verbose --target=$HOME --restow dots` again to make sure everything is up to date.
 
-### 4. Reboot your system
+### 4. Compile Quickshell modules
+As the configuration relies on custom QML modules, you'll need to compile them before you can use the shell. Run the following commands:
+```sh
+cd ~/dotfiles/dots/.config/quickshell/plugins
+# Caelestia blobs lib
+cd Blobs
+cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+cmake --build build
+```
+
+### 5. Install adw-gtk3 theme
+```sh
+mkdir -p ~/.themes
+cd .themes
+curl -s https://api.github.com/repos/lassekongo83/adw-gtk3/releases/latest | grep "browser_download_url.*\.tar\.xz" | cut -d '"' -f 4 | xargs -I {} curl -L -o adw-gtk3.tar.xz {}
+```
+You should now have a file called `adw-gtk3.tar.xz` in your .themes directory. Extract it with the following command:
+```sh
+tar -xf adw-gtk3.tar.xz
+```
+
+### 6. Reboot your system
 ```sh
 reboot # try 'systemctl reboot' if this doesn't work
 ```
