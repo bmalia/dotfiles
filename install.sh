@@ -69,10 +69,12 @@ function install_dotfiles() {
 function compile_qs_modules() {
     echo "Compiling and installing Quickshell modules..."
     repo_directory=$(pwd)
-    cd ~/.config/quickshell/hematite/plugins/Blobs
-    echo " - Caelestia blobs..."
+    cd ~/.config/quickshell/hematite/
     cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
     cmake --build build
+    echo "Compiled all modules successfully."
+    echo "Installing modules (You may be prompted for your password)..."
+    sudo ln -sf ~/.config/quickshell/hematite/plugins/build/qml/Hematite /usr/lib/qt6/qml/
     echo "Compiled and installed all modules successfully."
     cd "$repo_directory"
 }
