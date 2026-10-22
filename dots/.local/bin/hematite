@@ -1,0 +1,38 @@
+#!/bin/bash
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+if [[ $# -lt 1 ]]; then
+  echo "Usage: hematite [appearance|settings] [args...]"
+  echo "Commands:"
+  echo "  appearance [toggle]          Do various appearance tasks"
+  echo "  settings                     Open Hematite shell settings"
+  echo "Run hematite [mode] --help for more details on a specific command."
+  exit 1
+fi
+
+command="$1"
+shift
+
+case "$command" in
+  appearance)
+    "$SCRIPT_DIR/hematite-resources/appearance.sh" "$@"
+    ;;
+  settings)
+    "$SCRIPT_DIR/hematite-resources/settings.sh" "$@"
+    ;;
+  --help|-h)
+    echo "hematite: Hematite Shell Management CLI"
+    echo "Usage: hematite [appearance|settings] [args...]"
+    echo "Options:"
+    echo "  appearance [toggle]          Do various appearance tasks"
+    echo "  settings                     Open Hematite shell settings"
+    echo "  --help -h                    Show this help message"
+    echo "Run hematite [mode] --help for more details on a specific command."
+    ;;
+  *)
+    echo "Unknown command: $command"
+    echo "Run '$0 --help' for usage."
+    exit 1
+    ;;
+esac

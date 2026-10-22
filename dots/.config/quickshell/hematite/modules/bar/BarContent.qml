@@ -1,0 +1,141 @@
+import QtQuick
+import Quickshell
+import qs.modules.widgets
+import QtQuick.Layouts
+import qs.modules.bar.contents
+import qs.modules.common
+import Quickshell.Services.SystemTray
+
+Rectangle {
+    id: root
+    width: 50
+    color: "transparent"
+    clip: true
+    readonly property var barMask: barMaskRegion
+
+    Region {
+        id: barMaskRegion
+        item: leftContainer
+
+        Region {
+            item: rightBg
+        }
+    }
+
+    RowLayout {
+        id: layout
+        anchors.fill: parent
+        anchors.leftMargin: 0
+        anchors.rightMargin: 0
+        spacing: 5
+
+        Item {
+            id: leftSection
+            Layout.fillHeight: true
+            implicitWidth: leftContainer.implicitWidth
+
+            Rectangle {
+                id: leftContainer
+                property bool hovered: false
+                implicitWidth: leftContent.implicitWidth + 10
+                color: "transparent"
+                anchors {
+                    top: parent.top
+                    bottom: parent.bottom
+                    left: parent.left
+                    leftMargin: 8
+                    topMargin: 4
+                    bottomMargin: 4
+                }
+
+                Behavior on implicitWidth {
+                    NumberAnimation {
+                        duration: 350
+                        easing.type: Easing.BezierSpline
+                        easing.bezierCurve: Appearance.easings.expressiveFastSpatial
+                    }
+                }
+
+                RowLayout {
+                    id: leftContent
+                    anchors {
+                        left: parent.left
+                        top: parent.top
+                        bottom: parent.bottom
+                    }
+                    anchors.leftMargin: 5
+                    anchors.topMargin: 5
+                    anchors.bottomMargin: 5
+                    spacing: 0
+
+                    Workspaces {
+                        Layout.fillHeight: true
+                    }
+                }
+            }
+        }
+
+        Item {
+            Layout.fillWidth: true
+        }
+
+        Item {
+            id: rightSection
+            Layout.fillHeight: true
+            implicitWidth: rightBg.implicitWidth
+
+            Rectangle {
+                id: rightBg
+                property bool hovered: false
+                implicitWidth: rightContent.implicitWidth + 15
+                color: "transparent"
+                anchors {
+                    top: parent.top
+                    bottom: parent.bottom
+                    right: parent.right
+                    rightMargin: 8
+                    topMargin: 4
+                    bottomMargin: 4
+                }
+
+                Behavior on implicitWidth {
+                    NumberAnimation {
+                        duration: 350
+                        easing.type: Easing.BezierSpline
+                        easing.bezierCurve: Appearance.easings.expressiveFastSpatial
+                    }
+                }
+
+                RowLayout {
+                    id: rightContent
+                    anchors {
+                        right: parent.right
+                        top: parent.top
+                        bottom: parent.bottom
+                    }
+                    anchors.rightMargin: 0
+                    anchors.topMargin: 0
+                    anchors.bottomMargin: 0
+                    spacing: 10
+
+                    AnimatedLoader {
+                        shouldShow: SystemTray.items.values.length > 0
+                        sourceComponent: SysTray {}
+                    }
+
+                    Rectangle {
+                        radius: 10
+                        implicitWidth: 5
+                        implicitHeight: width
+                        color: Qt.alpha(Appearance.colors.on_surface, 0.2)
+                        visible: SystemTray.items.values.length > 0
+                    }
+
+                    System {
+                        Layout.fillHeight: true
+                    }
+                }
+            }
+        }
+    }
+}

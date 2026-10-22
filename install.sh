@@ -1,160 +1,159 @@
-#!/bin/bash
-echo "Hello!"
-echo "This script will attempt to install the necessary packages and apply all of the configs for these dotfiles."
-echo "You may be prompted for your password."
-sleep 1
+#! /bin/bash
 
-echo "Checking for yay installation..."
-sleep 0.5
-if ! command -v yay &> /dev/null
-then
-    echo "Yay is not installed or unuseable in some way."
-    echo "Yay will be installed."
-    install_yay=true
+set -oe pipefail
+
+function update_packages() {
+    echo "Updating packages..."
+    yay -Syu
+    echo "Packages updated successfully."
+}
+
+function update_repo() {
+    echo "Updating repository..."
+    git pull origin main
+    echo "Repository updated successfully."
+}
+
+function install_packages() {
+    update_packages
+    echo "Installing packages..."
+    source packages.conf
+    # Install pacman packages
+    echo " - Installing pacman packages..."
+    sudo pacman -S --needed "${pacman_packages[@]}"
+    # Install AUR packages
+    echo " - Installing AUR packages..."
+    sudo yay -S --needed "${aur_packages[@]}"
+    echo "Packages installed successfully."
+}
+
+function clear_current_configs() {
+    echo "Clearing current configurations..."
+    echo "WARNING: This will remove all current configuration files for the applications configured by these dotfiles. If you have any important configurations, please back them up before proceeding."
+    echo "Would you like to continue? (y/n)"
+    read -r response
+    if [[ "$response" != "y" ]]; then
+        echo "Aborting."
+        exit 1
+    fi
+    # For each folder in the dots/.config directory, remove the corresponding folder in the ~/.config directory
+    echo " - Removing zsh files..."
+    rm ~/.zshrc ~/.zshenv
+    echo " - Removing config files..."
+    for folder in dots/.config/*; do
+        if [ -d "$folder" ]; then
+            echo "   - Removing $(basename "$folder") configuration"
+            rm -rf "~/.config/$(basename "$folder")"
+        fi
+    done
+    echo "Current configurations cleared successfully."
+}
+
+function install_gtk_theme() {
+    echo "Installing adw-gtk3 theme..."
+    # Download the theme
+    echo " - Downloading release..."
+    curl -s https://api.github.com/repos/lassekongo83/adw-gtk3/releases/latest | grep "browser_download_url.*\.tar\.xz" | cut -d '"' -f 4 | xargs -I {} curl -L -o /tmp/adw-gtk3.tar.xz {}
+    echo " - Installing release to .themes..."
+    tar -xf /tmp/adw-gtk3.tar.xz -C ~/.themes
+    echo "Theme installed successfully."
+}
+
+function install_dotfiles() {
+    update_repo
+    echo "Stowing dotfiles..."
+    stow --verbose --target=$HOME --restow dots
+    echo "Dotfiles stowed successfully."
+}
+
+function compile_qs_modules() {
+    echo "Compiling and installing Quickshell modules..."
+    repo_directory=$(pwd)
+    cd ~/.config/quickshell/hematite/plugins/Blobs
+    echo " - Caelestia blobs..."
+    cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+    cmake --build build
+    echo "Compiled and installed all modules successfully."
+    cd "$repo_directory"
+}
+
+function generate_colors() {
+    echo "Generating matugen colors..."
+    mkdir -p ~/Pictures/wallpapers
+    cp assets/default_wallpaper.png ~/Pictures/wallpapers/default_wallpaper.png
+    matugen image assets/default_wallpaper.jpg -m dark --source-color-index 0
+    echo "Matugen colors generated successfully."
+}
+
+function unstow_dotfiles() {
+    echo "Unstowing dotfiles..."
+    stow --verbose --target=$HOME --delete dots
+    echo "Dotfiles unstowed successfully."
+}
+
+function clear_data() {
+    echo "Clearing leftover shell data..."
+    rm -rf ~/.local/state/quickshell/hematite
+	rm -rf ~/.themes/adw-gtk3 ~/.themes/adw-gtk3-dark
+	echo "Leftover shell data cleared successfully."
+}
+
+# Script entry point
+if [[ "$1" == "install" ]]; then
+    echo "Please note that this script requires yay to function properly. If you do not have yay installed, please install it first."
+    echo "Installing Hematite dotfiles..."
+    echo "Tasks to perform:"
+    echo " - Install packages"
+    echo " - Clear current configurations"
+    echo " - Install GTK theme"
+    echo " - Install dotfiles"
+    echo " - Compile Quickshell modules"
+    echo " - Generate colors"
+    echo "Do you wish to proceed? (y/n):"
+    read -r response
+    if [[ "$response" != "y" ]]; then
+        echo "Aborting."
+        exit 1
+    fi
+    install_packages
+    clear_current_configs
+    install_gtk_theme
+    install_dotfiles
+    compile_qs_modules
+    generate_colors
+    echo "Hematite dotfiles installed successfully. Enjoy!"
+elif [[ "$1" == "update" ]]; then
+    echo "Updating current Hematite dotfiles installation..."
+    echo "Tasks to perform:"
+    echo " - Update packages"
+    echo " - Update repository"
+    echo " - Restow dotfiles"
+    echo " - Compile Quickshell modules"
+    echo "Do you wish to proceed? (y/n):"
+    read -r response
+    if [[ "$response" != "y" ]]; then
+        echo "Aborting."
+        exit 1
+    fi
+    update_packages
+    install_dotfiles
+    compile_qs_modules
+    echo "Hematite dotfiles updated successfully."
+elif [[ "$1" == "remove" ]]; then
+    echo "Removing Hematite dotfiles installation..."
+    echo "Tasks to perform:"
+    echo " - Unstow dotfiles"
+    echo " - Clear leftover shell data"
+    echo "Do you wish to proceed? (y/n):"
+    read -r response
+    if [[ "$response" != "y" ]]; then
+        echo "Aborting."
+        exit 1
+    fi
+    unstow_dotfiles
+    clear_data
+    echo "Hematite dotfiles removed successfully. Unfortunately, there isn't a way to remove the installed packages safely, as they may be used by other applications. You can manually remove them if you wish. Packegs used by the shell are listed in install/packages.conf."
 else
-    echo "Yay is installed and useable."
-    install_yay=false
-fi
-sleep 1
-
-echo "Select the version of the dotfiles you want to install:"
-echo "- Quickshell-based:"
-echo "  - Yosemite (1)"
-echo "- Waybar-based:"
-echo "  - Pixel-laptop (2)"
-echo "  - Pixel-desktop (3)"
-read -p "Enter the number corresponding to your choice: " choice
-case $choice in
-    1)
-        config="yosemite";;
-    2)
-        config="pixel-laptop";;
-    3)
-        config="pixel-desktop";;
-    *)
-        echo "Invalid choice. Exiting."
-        exit 1;;
-esac
-echo "Config selected: $config"
-sleep 1
-
-echo "Would you like to use GNU-Stow to manage the dotfiles?"
-read -p "[Y/n]: " use_stow
-sleep 1
-
-echo "Installation summary:"
-echo "Selected configuration: $config"
-if [[ $install_yay = true ]]; then
-    echo " - Yay will be installed"
-fi
-if [[ $use_stow = y || $use_stow = Y ]]; then
-    echo " - Stow will be used"
-else
-    echo " - Dotfiles will be installed manually"
-fi
-
-echo "Would you like to begin the installation?"
-read -p "[y/N]: " confirm
-if [[ $confirm != y && $confirm != Y ]]; then
-    echo "Exiting..."
+    echo "Invalid mode. Please specify 'install', 'update', or 'remove'."
     exit 1
 fi
-
-sleep 1
-if [[ $install_yay = true ]]; then
-    echo "Phase 0: Installing yay"
-    echo -n "  - Downloading files... "
-    git clone https://aur.archlinux.org/yay.git > /dev/null
-    echo "Done"
-    echo -n"  - Installing package... "
-    cd yay
-    makepkg -si --noconfirm > /dev/null
-    echo "Done"
-    sleep 0.5
-    echo "Yay installed successfully!"
-fi
-
-sleep 1
-echo "Phase 1: Installing packages"
-echo -n "  - Compiling package list for config $config... "
-source packages.conf
-echo "Done"
-echo "  - Installing packages..."
-case $config in
-    yosemite)
-        yay -Syu --needed "${base_packages[@]}" "${yosemite_packages[@]}";;
-    pixel-laptop)
-        yay -Syu --needed "${base_packages[@]}" "${laptop_packages[@]}" "${legacy_packages[@]}";;
-    pixel-desktop)
-        yay -Syu --needed "${base_packages[@]}" "${legacy_packages[@]}";;
-    *)
-        echo -n "Error"
-        echo "Invalid config value: $config"
-        echo "Exiting..."
-        exit 1;
-esac
-echo "Packages installed successfully!"
-sleep 1
-
-echo "Phase 2: Installing configs"
-echo -n "  - Switching to repo version for $config... "
-cd ~/dotfiles
-git pull > /dev/null
-case $config in
-    yosemite)
-        git checkout main > /dev/null;;
-    pixel-laptop)
-        git checkout old-laptop > /dev/null;;
-    pixel-desktop)
-        git checkout old-desktop > /dev/null;;
-    *)
-        echo -n "Error"
-        echo "Invalid config value: $config"
-        echo "Exiting..."
-        exit 1;
-esac
-echo "Done"
-sleep .5
-echo "WARNING: The configs for hyprland/lock/idle, waybar, quickshell, matugen, rofi, kitty, waypaper, and wlogout are about to be removed."
-echo "If you would like to keep these, exit the script and back them up before coming back."
-echo "Would you like to proceed?"
-read -p "[y/N]: " dest_confirm
-if [[ $dest_confirm != y && $dest_confirm != Y ]]; then
-    echo "Exiting..."
-    exit 1
-fi
-sleep 0.5
-echo -n "  - Removing current configs... "
-rm -r ~/.config/hypr ~/.config/kitty ~/.config/matugen ~/.config/quickshell ~/.config/rofi ~/.config/waybar ~/.config/waypaper ~/.config/wlogout > /dev/null
-echo "Done"
-if [[ $use_stow = y || $use_stow = Y ]]; then
-    echo -n "  - Stowing ~/dotfiles to ~/.config... "
-    stow .
-    cp ~/.config/hypr/user-template.conf ~/.config/hypr/user.conf
-    echo "Done"
-else
-    echo -n "  - Copying ~/dotfiles/.config/ to ~/.config... "
-    cp -r .config/* ~/.config/
-    cp ~/.config/hypr/user-template.conf ~/.config/hypr/user.conf
-    echo "Done"
-fi
-sleep 0.5
-echo "Configs installed successfully!"
-
-echo "Generating placeholder colors and wallpaper..."
-mkdir -p ~/Pictures/wallpapers
-cp assets/default_wallpaper.jpg ~/Pictures/wallpapers/default_wallpaper.jpg
-sleep 0.5
-swww img ~/Pictures/wallpapers/default_wallpaper.jpg
-matugen image ~/Pictures/wallpapers/default_wallpaper.jpg
-echo "Placeholders generated!"
-
-echo "Installation complete!"
-echo "Look at https://github.com/bmalia/dotfiles/blob/main/README.md for keybinds and general help"
-echo "Follow post-installation procedures in https://github.com/bmalia/dotfiles/blob/main/INSTALLATION.md to get everything working properly."
-echo "Open an issue on the GitHub if you notice any problems or have suggestions"
-echo "Enjoy your new desktop!"
-sleep 5
-echo "[Press any key to reboot your system now.]"
-read -n 1 -s
-reboot
