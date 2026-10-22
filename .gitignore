@@ -16,3 +16,4 @@ dots/.config/gtk-4.0/servers
 dots/.config/quickshell/*/.qmlls.ini
 dots/.config/hematite
 dots/.config/Kvantum/matugen
+dots/.config/quickshell/hematite/plugins/Blobs/build/
