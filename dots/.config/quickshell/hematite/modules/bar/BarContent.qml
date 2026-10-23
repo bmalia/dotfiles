@@ -5,14 +5,38 @@ import QtQuick.Layouts
 import qs.modules.bar.contents
 import qs.modules.common
 import Quickshell.Services.SystemTray
+import Hematite.Blobs
+
 
 Rectangle {
     id: root
     width: 50
     color: "transparent"
     clip: true
-    readonly property var barMask: barMaskRegion
+    // readonly property var barMask: barMaskRegion
 
+    BlobGroup {
+        id: mainGroup
+        color: "white" //Appearance.colors.background
+        smoothing: 20
+    }
+
+    BlobRect {
+        group: mainGroup
+        width: 80
+        height: 40
+        radius: 20
+    }
+
+    BlobRect {
+        group: mainGroup
+        width: 80
+        height: 40
+        radius: 20
+        x: 90
+    }
+
+    /*
     Region {
         id: barMaskRegion
         item: leftContainer
@@ -138,4 +162,5 @@ Rectangle {
             }
         }
     }
+    */
 }

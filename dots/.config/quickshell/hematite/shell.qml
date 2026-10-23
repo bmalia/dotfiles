@@ -3,8 +3,8 @@
 //@ pragma Env MALLOC_TRIM_THRESHOLD_=65536
 //@ pragma Env MALLOC_ARENA_MAX=2
 //@ pragma Env QT_QUICK_CONTROLS_STYLE=Basic
+//@ pragma Env QSG_RENDER_LOOP=threaded
 //@ pragma Env QT_QUICK_FLICKABLE_WHEEL_DECELERATION=10000
-//@ pragma Env QML2_IMPORT_PATH=$HOME/.config/quickshell/hematite/plugins/Blobs/build/qml
 
 import QtQuick
 import Quickshell
