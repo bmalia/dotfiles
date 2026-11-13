@@ -1,36 +1,70 @@
 pragma ComponentBehavior: Bound
 import QtQuick
-import Quickshell
-import Quickshell.Wayland
-import qs.modules.common
+import QtQuick.Layouts
+import Hematite.Blobs
+import qs.modules.bar.contents
+import qs.services
 
-Variants {
-    model: Quickshell.screens
+Item {
+    id: root
+    required property BlobGroup blobGroup
 
-    delegate: Component {
-        PanelWindow {
-            id: root
-            required property var modelData
-            readonly property var barContentItem: contentLoader.item
+    anchors.fill: parent
 
-            screen: modelData
-            anchors {
-                top: !Config.options.bar.bottom
-                left: true
-                right: true
-                bottom: Config.options.bar.bottom
-            }
-            color: "transparent"
-            implicitHeight: 55
-            mask: contentLoader.item ? barContentItem.barMask : null
+    RowLayout {
+        anchors.fill: parent
+        anchors.margins: 5
+        spacing: 10
 
-            Loader {
-                id: contentLoader
-                active: true
-                sourceComponent: BarContent {
-                }
-                anchors.fill: parent
-            }
+        // Left side
+
+        Workspaces {
+            Layout.fillHeight: true
+            Layout.margins: 4
+            blobGroup: root.blobGroup
+        }
+
+        Media {
+            Layout.fillHeight: true
+            Layout.margins: 4
+            blobGroup: root.blobGroup
+        }
+
+        Item {
+            Layout.fillWidth: true
+        }
+
+        // Right side
+        // ...
+
+        SysTray {
+            Layout.fillHeight: true
+            Layout.margins: 4
+        }
+
+        System {
+            Layout.fillHeight: true
+            Layout.margins: 4
+        }
+    }
+
+    RowLayout {
+        anchors {
+            top: parent.top
+            bottom: parent.bottom
+            horizontalCenter: parent.horizontalCenter
+            margins: 5
+        }
+        spacing: 10
+
+        Launcher {
+            Layout.fillHeight: true
+            Layout.margins: 4
+        }
+
+        Clock {
+            Layout.fillHeight: true
+            Layout.margins: 4
         }
     }
 }
