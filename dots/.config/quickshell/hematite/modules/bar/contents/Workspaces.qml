@@ -5,21 +5,26 @@ import Quickshell.Wayland
 import QtQuick.Layouts
 import qs.modules.common
 import qs.services
+import Hematite.Blobs
 
 Rectangle {
     id: root
     implicitWidth: Config.options.bar.workspaces.count * 30
     color: "transparent"
-    
+
     property list<bool> occupied: []
     property int previousWorkspaceId: 1
     property int delta: 0
+    property bool isAnimating: false
+    required property BlobGroup blobGroup
     readonly property HyprlandMonitor monitor: Hyprland.monitorFor(root.QsWindow.window?.screen)
     readonly property int effectiveActiveWorkspaceId: monitor?.activeWorkspace?.id ?? 1
     readonly property int workspaceGroup: Math.floor((effectiveActiveWorkspaceId - 1) / Config.options.bar.workspaces.count)
 
     onEffectiveActiveWorkspaceIdChanged: {
         previousWorkspaceId = effectiveActiveWorkspaceId;
+        root.isAnimating = true;
+        blobAnimTimer.restart();
     }
 
     function updateOccupied() {
@@ -28,6 +33,16 @@ Rectangle {
         }, (_, i) => {
             return Hyprland.workspaces.values.some(ws => ws.id === workspaceGroup * Config.options.bar.workspaces.count + i + 1);
         });
+    }
+
+    Timer {
+        id: blobAnimTimer
+        interval: 1000
+        running: false
+        repeat: false
+        onTriggered: {
+            root.isAnimating = false;
+        }
     }
 
     // Occupied workspace updates
@@ -49,7 +64,7 @@ Rectangle {
             root.updateOccupied();
         }
     }
-    
+
     WheelHandler {
         onWheel: event => {
             if (event.angleDelta.y < 0)
@@ -66,7 +81,7 @@ Rectangle {
         // Background
         RowLayout {
             id: bgRow
-            z: 0
+            z: 1
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             anchors.left: parent.left
@@ -101,7 +116,7 @@ Rectangle {
         // Active indicator
         Rectangle {
             id: indicator
-            z: 1
+            z: 2
             color: Appearance.colors.primary
             width: 24
             height: 24
@@ -118,10 +133,39 @@ Rectangle {
             }
         }
 
+        BlobRect {
+            z: 0
+            group: root.blobGroup
+            x: indicator.x + (indicator.width / 2) - (width / 2)
+            y: root.isAnimating ? indicator.y - 15: 0
+            width: root.isAnimating ? 5 : 0
+            height: root.isAnimating ? 20 : 0
+            radius: 99
+
+            Behavior on y {
+                NumberAnimation {
+                    duration: 100
+                    easing.type: Easing.InOutQuad
+                }
+            }
+            Behavior on width {
+                NumberAnimation {
+                    duration: 100
+                    easing.type: Easing.InOutQuad
+                }
+            }
+            Behavior on height {
+                NumberAnimation {
+                    duration: 100
+                    easing.type: Easing.InOutQuad
+                }
+            }
+        }
+
         // Workspace numbers
         RowLayout {
             id: textRow
-            z: 2
+            z: 3
             anchors.fill: bgRow
             spacing: 0
 

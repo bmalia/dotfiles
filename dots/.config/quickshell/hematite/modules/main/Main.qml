@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell
 import Quickshell.Wayland
@@ -15,6 +16,7 @@ Variants {
         property int cornerSize: 30
 
         PanelWindow {
+            screen: root.modelData
             anchors {
                 top: false
                 bottom: true
@@ -22,9 +24,13 @@ Variants {
                 right: true
             }
             implicitHeight: this.screen.height
-            WlrLayershell.layer: WlrLayer.Bottom
+            WlrLayershell.layer: WlrLayer.Top
             color: "transparent"
             exclusiveZone: bar.height - 5
+            mask: Region {
+                item: bar
+            }
+
             BlobGroup {
                 id: mainBlobGroup
                 color: Appearance.colors.darkMode ? "black" : Appearance.colors.surface
@@ -48,6 +54,13 @@ Variants {
                 height: 55
                 radius: 20
                 anchors.bottom: parent.bottom
+
+                Loader {
+                    anchors.fill: parent
+                    sourceComponent: Bar {
+                        blobGroup: mainBlobGroup
+                    }
+                }
             }
         }
     }
