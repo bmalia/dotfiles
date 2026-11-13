@@ -67,19 +67,19 @@ hl.config({
             enabled = true,
             xray = true,
             special = true,
-            noise = 0.1,
+            noise = 0.01,
             size = 10,
             passes = 3,
             brightness = 1,
-            vibrancy = 0.5,
-            vibrancy_darkness = 0.5
+            vibrancy = 0.3,
+            vibrancy_darkness = 0.3
         },
 
         shadow = {
             enabled = true,
             range = 20,
             offset = {0, 2},
-            render_power = 10,
+            render_power = 4,
             color = "rgba(00000020)"
         },
 
